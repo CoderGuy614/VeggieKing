@@ -18,10 +18,10 @@ const AddNew = () => {
     setFormData({ ...formData, [input]: e.target.value });
   };
 
-  const addItem = async (e) => {
-    e.preventDefault();
-    const res = await axios.post("/api/items", formData);
-    console.log(res);
+  const addItem = (e) => {
+    axios
+      .post("/api/items", formData)
+      .then((res) => setFormData({ name: "", price: "", pricePer: "" }));
   };
 
   return (
