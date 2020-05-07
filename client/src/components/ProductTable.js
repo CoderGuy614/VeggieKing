@@ -8,7 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-const TAX_RATE = 0.07;
+const TAX_RATE = 0.05;
 
 const useStyles = makeStyles({
   table: {
@@ -55,9 +55,9 @@ export default function SpanningTable({ items }) {
           <TableRow>
             <TableCell>Item</TableCell>
             <TableCell align="right">Qty.</TableCell>
-            <TableCell align="right">Unit</TableCell>
-            <TableCell align="right">Per</TableCell>
-            <TableCell align="right">Sum</TableCell>
+            <TableCell align="right">Price (Riel)</TableCell>
+            <TableCell align="right">Price Per</TableCell>
+            <TableCell align="right">Total</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -77,7 +77,7 @@ export default function SpanningTable({ items }) {
             <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Tax</TableCell>
+            <TableCell>Service Charge</TableCell>
             <TableCell align="right">{`${(TAX_RATE * 100).toFixed(
               0
             )} %`}</TableCell>
