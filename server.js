@@ -4,7 +4,12 @@ const path = require("path");
 
 const app = express();
 
-app.use("/", (req, res) => res.send("Welcome to My Express App"));
+//Connect Database
+connectDB();
+
+app.use(express.json({ extended: false }));
+
+app.use("/api/users", require("./routes/api/users"));
 
 const PORT = process.env.PORT || 5001;
 
