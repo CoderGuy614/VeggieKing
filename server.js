@@ -12,6 +12,6 @@ app.use(express.json({ extended: false }));
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/items", require("./routes/api/items"));
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`The server is running on ${PORT}`));

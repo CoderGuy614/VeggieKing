@@ -1,25 +1,24 @@
 import React, { Component, Fragment } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { UserForm } from "./components/stepForm/UserForm";
-import Products from "./components/Products";
-import AddNew from "./components/AddNew";
-import Navbar from "./components/Navbar";
-
-import "./App.css";
+import { UserForm } from "./components/customer/stepForm/UserForm";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import Navbar from "./components/layout/Navbar";
+import Admin from "./components/admin/Admin";
 
 class App extends Component {
   render() {
     return (
-      <Fragment>
-        <BrowserRouter>
-          <Navbar />
-          <Switch>
-            <Route exact path="/" component={Products} />
-            <Route exact path="/addNew" component={AddNew} />
-            <Route exact path="/checkout" component={UserForm} />
-          </Switch>
-        </BrowserRouter>
-      </Fragment>
+      <MuiThemeProvider>
+        <Fragment>
+          <BrowserRouter>
+            <Navbar />
+            <Switch>
+              <Route exact path="/checkout" component={UserForm} />
+              <Route exact path="/" component={Admin} />
+            </Switch>
+          </BrowserRouter>
+        </Fragment>
+      </MuiThemeProvider>
     );
   }
 }
