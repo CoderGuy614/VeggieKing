@@ -16,7 +16,6 @@ export class Confirm extends Component {
     return (
       <MuiThemeProvider>
         <Fragment>
-          <AppBar title="Confirm User Data" />
           <h1>Thank you for your submission</h1>
           <p className="">You will get an email with further instructions</p>
         </Fragment>

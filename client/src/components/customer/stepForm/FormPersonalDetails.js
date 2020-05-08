@@ -19,7 +19,6 @@ export class FormPersonalDetails extends Component {
     return (
       <MuiThemeProvider>
         <Fragment>
-          <AppBar title="Enter Personal Details" />
           <TextField
             onChange={handleChange("occupation")}
             hintText="Enter Your occupation"

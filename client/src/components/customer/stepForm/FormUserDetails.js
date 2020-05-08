@@ -14,7 +14,6 @@ export class FormUserDetails extends Component {
     return (
       <MuiThemeProvider>
         <Fragment>
-          <AppBar title="Enter User Detail" />
           <TextField
             onChange={handleChange("firstName")}
             hintText="Enter Your First Name"

@@ -1,94 +1,128 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import React, { Component } from "react";
+import MaterialTable from "material-table";
+import axios from "axios";
 
-const TAX_RATE = 0.05;
+import { forwardRef } from "react";
+import AddBox from "@material-ui/icons/AddBox";
+import ArrowDownward from "@material-ui/icons/ArrowDownward";
+import Check from "@material-ui/icons/Check";
+import ChevronLeft from "@material-ui/icons/ChevronLeft";
+import ChevronRight from "@material-ui/icons/ChevronRight";
+import Clear from "@material-ui/icons/Clear";
+import DeleteOutline from "@material-ui/icons/DeleteOutline";
+import FilterList from "@material-ui/icons/FilterList";
+import FirstPage from "@material-ui/icons/FirstPage";
+import LastPage from "@material-ui/icons/LastPage";
+import Remove from "@material-ui/icons/Remove";
+import SaveAlt from "@material-ui/icons/SaveAlt";
+import Search from "@material-ui/icons/Search";
+import ViewColumn from "@material-ui/icons/ViewColumn";
+import Button from "@material-ui/core/Button";
+const tableIcons = {
+  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+  DetailPanel: forwardRef((props, ref) => (
+    <ChevronRight {...props} ref={ref} />
+  )),
+  Edit: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+  PreviousPage: forwardRef((props, ref) => (
+    <ChevronLeft {...props} ref={ref} />
+  )),
+  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+};
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 375,
-  },
-});
+class OrderForm extends Component {
+  constructor(props) {
+    super(props);
+    // const { updateTotal } = this.props.updateTotal;
+    this.state = {
+      columns: [
+        { title: "Name", field: "name", editable: "never" },
+        {
+          title: "Price (Riel)",
+          field: "price",
+          type: "currency",
+          currencySetting: { currencyCode: "KHR", minimumFractionDigits: 0 },
+          editable: "never",
+        },
+        {
+          title: "Price Per",
+          field: "pricePer",
+          type: "numeric",
+          editable: "never",
+        },
+        {
+          title: "Qty",
+          field: "qty",
+          type: "numeric",
+          editable: "onUpdate",
+          // editComponent: (data) => <Button>Click Me</Button>,
+        },
+        {
+          title: "Total",
+          field: "total",
+          type: "currency",
+          currencySetting: { currencyCode: "KHR", minimumFractionDigits: 0 },
+          editable: "never",
+        },
+      ],
+      data: [],
+      validationError: "Please enter a postive Number Only",
+    };
+  }
+  componentDidMount() {
+    axios.get("/api/items").then((response) => {
+      let dat = response.data;
+      dat.forEach((el) => (el.qty = 0));
+      dat.forEach((el) => (el.total = 0));
+      this.setState({ data: dat });
+    });
+  }
+  render() {
+    return (
+      <MaterialTable
+        onSelectionChange={() => console.log("SLEECTION CHANGE")}
+        icons={tableIcons}
+        title="Order Form"
+        columns={this.state.columns}
+        data={this.state.data}
+        editable={{
+          onRowUpdate: (newData, oldData) =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                {
+                  const data = this.state.data;
+                  const index = data.indexOf(oldData);
 
-function ccyFormat(num) {
-  return `${num.toFixed(2)}`;
+                  data[index].qty = Number(newData.qty);
+                  if (data[index].qty < 0) {
+                    reject();
+                  }
+                  data[index].total = newData.qty * newData.price;
+                  let grandTotal = 0;
+                  data.forEach((el) => (grandTotal += el.total));
+                  this.props.updateTotal(grandTotal);
+
+                  this.setState({ data }, () => resolve());
+                }
+                resolve();
+              }, 1000);
+            }),
+        }}
+      />
+    );
+  }
 }
 
-function priceRow(qty, unit) {
-  return qty * unit;
-}
-
-function createRow(desc, qty, unit, pricePer) {
-  const price = priceRow(qty, unit);
-  return { desc, qty, unit, price, pricePer };
-}
-
-function subtotal(items) {
-  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
-}
-
-export default function SpanningTable({ items }) {
-  const rows = items.map((item) =>
-    createRow(item.name, 0, item.price, item.pricePer)
-  );
-  const classes = useStyles();
-  const invoiceSubtotal = subtotal(rows);
-  const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-  const invoiceTotal = invoiceTaxes + invoiceSubtotal;
-
-  return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="spanning table">
-        <TableHead>
-          {/* <TableRow>
-            <TableCell align="center" colSpan={3}>
-              Details
-            </TableCell>
-            <TableCell align="right">Price</TableCell>
-          </TableRow> */}
-          <TableRow>
-            <TableCell>Item</TableCell>
-            <TableCell align="right">Qty.</TableCell>
-            <TableCell align="right">Price (Riel)</TableCell>
-            <TableCell align="right">Price Per</TableCell>
-            <TableCell align="right">Total</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.desc}>
-              <TableCell>{row.desc}</TableCell>
-              <TableCell align="right">{row.qty}</TableCell>
-              <TableCell align="right">{row.unit}</TableCell>
-              <TableCell align="right">{row.pricePer}</TableCell>
-              <TableCell align="right">{ccyFormat(row.price)}</TableCell>
-            </TableRow>
-          ))}
-
-          <TableRow>
-            <TableCell rowSpan={3} />
-            <TableCell colSpan={2}>Subtotal</TableCell>
-            <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Service Charge</TableCell>
-            <TableCell align="right">{`${(TAX_RATE * 100).toFixed(
-              0
-            )} %`}</TableCell>
-            <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan={2}>Total</TableCell>
-            <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-}
+export default OrderForm;
