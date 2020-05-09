@@ -1,9 +1,11 @@
-import React, { Component, Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import UserForm from "../customer/stepForm/UserForm";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import OrderForm from "./orderForm/OrderForm";
+import AuthContext from "../../context/auth/authContext";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -16,6 +18,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Customer = () => {
+  const authContext = useContext(AuthContext);
+
+  useEffect(() => {
+    authContext.loadUser();
+    //eslint-disable-next-line
+  }, []);
+
   const [total, setTotal] = useState(0);
 
   const updateTotal = (value) => {

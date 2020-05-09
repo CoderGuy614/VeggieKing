@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import AuthContext from "../../context/auth/authContext";
 import MaterialTable from "material-table";
 import axios from "axios";
 
 export default function Admin() {
+  const authContext = useContext(AuthContext);
   const [entries, setEntries] = useState({
     data: [{ id: "", name: "", price: "", pricePer: "" }],
   });
+
+  useEffect(() => {
+    authContext.loadUser();
+    //eslint-disable-next-line
+  }, []);
 
   const [state] = React.useState({
     columns: [

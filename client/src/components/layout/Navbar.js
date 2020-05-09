@@ -38,8 +38,14 @@ export default function ButtonAppBar() {
           <Button href="/admin" color="inherit">
             Admin
           </Button>
-          <Button href="/customer" color="inherit">
+          <Button href="/" color="inherit">
             Customer
+          </Button>
+          <Button href="/Login" color="inherit">
+            Login
+          </Button>
+          <Button href="/Register" color="inherit">
+            Register
           </Button>
         </Toolbar>
       </AppBar>
