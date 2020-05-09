@@ -27,7 +27,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, isAdmin } = req.body;
 
     try {
       let user = await User.findOne({ email });
@@ -50,6 +50,7 @@ router.post(
         email,
         avatar,
         password,
+        isAdmin,
       });
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
@@ -75,5 +76,23 @@ router.post(
     }
   }
 );
+
+// @route GET api/users
+// @desc Get all registered users
+// @access Public
+
+router.get("/", async (req, res) => {
+  try {
+    let users = await User.find();
+    if (users.length === 0 || !users) {
+      return res.status(400).json({ errors: [{ msg: "No Users Found" }] });
+    } else {
+      return res.status(200).json(users);
+    }
+  } catch (err) {
+    console.error(error.message);
+    res.status(500).send("Server error");
+  }
+});
 
 module.exports = router;

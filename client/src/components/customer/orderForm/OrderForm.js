@@ -2,8 +2,11 @@ import React, { Component } from "react";
 import MaterialTable from "material-table";
 import axios from "axios";
 
+import QtyInput from "./QtyInput";
+
 import { forwardRef } from "react";
 import AddBox from "@material-ui/icons/AddBox";
+import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
 import ChevronLeft from "@material-ui/icons/ChevronLeft";
@@ -26,7 +29,7 @@ const tableIcons = {
   DetailPanel: forwardRef((props, ref) => (
     <ChevronRight {...props} ref={ref} />
   )),
-  Edit: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+  Edit: forwardRef((props, ref) => <ShoppingCart {...props} ref={ref} />),
   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
@@ -67,7 +70,7 @@ class OrderForm extends Component {
           field: "qty",
           type: "numeric",
           editable: "onUpdate",
-          // editComponent: (data) => <Button>Click Me</Button>,
+          editComponent: (data) => <QtyInput data={data} />,
         },
         {
           title: "Total",
@@ -90,8 +93,14 @@ class OrderForm extends Component {
     });
   }
   render() {
+    const localizationObj = {
+      body: {
+        editTooltip: "Buy",
+      },
+    };
     return (
       <MaterialTable
+        localization={localizationObj}
         onSelectionChange={() => console.log("SLEECTION CHANGE")}
         icons={tableIcons}
         title="Order Form"
@@ -110,10 +119,7 @@ class OrderForm extends Component {
                     reject();
                   }
                   data[index].total = newData.qty * newData.price;
-                  let grandTotal = 0;
-                  data.forEach((el) => (grandTotal += el.total));
-                  this.props.updateTotal(grandTotal);
-
+                  this.props.updateTotal(data.reduce((a, b) => a + b.total, 0));
                   this.setState({ data }, () => resolve());
                 }
                 resolve();
