@@ -73,10 +73,10 @@ export default function Admin(props) {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={6}>
+      <Grid item xs={4}>
         <OrderList orders={orders} />
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={8}>
         <MaterialTable
           title="Product Manager"
           columns={state.columns}

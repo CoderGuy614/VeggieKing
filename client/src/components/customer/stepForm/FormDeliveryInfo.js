@@ -4,7 +4,7 @@ import TextField from "material-ui/TextField";
 import Container from "@material-ui/core/Container";
 import RaisedButton from "material-ui/RaisedButton";
 
-export class FormPersonalDetails extends Component {
+export class FormDeliveryInfo extends Component {
   continue = (e) => {
     e.preventDefault();
     this.props.nextStep();
@@ -64,4 +64,4 @@ const styles = {
   },
 };
 
-export default FormPersonalDetails;
+export default FormDeliveryInfo;

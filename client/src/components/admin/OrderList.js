@@ -6,6 +6,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
+import Typography from "@material-ui/core/Typography";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import CommentIcon from "@material-ui/icons/Comment";
@@ -39,6 +40,7 @@ export default function CheckboxList({ orders }) {
 
   return (
     <Container>
+      <Typography variant="h4">Current Open Orders</Typography>
       <List className={classes.root}>
         {orders.map((value) => {
           const labelId = `checkbox-list-label-${value}`;

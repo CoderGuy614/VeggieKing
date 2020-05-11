@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import Container from "@material-ui/core/Container";
-import AppBar from "material-ui/AppBar";
 
 export class Confirm extends Component {
   continue = (e) => {
@@ -17,8 +16,10 @@ export class Confirm extends Component {
     return (
       <MuiThemeProvider>
         <Container>
-          <h1>Thank you for your submission</h1>
-          <p className="">You will get an email with further instructions</p>
+          <h1>Thank you for your Order!</h1>
+          <p className="">
+            You will get an email confirmation and your delivery is on it's way!
+          </p>
         </Container>
       </MuiThemeProvider>
     );
