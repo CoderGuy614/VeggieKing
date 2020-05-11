@@ -108,6 +108,10 @@ const Register = (props) => {
           {" "}
           Already have an account? <a href="/login">Login here</a>{" "}
         </p>
+        <p className="text-center">
+          {" "}
+          <a href="/">Continue as a guest</a>{" "}
+        </p>
       </form>
     </div>
   );

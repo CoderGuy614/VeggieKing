@@ -81,6 +81,10 @@ const Login = (props) => {
         {" "}
         Don't have an account yet? <a href="/register">Sign Up Here</a>{" "}
       </p>
+      <p className="text-center">
+        {" "}
+        <a href="/">Continue as a guest</a>{" "}
+      </p>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { List, ListItem } from "material-ui/List";
 import Typography from "@material-ui/core/Typography";
@@ -8,9 +9,30 @@ import Grid from "@material-ui/core/Grid";
 import RaisedButton from "material-ui/RaisedButton";
 
 export class Confirm extends Component {
-  continue = (e) => {
+  state = this.props.values;
+
+  continue = async (e) => {
     e.preventDefault();
-    //PROCESS FORM HERE
+
+    let orderData = {};
+    orderData.name = this.state.firstName;
+    orderData.email = this.state.email;
+    orderData.phone = this.state.phone;
+    orderData.location = this.state.location;
+    orderData.message = this.state.message;
+    orderData.data = this.props.data;
+    console.log(orderData);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.post("/api/orders", orderData, config);
+    try {
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
     this.props.nextStep();
   };
   back = (e) => {
@@ -52,15 +74,6 @@ export class Confirm extends Component {
           </Grid>
           <Grid item xs={8}>
             <Typography variant="h5">Your Order Details:</Typography>
-            {/* <List>
-              {this.props.data
-                .filter((obj) => obj.qty > 0)
-                .map((el) => (
-                  <ListItem>
-                    {el.name} {el.qty} {el.pricePer} {el.total}
-                  </ListItem>
-                ))}
-            </List> */}
             <ConfirmTable data={this.props.data} />
           </Grid>
         </Grid>
