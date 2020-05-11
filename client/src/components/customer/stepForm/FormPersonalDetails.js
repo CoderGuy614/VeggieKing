@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import AppBar from "material-ui/AppBar";
 import TextField from "material-ui/TextField";
+import Container from "@material-ui/core/Container";
 import RaisedButton from "material-ui/RaisedButton";
 
 export class FormPersonalDetails extends Component {
@@ -18,28 +18,28 @@ export class FormPersonalDetails extends Component {
     const { values, handleChange } = this.props;
     return (
       <MuiThemeProvider>
-        <Fragment>
+        <Container>
           <TextField
-            onChange={handleChange("occupation")}
-            hintText="Enter Your occupation"
-            floatingLabelText="Occupation"
-            defaultValue={values.occupation}
+            onChange={handleChange("location")}
+            hintText="Enter Your location"
+            floatingLabelText="location"
+            defaultValue={values.location}
           />
-          <br />
+
           <TextField
-            onChange={handleChange("city")}
-            hintText="Enter Your city"
-            floatingLabelText="City"
-            defaultValue={values.city}
+            onChange={handleChange("phone")}
+            hintText="Enter Your phone"
+            floatingLabelText="phone"
+            defaultValue={values.phone}
           />
-          <br />
+
           <TextField
-            onChange={handleChange("bio")}
-            hintText="Enter Your Bio"
-            floatingLabelText="Bio"
-            defaultValue={values.bio}
+            onChange={handleChange("message")}
+            hintText="Enter Your message"
+            floatingLabelText="message"
+            defaultValue={values.message}
           />
-          <br />
+
           <RaisedButton
             onClick={this.continue}
             label="Continue"
@@ -52,7 +52,7 @@ export class FormPersonalDetails extends Component {
             primary={false}
             style={styles.button}
           />
-        </Fragment>
+        </Container>
       </MuiThemeProvider>
     );
   }

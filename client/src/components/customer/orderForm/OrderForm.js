@@ -81,7 +81,6 @@ class OrderForm extends Component {
         },
       ],
       data: [],
-      validationError: "Please enter a postive Number Only",
     };
   }
   componentDidMount() {
@@ -101,7 +100,6 @@ class OrderForm extends Component {
     return (
       <MaterialTable
         localization={localizationObj}
-        onSelectionChange={() => console.log("SLEECTION CHANGE")}
         icons={tableIcons}
         title="Order Form"
         columns={this.state.columns}
@@ -120,6 +118,7 @@ class OrderForm extends Component {
                   }
                   data[index].total = newData.qty * newData.price;
                   this.props.updateTotal(data.reduce((a, b) => a + b.total, 0));
+                  this.props.setData(data);
                   this.setState({ data }, () => resolve());
                 }
                 resolve();

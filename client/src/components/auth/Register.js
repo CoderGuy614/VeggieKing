@@ -104,6 +104,10 @@ const Register = (props) => {
           value="Register"
           className="btn btn-primary btn-block"
         />
+        <p className="text-center">
+          {" "}
+          Already have an account? <a href="/login">Login here</a>{" "}
+        </p>
       </form>
     </div>
   );

@@ -26,9 +26,14 @@ const Customer = () => {
   }, []);
 
   const [total, setTotal] = useState(0);
+  const [data, setData] = useState([]);
 
   const updateTotal = (value) => {
     setTotal(Number(value));
+  };
+
+  const updateData = (value) => {
+    setData(value);
   };
 
   const classes = useStyles();
@@ -39,14 +44,14 @@ const Customer = () => {
           <Paper className={classes.paper}> Please Choose Your Items </Paper>
         </Grid>
         <Grid item xs={12}>
-          <OrderForm updateTotal={updateTotal} />
+          <OrderForm updateTotal={updateTotal} setData={updateData} />
         </Grid>
         <Grid item xs={12}>
           <h4> Your Order Total is: USD $ {`${total / 4000}`} </h4>
           <h4> Your Order Total is: KHR {total} </h4>
         </Grid>
         <Grid item xs={12}>
-          <UserForm />
+          {total > 0 && <UserForm data={data} />}
         </Grid>
       </Grid>
     </div>

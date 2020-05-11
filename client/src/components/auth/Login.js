@@ -15,6 +15,7 @@ const Login = (props) => {
     }
 
     if (error === "Invalid Credentials") {
+      console.log(error);
       setAlert(error, "danger");
       clearErrors();
     }
@@ -56,7 +57,7 @@ const Login = (props) => {
             name="email"
             value={email}
             onChange={onChange}
-            required
+            // required
           />
         </div>
         <div className="form-group">
@@ -67,7 +68,7 @@ const Login = (props) => {
             name="password"
             value={password}
             onChange={onChange}
-            required
+            // required
           />
         </div>
         <input
@@ -76,6 +77,10 @@ const Login = (props) => {
           className="btn btn-primary btn-block"
         />
       </form>
+      <p className="text-center">
+        {" "}
+        Don't have an account yet? <a href="/register">Sign Up Here</a>{" "}
+      </p>
     </div>
   );
 };

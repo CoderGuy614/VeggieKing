@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import AppBar from "material-ui/AppBar";
 import TextField from "material-ui/TextField";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 import RaisedButton from "material-ui/RaisedButton";
 
 export class FormUserDetails extends Component {
@@ -13,35 +14,43 @@ export class FormUserDetails extends Component {
     const { values, handleChange } = this.props;
     return (
       <MuiThemeProvider>
-        <Fragment>
+        <Typography variant="h5">
+          {" "}
+          Please Enter your delivery information to complete your order.
+        </Typography>
+        <Typography variant="body">
+          {" "}
+          <em>A confirmation email will be sent to your email address. </em>
+        </Typography>
+        <Container>
           <TextField
             onChange={handleChange("firstName")}
             hintText="Enter Your First Name"
             floatingLabelText="First Name"
             defaultValue={values.firstName}
           />
-          <br />
+
           <TextField
             onChange={handleChange("lastName")}
             hintText="Enter Your Last Name"
             floatingLabelText="Last Name"
             defaultValue={values.lastName}
           />
-          <br />
+
           <TextField
             onChange={handleChange("email")}
             hintText="Enter Your email address"
             floatingLabelText="email"
             defaultValue={values.email}
           />
-          <br />
+
           <RaisedButton
             onClick={this.continue}
             label="Continue"
             primary={true}
             style={styles.button}
           />
-        </Fragment>
+        </Container>
       </MuiThemeProvider>
     );
   }
