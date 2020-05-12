@@ -46,12 +46,12 @@ export class FormDeliveryInfo extends Component {
             primary={true}
             style={styles.button}
           />
-          <RaisedButton
+          {/* <RaisedButton
             onClick={this.back}
             label="Back"
             primary={false}
             style={styles.button}
-          />
+          /> */}
         </Container>
       </MuiThemeProvider>
     );
