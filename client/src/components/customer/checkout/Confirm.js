@@ -1,8 +1,7 @@
-import React, { Component, useContext } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AuthContext from "../../../context/auth/authContext";
-import { List, ListItem } from "material-ui/List";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import ConfirmTable from "./ConfirmTable";
@@ -29,7 +28,7 @@ export class Confirm extends Component {
     this.setState({ [input]: e.target.value });
   };
 
-  handleSubmit = async (e) => {
+  handleSubmitProfile = async (e) => {
     e.preventDefault();
     try {
       const config = {
@@ -54,8 +53,33 @@ export class Confirm extends Component {
     }
   };
 
+  handleSubmitOrder = async (e) => {
+    e.preventDefault();
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { user } = this.context;
+      const { data, profile } = this.state;
+      const orderData = {};
+
+      orderData.user = user;
+      orderData.data = data;
+      const res = await axios.post("/api/orders", orderData, config);
+      if (res) {
+        console.log("SUCCESSFULLY PLACED ORDER");
+      }
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => console.log(error.msg));
+      }
+    }
+  };
+
   render() {
-    // const { data, profile } = this.props;
     const { user } = this.context;
     const { phone, location, deliveryNotes, data, profile } = this.state;
     const values = { phone, location, deliveryNotes };
@@ -65,12 +89,15 @@ export class Confirm extends Component {
           <Grid item xs={4}>
             <Container>
               {profile ? (
-                <ShowProfile />
+                <ShowProfile
+                  handleSubmitOrder={this.handleSubmitOrder}
+                  finalData={this.state}
+                />
               ) : (
                 <EditProfile
                   values={values}
                   handleChange={this.handleChange}
-                  handleSubmit={this.handleSubmit}
+                  handleSubmit={this.handleSubmitProfile}
                 />
               )}
             </Container>

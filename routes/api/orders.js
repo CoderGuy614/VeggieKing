@@ -12,17 +12,17 @@ router.get("/", (req, res) => {
 
 router.post(
   "/",
-  [
-    check("name", "Name is required").not().isEmpty(),
-    check("email", "Please enter a valid email address").isEmail(),
-    check("phone", "Please enter a valid phone number ").not().isEmpty(),
-    check(
-      "location",
-      "Please enter a delivery location, i.e. hotel name and room number"
-    )
-      .not()
-      .isEmpty(),
-  ],
+  // [
+  //   check("name", "Name is required").not().isEmpty(),
+  //   check("email", "Please enter a valid email address").isEmail(),
+  //   check("phone", "Please enter a valid phone number ").not().isEmpty(),
+  //   check(
+  //     "location",
+  //     "Please enter a delivery location, i.e. hotel name and room number"
+  //   )
+  //     .not()
+  //     .isEmpty(),
+  // ],
   async (req, res) => {
     const errors = validationResult(req);
 
@@ -31,25 +31,12 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const {
-      name,
-      email,
-      phone,
-      location,
-      message,
-      data,
-      totalPrice,
-    } = req.body;
+    const { user, data } = req.body;
 
     try {
       const newOrder = await orders.create({
-        name,
-        email,
-        phone,
-        location,
-        message,
+        user,
         data,
-        totalPrice,
       });
       res.json(newOrder);
     } catch (err) {

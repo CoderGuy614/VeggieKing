@@ -4,6 +4,7 @@ import UserForm from "../customer/stepForm/UserForm";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
+import Container from "@material-ui/core/Container";
 import OrderForm from "./orderForm/OrderForm";
 import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
@@ -67,40 +68,42 @@ const Customer = () => {
   const classes = useStyles();
   return (
     <div className="classes.root">
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}> Please Choose Your Items </Paper>
+      <Container>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}> Please Choose Your Items </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <OrderForm updateTotal={updateTotal} setData={updateData} />
+          </Grid>
+          <Grid item xs={12}>
+            <h4> Your Order Total is: USD $ {`${total / 4000}`} </h4>
+            <h4> Your Order Total is: KHR {total} </h4>
+          </Grid>
+          <Grid item xs={12}>
+            {total > 0 && (
+              <Button onClick={handleContinue} color="primary" size="large">
+                {" "}
+                Continue{" "}
+              </Button>
+            )}
+            {userProfile && (
+              <Confirm
+                data={data}
+                profile={userProfile}
+                newProfile={newProfile}
+              />
+            )}
+            {total > 0 && newProfile && (
+              <Confirm
+                data={data}
+                profile={userProfile}
+                newProfile={newProfile}
+              />
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <OrderForm updateTotal={updateTotal} setData={updateData} />
-        </Grid>
-        <Grid item xs={12}>
-          <h4> Your Order Total is: USD $ {`${total / 4000}`} </h4>
-          <h4> Your Order Total is: KHR {total} </h4>
-        </Grid>
-        <Grid item xs={12}>
-          {total > 0 && (
-            <Button onClick={handleContinue} color="primary" size="large">
-              {" "}
-              Continue{" "}
-            </Button>
-          )}
-          {userProfile && (
-            <Confirm
-              data={data}
-              profile={userProfile}
-              newProfile={newProfile}
-            />
-          )}
-          {total > 0 && newProfile && (
-            <Confirm
-              data={data}
-              profile={userProfile}
-              newProfile={newProfile}
-            />
-          )}
-        </Grid>
-      </Grid>
+      </Container>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import RaisedButton from "material-ui/RaisedButton";
 
 export class EditProfile extends Component {
   render() {
-    const { values, handleChange, handleSubmit } = this.props;
+    const { values, handleChange, handleSubmitProfile } = this.props;
     return (
       <MuiThemeProvider>
         <Container>
@@ -29,7 +29,7 @@ export class EditProfile extends Component {
             defaultValue={values.deliveryNotes}
           />
           <RaisedButton
-            onClick={handleSubmit}
+            onClick={handleSubmitProfile}
             label="Continue"
             primary={true}
             style={styles.button}
