@@ -8,7 +8,6 @@ import OrderForm from "./orderForm/OrderForm";
 import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
 import axios from "axios";
-import ProfileDisplay from "./ProfileDisplay";
 import Confirm from "./checkout/Confirm";
 
 const useStyles = makeStyles((theme) => ({

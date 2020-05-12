@@ -8,48 +8,76 @@ import Container from "@material-ui/core/Container";
 import ConfirmTable from "./ConfirmTable";
 import Grid from "@material-ui/core/Grid";
 import RaisedButton from "material-ui/RaisedButton";
+import ShowProfile from "./ShowProfile";
+import EditProfile from "./EditProfile";
 
 export class Confirm extends Component {
+  state = {
+    phone: "",
+    location: "",
+    deliveryNotes: "",
+    profile: this.props.profile,
+    data: this.props.data,
+  };
   static contextType = AuthContext;
-
-  componentDidMount() {
-    if (this.props.profile) {
-      this.setState({ profile: this.props.profile });
-    }
-    this.setState({ data: this.props.data });
-  }
 
   continue = (e) => {
     console.log("CONTINUE");
   };
 
+  handleChange = (input) => (e) => {
+    this.setState({ [input]: e.target.value });
+  };
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { location, deliveryNotes, phone } = this.state;
+      const res = await axios.post(
+        "/api/profile",
+        { location, deliveryNotes, phone },
+        config
+      );
+      if (res) {
+        this.setState({ profile: res.data });
+      }
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => console.log(error.msg));
+      }
+    }
+  };
+
   render() {
+    // const { data, profile } = this.props;
     const { user } = this.context;
+    const { phone, location, deliveryNotes, data, profile } = this.state;
+    const values = { phone, location, deliveryNotes };
     return (
       <MuiThemeProvider>
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Container>
-              <Typography variant="h5">Delivery Info</Typography>
-              <List>
-                <ListItem primaryText="Name" secondaryText={""} />
-                <ListItem primaryText="Email" secondaryText={""} />
-                <ListItem primaryText="Location" secondaryText={""} />
-                <ListItem primaryText="Phone" secondaryText={""} />
-                <ListItem primaryText="Message" secondaryText={""} />
-              </List>
-
-              <RaisedButton
-                onClick={this.continue}
-                label="Confirm and Submit"
-                primary={true}
-                style={styles.button}
-              />
+              {profile ? (
+                <ShowProfile />
+              ) : (
+                <EditProfile
+                  values={values}
+                  handleChange={this.handleChange}
+                  handleSubmit={this.handleSubmit}
+                />
+              )}
             </Container>
           </Grid>
           <Grid item xs={8}>
             <Typography variant="h5">Your Order Details:</Typography>
-            <ConfirmTable data={this.props.data} />
+            <ConfirmTable data={data} />
           </Grid>
         </Grid>
       </MuiThemeProvider>
