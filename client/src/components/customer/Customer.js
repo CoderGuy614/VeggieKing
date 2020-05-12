@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import UserForm from "../customer/stepForm/UserForm";
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import OrderForm from "./orderForm/OrderForm";
@@ -51,7 +52,13 @@ const Customer = () => {
           <h4> Your Order Total is: KHR {total} </h4>
         </Grid>
         <Grid item xs={12}>
-          {total > 0 && <UserForm data={data} />}
+          {total > 0 && (
+            <Button color="primary" size="large">
+              {" "}
+              Continue{" "}
+            </Button>
+          )}
+          {/* {total > 0 && <UserForm data={data} />} */}
         </Grid>
       </Grid>
     </div>
