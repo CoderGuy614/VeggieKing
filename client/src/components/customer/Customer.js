@@ -87,14 +87,14 @@ const Customer = () => {
                 Continue{" "}
               </Button>
             )}
-            {userProfile && (
+            {isAuthenticated && userProfile && (
               <Confirm
                 data={data}
                 profile={userProfile}
                 newProfile={newProfile}
               />
             )}
-            {total > 0 && newProfile && (
+            {isAuthenticated && total > 0 && newProfile && (
               <Confirm
                 data={data}
                 profile={userProfile}

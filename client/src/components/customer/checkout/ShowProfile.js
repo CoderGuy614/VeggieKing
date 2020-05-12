@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import AuthContext from "../../../context/auth/authContext";
 import { List, ListItem } from "material-ui/List";
 import Typography from "@material-ui/core/Typography";
@@ -29,6 +28,11 @@ export class ShowProfile extends Component {
         <RaisedButton
           onClick={this.props.handleSubmitOrder}
           label="Confirm and Submit"
+          primary={true}
+        />
+        <RaisedButton
+          onClick={this.props.handleEditProfile}
+          label="Edit Info"
           primary={true}
         />
       </Container>

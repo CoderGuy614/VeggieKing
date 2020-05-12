@@ -17,6 +17,7 @@ export class Confirm extends Component {
     deliveryNotes: "",
     profile: this.props.profile,
     data: this.props.data,
+    editProfile: false,
   };
   static contextType = AuthContext;
 
@@ -29,6 +30,7 @@ export class Confirm extends Component {
   };
 
   handleSubmitProfile = async (e) => {
+    console.log("CLICKED ME");
     e.preventDefault();
     try {
       const config = {
@@ -43,7 +45,7 @@ export class Confirm extends Component {
         config
       );
       if (res) {
-        this.setState({ profile: res.data });
+        this.setState({ profile: res.data, editProfile: false });
       }
     } catch (err) {
       const errors = err.response.data.errors;
@@ -66,7 +68,7 @@ export class Confirm extends Component {
       const orderData = {};
 
       orderData.user = user;
-      orderData.data = data;
+      orderData.data = data.filter((obj) => obj.qty > 0);
       const res = await axios.post("/api/orders", orderData, config);
       if (res) {
         console.log("SUCCESSFULLY PLACED ORDER");
@@ -79,8 +81,13 @@ export class Confirm extends Component {
     }
   };
 
+  handleEditProfile = (e) => {
+    e.preventDefault();
+    this.setState({ editProfile: true });
+  };
+
   render() {
-    const { user } = this.context;
+    const { user, isAuthenticated } = this.context;
     const { phone, location, deliveryNotes, data, profile } = this.state;
     const values = { phone, location, deliveryNotes };
     return (
@@ -88,16 +95,17 @@ export class Confirm extends Component {
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Container>
-              {profile ? (
+              {isAuthenticated && profile && !this.state.editProfile ? (
                 <ShowProfile
                   handleSubmitOrder={this.handleSubmitOrder}
+                  handleEditProfile={this.handleEditProfile}
                   finalData={this.state}
                 />
               ) : (
                 <EditProfile
                   values={values}
                   handleChange={this.handleChange}
-                  handleSubmit={this.handleSubmitProfile}
+                  handleSubmitProfile={this.handleSubmitProfile}
                 />
               )}
             </Container>

@@ -32,7 +32,6 @@ router.post(
     }
 
     const { user, data } = req.body;
-
     try {
       const newOrder = await orders.create({
         user,
