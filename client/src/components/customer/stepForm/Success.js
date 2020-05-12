@@ -3,11 +3,11 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import Container from "@material-ui/core/Container";
 
 export class Confirm extends Component {
-  continue = (e) => {
-    e.preventDefault();
-    //PROCESS FORM HERE
-    this.props.nextStep();
-  };
+  // continue = (e) => {
+  //   e.preventDefault();
+  //   //PROCESS FORM HERE
+  //   this.props.nextStep();
+  // };
   back = (e) => {
     e.preventDefault();
     this.props.prevStep();

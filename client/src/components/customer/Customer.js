@@ -6,6 +6,10 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import OrderForm from "./orderForm/OrderForm";
 import AuthContext from "../../context/auth/authContext";
+import AlertContext from "../../context/alert/alertContext";
+import axios from "axios";
+import ProfileDisplay from "./ProfileDisplay";
+import Confirm from "./checkout/Confirm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Customer = () => {
   const authContext = useContext(AuthContext);
+  const alertContext = useContext(AlertContext);
+  const { setAlert } = alertContext;
+  const { user, isAuthenticated } = authContext;
 
   useEffect(() => {
     authContext.loadUser();
@@ -28,6 +35,8 @@ const Customer = () => {
 
   const [total, setTotal] = useState(0);
   const [data, setData] = useState([]);
+  const [userProfile, setUserProfile] = useState(null);
+  const [newProfile, setNewProfile] = useState(false);
 
   const updateTotal = (value) => {
     setTotal(Number(value));
@@ -35,6 +44,25 @@ const Customer = () => {
 
   const updateData = (value) => {
     setData(value);
+  };
+
+  const handleContinue = async () => {
+    if (isAuthenticated) {
+      //check for a profile at user_id
+      try {
+        const res = await axios.get(`/api/profile/user/${user._id}`);
+        if (res.data) {
+          setUserProfile(res.data);
+        }
+      } catch (err) {
+        // Profile not found
+        console.log(err.response.data.msg);
+        setNewProfile(true);
+        //
+      }
+    } else {
+      setAlert("Please Login or Register to Proceed", "warning");
+    }
   };
 
   const classes = useStyles();
@@ -53,12 +81,25 @@ const Customer = () => {
         </Grid>
         <Grid item xs={12}>
           {total > 0 && (
-            <Button color="primary" size="large">
+            <Button onClick={handleContinue} color="primary" size="large">
               {" "}
               Continue{" "}
             </Button>
           )}
-          {/* {total > 0 && <UserForm data={data} />} */}
+          {userProfile && (
+            <Confirm
+              data={data}
+              profile={userProfile}
+              newProfile={newProfile}
+            />
+          )}
+          {total > 0 && newProfile && (
+            <Confirm
+              data={data}
+              profile={userProfile}
+              newProfile={newProfile}
+            />
+          )}
         </Grid>
       </Grid>
     </div>
