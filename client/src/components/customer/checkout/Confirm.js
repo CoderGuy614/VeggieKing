@@ -18,6 +18,7 @@ export class Confirm extends Component {
     profile: this.props.profile,
     data: this.props.data,
     editProfile: false,
+    handleOrderSuccess: this.props.handleOrderSuccess,
   };
   static contextType = AuthContext;
 
@@ -71,7 +72,7 @@ export class Confirm extends Component {
       orderData.data = data.filter((obj) => obj.qty > 0);
       const res = await axios.post("/api/orders", orderData, config);
       if (res) {
-        console.log("SUCCESSFULLY PLACED ORDER");
+        this.state.handleOrderSuccess();
       }
     } catch (err) {
       const errors = err.response.data.errors;

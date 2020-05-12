@@ -10,6 +10,7 @@ import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
 import axios from "axios";
 import Confirm from "./checkout/Confirm";
+import Success from "./checkout/Success";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +37,9 @@ const Customer = () => {
   const [total, setTotal] = useState(0);
   const [data, setData] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
-  const [newProfile, setNewProfile] = useState(false);
+  // const [newProfile, setNewProfile] = useState(false);
+  const [checkout, setCheckout] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   const updateTotal = (value) => {
     setTotal(Number(value));
@@ -46,6 +49,10 @@ const Customer = () => {
     setData(value);
   };
 
+  const handleOrderSuccess = () => {
+    setOrderSuccess(true);
+  };
+
   const handleContinue = async () => {
     if (isAuthenticated) {
       //check for a profile at user_id
@@ -53,12 +60,13 @@ const Customer = () => {
         const res = await axios.get(`/api/profile/user/${user._id}`);
         if (res.data) {
           setUserProfile(res.data);
+          setCheckout(true);
         }
       } catch (err) {
         // Profile not found
         console.log(err.response.data.msg);
-        setNewProfile(true);
-        //
+        // setNewProfile(true);
+        setCheckout(true);
       }
     } else {
       setAlert("Please Login or Register to Proceed", "warning");
@@ -81,26 +89,29 @@ const Customer = () => {
             <h4> Your Order Total is: KHR {total} </h4>
           </Grid>
           <Grid item xs={12}>
-            {total > 0 && (
+            {total > 0 && !orderSuccess && !checkout && (
               <Button onClick={handleContinue} color="primary" size="large">
                 {" "}
                 Continue{" "}
               </Button>
             )}
-            {isAuthenticated && userProfile && (
+            {isAuthenticated && !orderSuccess && checkout && (
               <Confirm
                 data={data}
                 profile={userProfile}
-                newProfile={newProfile}
+                // newProfile={newProfile}
+                handleOrderSuccess={handleOrderSuccess}
               />
             )}
-            {isAuthenticated && total > 0 && newProfile && (
+            {/* {isAuthenticated && newProfile && !orderSuccess && (
               <Confirm
                 data={data}
                 profile={userProfile}
-                newProfile={newProfile}
+                handleOrderSuccess={handleOrderSuccess}
+                // newProfile={newProfile}
               />
-            )}
+            )} */}
+            <Container>{orderSuccess && <Success />}</Container>
           </Grid>
         </Grid>
       </Container>

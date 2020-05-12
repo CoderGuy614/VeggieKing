@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import Container from "@material-ui/core/Container";
 
-export class Confirm extends Component {
+export class Success extends Component {
   // continue = (e) => {
   //   e.preventDefault();
   //   //PROCESS FORM HERE
@@ -26,4 +26,4 @@ export class Confirm extends Component {
   }
 }
 
-export default Confirm;
+export default Success;
