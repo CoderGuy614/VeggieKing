@@ -7,7 +7,12 @@ import RaisedButton from "material-ui/RaisedButton";
 
 export class EditProfile extends Component {
   render() {
-    const { values, handleChange, handleSubmitProfile } = this.props;
+    const {
+      values,
+      handleChange,
+      handleSubmitProfile,
+      handleCancelEditProfile,
+    } = this.props;
     return (
       <MuiThemeProvider>
         <Container>
@@ -35,6 +40,12 @@ export class EditProfile extends Component {
             primary={true}
             style={styles.button}
           />
+          <RaisedButton
+            onClick={handleCancelEditProfile}
+            label="Cancel"
+            secondary={true}
+            style={styles.button}
+          />
         </Container>
       </MuiThemeProvider>
     );
@@ -43,7 +54,7 @@ export class EditProfile extends Component {
 
 const styles = {
   button: {
-    margin: 15,
+    margin: 10,
   },
 };
 export default EditProfile;

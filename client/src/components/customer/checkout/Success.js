@@ -1,17 +1,8 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import Container from "@material-ui/core/Container";
 
 export class Success extends Component {
-  // continue = (e) => {
-  //   e.preventDefault();
-  //   //PROCESS FORM HERE
-  //   this.props.nextStep();
-  // };
-  back = (e) => {
-    e.preventDefault();
-    this.props.prevStep();
-  };
   render() {
     return (
       <MuiThemeProvider>

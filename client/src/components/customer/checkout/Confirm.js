@@ -6,7 +6,6 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import ConfirmTable from "./ConfirmTable";
 import Grid from "@material-ui/core/Grid";
-import RaisedButton from "material-ui/RaisedButton";
 import ShowProfile from "./ShowProfile";
 import EditProfile from "./EditProfile";
 
@@ -23,16 +22,11 @@ export class Confirm extends Component {
   };
   static contextType = AuthContext;
 
-  continue = (e) => {
-    console.log("CONTINUE");
-  };
-
   handleChange = (input) => (e) => {
     this.setState({ [input]: e.target.value });
   };
 
   handleSubmitProfile = async (e) => {
-    console.log("CLICKED ME");
     e.preventDefault();
     try {
       const config = {
@@ -68,7 +62,7 @@ export class Confirm extends Component {
         },
       };
       const { user } = this.context;
-      const { data, profile } = this.state;
+      const { data } = this.state;
       const orderData = {};
 
       orderData.user = user;
@@ -80,7 +74,9 @@ export class Confirm extends Component {
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
-        errors.forEach((error) => console.log(error.msg));
+        errors.forEach((error) =>
+          this.state.setAlert(`${error.msg}`, "danger")
+        );
       }
     }
   };
@@ -89,9 +85,13 @@ export class Confirm extends Component {
     e.preventDefault();
     this.setState({ editProfile: true });
   };
+  handleCancelEditProfile = (e) => {
+    e.preventDefault();
+    this.setState({ editProfile: false });
+  };
 
   render() {
-    const { user, isAuthenticated } = this.context;
+    const { isAuthenticated } = this.context;
     const { phone, location, deliveryNotes, data, profile } = this.state;
     const values = { phone, location, deliveryNotes };
     return (
@@ -110,6 +110,7 @@ export class Confirm extends Component {
                   values={values}
                   handleChange={this.handleChange}
                   handleSubmitProfile={this.handleSubmitProfile}
+                  handleCancelEditProfile={this.handleCancelEditProfile}
                 />
               )}
             </Container>
@@ -123,11 +124,5 @@ export class Confirm extends Component {
     );
   }
 }
-
-const styles = {
-  button: {
-    margin: 15,
-  },
-};
 
 export default Confirm;

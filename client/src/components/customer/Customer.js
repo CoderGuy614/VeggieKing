@@ -66,7 +66,7 @@ const Customer = () => {
         setCheckout(true);
       }
     } else {
-      setAlert("Please Login or Register to Proceed", "warning");
+      setAlert("Please Login or Register to Proceed", "danger");
     }
   };
 

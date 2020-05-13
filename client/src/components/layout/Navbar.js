@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar() {
   const classes = useStyles();
   const authContext = useContext(AuthContext);
-  const { loading, isAuthenticated, user, logout } = authContext;
+  const { loading, user, logout } = authContext;
   return (
     <div className={classes.root}>
       <AppBar position="static">

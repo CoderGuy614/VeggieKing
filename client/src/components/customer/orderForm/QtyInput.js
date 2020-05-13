@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import FormHelperText from "@material-ui/core/FormHelperText";
+import React from "react";
 import FormControl from "@material-ui/core/FormControl";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import clsx from "clsx";
@@ -46,7 +45,6 @@ const QtyInput = (props) => {
           "aria-label": "weight",
         }}
       />
-      {/* <FormHelperText id="standard-weight-helper-text">Weight</FormHelperText> */}
     </FormControl>
   );
 };

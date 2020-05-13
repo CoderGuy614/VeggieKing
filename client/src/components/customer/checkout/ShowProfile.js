@@ -29,14 +29,22 @@ export class ShowProfile extends Component {
           onClick={this.props.handleSubmitOrder}
           label="Confirm and Submit"
           primary={true}
+          style={styles.button}
         />
         <RaisedButton
           onClick={this.props.handleEditProfile}
           label="Edit Info"
-          primary={true}
+          secondary={true}
+          style={styles.button}
         />
       </Container>
     );
   }
 }
+
+const styles = {
+  button: {
+    margin: 10,
+  },
+};
 export default ShowProfile;
