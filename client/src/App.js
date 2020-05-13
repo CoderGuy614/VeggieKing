@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Customer from "./components/customer/Customer";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import { ThemeProvider } from "@material-ui/styles";
+import theme from "./components/layout/Theme";
 import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alert/AlertState";
 import Alerts from "./components/layout/Alerts";
@@ -21,7 +22,7 @@ if (localStorage.token) {
 class App extends Component {
   render() {
     return (
-      <MuiThemeProvider>
+      <ThemeProvider theme={theme}>
         <AuthState>
           <AlertState>
             <BrowserRouter>
@@ -36,7 +37,7 @@ class App extends Component {
             </BrowserRouter>
           </AlertState>
         </AuthState>
-      </MuiThemeProvider>
+      </ThemeProvider>
     );
   }
 }

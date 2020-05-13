@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import blue from "@material-ui/core/colors/blue";
 import MaterialTable from "material-table";
+
 import axios from "axios";
 
 import QtyInput from "./QtyInput";
@@ -48,7 +50,7 @@ const tableIcons = {
 class OrderForm extends Component {
   constructor(props) {
     super(props);
-    // const { updateTotal } = this.props.updateTotal;
+
     this.state = {
       columns: [
         { title: "Name", field: "name", editable: "never" },
@@ -58,12 +60,20 @@ class OrderForm extends Component {
           type: "currency",
           currencySetting: { currencyCode: "KHR", minimumFractionDigits: 0 },
           editable: "never",
+          headerStyle: {
+            textAlign: "right",
+            fontSize: 14,
+          },
         },
         {
           title: "Price Per",
           field: "pricePer",
           type: "numeric",
           editable: "never",
+          headerStyle: {
+            textAlign: "right",
+            fontSize: 14,
+          },
         },
         {
           title: "Qty",
@@ -71,13 +81,21 @@ class OrderForm extends Component {
           type: "numeric",
           editable: "onUpdate",
           editComponent: (data) => <QtyInput data={data} />,
+          headerStyle: {
+            textAlign: "right",
+            fontSize: 14,
+          },
         },
         {
-          title: "Total",
+          title: "Total Cost",
           field: "total",
           type: "currency",
           currencySetting: { currencyCode: "KHR", minimumFractionDigits: 0 },
           editable: "never",
+          headerStyle: {
+            textAlign: "right",
+            fontSize: 16,
+          },
         },
       ],
       data: [],
@@ -92,13 +110,29 @@ class OrderForm extends Component {
     });
   }
   render() {
+    const bodyStyle = {
+      backgroundColor: "#f2f2f2",
+    };
     const localizationObj = {
       body: {
         editTooltip: "Buy",
       },
+      header: {
+        actions: "",
+      },
+    };
+    const options = {
+      tableLayout: "auto",
+      pageSize: 10,
+      actionsCellStyle: {
+        color: { blue },
+      },
+      rowStyle: {},
     };
     return (
       <MaterialTable
+        options={options}
+        style={bodyStyle}
         localization={localizationObj}
         icons={tableIcons}
         title="Order Form"

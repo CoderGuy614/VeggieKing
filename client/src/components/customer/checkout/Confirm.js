@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import theme from "../../layout/Theme";
 import AuthContext from "../../../context/auth/authContext";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -95,9 +96,13 @@ export class Confirm extends Component {
     const { phone, location, deliveryNotes, data, profile } = this.state;
     const values = { phone, location, deliveryNotes };
     return (
-      <MuiThemeProvider>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
+      <MuiThemeProvider theme={theme}>
+        <Grid container spacing={1}>
+          <Grid item xs={12} md={8}>
+            <Typography variant="h5">Your Order Details:</Typography>
+            <ConfirmTable data={data} />
+          </Grid>
+          <Grid item xs={12} md={4}>
             <Container>
               {isAuthenticated && profile && !this.state.editProfile ? (
                 <ShowProfile
@@ -114,10 +119,6 @@ export class Confirm extends Component {
                 />
               )}
             </Container>
-          </Grid>
-          <Grid item xs={8}>
-            <Typography variant="h5">Your Order Details:</Typography>
-            <ConfirmTable data={data} />
           </Grid>
         </Grid>
       </MuiThemeProvider>

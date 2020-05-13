@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import TextField from "material-ui/TextField";
 import Container from "@material-ui/core/Container";
-
-import RaisedButton from "material-ui/RaisedButton";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 export class EditProfile extends Component {
   render() {
@@ -14,47 +14,56 @@ export class EditProfile extends Component {
       handleCancelEditProfile,
     } = this.props;
     return (
-      <MuiThemeProvider>
+      <Paper>
         <Container>
-          <TextField
-            onChange={handleChange("location")}
-            hintText="Enter Your Location"
-            floatingLabelText="location"
-            defaultValue={values.location}
-          />
-          <TextField
-            onChange={handleChange("phone")}
-            hintText="Enter Your Phone Number"
-            floatingLabelText="phone"
-            defaultValue={values.phone}
-          />
-          <TextField
-            onChange={handleChange("deliveryNotes")}
-            hintText="Enter an Optional Delivery Instruction"
-            floatingLabelText="Delivery Special Instruction"
-            defaultValue={values.deliveryNotes}
-          />
-          <RaisedButton
-            onClick={handleSubmitProfile}
-            label="Continue"
-            primary={true}
-            style={styles.button}
-          />
-          <RaisedButton
-            onClick={handleCancelEditProfile}
-            label="Cancel"
-            secondary={true}
-            style={styles.button}
-          />
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange("location")}
+                hintText="Enter Your Location"
+                floatingLabelText="location"
+                defaultValue={values.location}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange("phone")}
+                hintText="Enter Your Phone Number"
+                floatingLabelText="phone"
+                defaultValue={values.phone}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange("deliveryNotes")}
+                hintText="Enter an Optional Delivery Instruction"
+                floatingLabelText="Delivery Special Instruction"
+                defaultValue={values.deliveryNotes}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                style={{ margin: "10px" }}
+                onClick={handleSubmitProfile}
+                variant="contained"
+                color="primary"
+              >
+                Continue
+              </Button>
+              <Button
+                style={{ margin: "10px" }}
+                onClick={handleCancelEditProfile}
+                variant="contained"
+                color="secondary"
+              >
+                Cancel
+              </Button>
+            </Grid>
+          </Grid>
         </Container>
-      </MuiThemeProvider>
+      </Paper>
     );
   }
 }
 
-const styles = {
-  button: {
-    margin: 10,
-  },
-};
 export default EditProfile;

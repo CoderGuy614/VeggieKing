@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import theme from "../layout/Theme";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -73,42 +75,52 @@ const Customer = () => {
   const classes = useStyles();
   return (
     <div className="classes.root">
-      <Container>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Paper className={classes.paper}> Please Choose Your Items </Paper>
-          </Grid>
-          <Grid item xs={12}>
-            <OrderForm updateTotal={updateTotal} setData={updateData} />
-          </Grid>
-          <Grid item xs={12}>
-            <h4> Your Order Total is: USD $ {`${total / 4000}`} </h4>
-            <h4> Your Order Total is: KHR {total} </h4>
-          </Grid>
-          <Grid item xs={12}>
-            {total > 0 && !orderSuccess && !checkout && (
-              <Button onClick={handleContinue} color="primary" size="large">
+      <ThemeProvider theme={theme}>
+        <Container>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
                 {" "}
-                Continue{" "}
-              </Button>
-            )}
-            {isAuthenticated && !orderSuccess && checkout && (
-              <Confirm
-                data={data}
-                profile={userProfile}
-                handleOrderSuccess={handleOrderSuccess}
-                setAlert={setAlert}
-              />
-            )}
+                Please Choose Your Items{" "}
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <OrderForm updateTotal={updateTotal} setData={updateData} />
+            </Grid>
+            <Grid item xs={12}>
+              <h4> Your Order Total is: USD $ {`${total / 4000}`} </h4>
+              <h4> Your Order Total is: KHR {total} </h4>
+            </Grid>
+            <Grid item xs={12}>
+              {total > 0 && !orderSuccess && !checkout && (
+                <Button
+                  onClick={handleContinue}
+                  color="secondary"
+                  variant="contained"
+                  size="large"
+                >
+                  {" "}
+                  Continue{" "}
+                </Button>
+              )}
+              {isAuthenticated && !orderSuccess && checkout && (
+                <Confirm
+                  data={data}
+                  profile={userProfile}
+                  handleOrderSuccess={handleOrderSuccess}
+                  setAlert={setAlert}
+                />
+              )}
 
-            {isAuthenticated && orderSuccess && (
-              <Container>
-                <Success />
-              </Container>
-            )}
+              {isAuthenticated && orderSuccess && (
+                <Container>
+                  <Success />
+                </Container>
+              )}
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      </ThemeProvider>
     </div>
   );
 };
