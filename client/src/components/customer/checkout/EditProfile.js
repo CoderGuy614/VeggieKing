@@ -48,7 +48,7 @@ export class EditProfile extends Component {
                 variant="contained"
                 color="primary"
               >
-                Continue
+                Save Info
               </Button>
               <Button
                 style={{ margin: "10px" }}

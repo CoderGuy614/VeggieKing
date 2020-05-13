@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import blue from "@material-ui/core/colors/blue";
 import MaterialTable from "material-table";
-
 import axios from "axios";
 
 import QtyInput from "./QtyInput";
@@ -110,9 +108,6 @@ class OrderForm extends Component {
     });
   }
   render() {
-    const bodyStyle = {
-      backgroundColor: "#f2f2f2",
-    };
     const localizationObj = {
       body: {
         editTooltip: "Buy",
@@ -125,14 +120,13 @@ class OrderForm extends Component {
       tableLayout: "auto",
       pageSize: 10,
       actionsCellStyle: {
-        color: { blue },
+        color: "#0B72B9",
       },
-      rowStyle: {},
+      rowStyle: { "&:hover": { backgroundColor: "red" } },
     };
     return (
       <MaterialTable
         options={options}
-        style={bodyStyle}
         localization={localizationObj}
         icons={tableIcons}
         title="Order Form"

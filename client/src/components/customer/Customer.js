@@ -6,6 +6,8 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 import OrderForm from "./orderForm/OrderForm";
 import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
@@ -19,8 +21,10 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
+    marginTop: "10px",
     textAlign: "center",
     color: theme.palette.text.secondary,
+    backgroundColor: theme.palette.common.arcOrange,
   },
 }));
 
@@ -79,23 +83,35 @@ const Customer = () => {
         <Container>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                {" "}
-                Please Choose Your Items{" "}
-              </Paper>
+              <Box>
+                <Paper className={classes.paper}>
+                  <Typography variant="h6">
+                    {" "}
+                    Step 1: Please Select Your Items
+                  </Typography>
+                </Paper>
+              </Box>
             </Grid>
             <Grid item xs={12}>
               <OrderForm updateTotal={updateTotal} setData={updateData} />
             </Grid>
             <Grid item xs={12}>
-              <h4> Your Order Total is: USD $ {`${total / 4000}`} </h4>
-              <h4> Your Order Total is: KHR {total} </h4>
+              <Box>
+                <Paper className={classes.paper}>
+                  <Typography variant="h6">
+                    Your Order Total is: USD $ {`${(total / 4000).toFixed(2)}`}
+                  </Typography>
+                  <Typography variant="p">
+                    <em>Total in Cambodian Riel: KHR {total} </em>
+                  </Typography>
+                </Paper>
+              </Box>
             </Grid>
             <Grid item xs={12}>
               {total > 0 && !orderSuccess && !checkout && (
                 <Button
                   onClick={handleContinue}
-                  color="secondary"
+                  color="primary"
                   variant="contained"
                   size="large"
                 >

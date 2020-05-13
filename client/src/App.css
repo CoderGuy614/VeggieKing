@@ -401,12 +401,12 @@ table th {
 }
 
 /* .MuiTableRow-root:nth-child(even) {
-  background: #f2f2f2;
-} */
+  color: red !important;
+}
 
 .MuiTableRow-root:hover {
-  background: #dedede !important;
-}
+  color: green !important;
+} */
 
 /* Mobile Styles */
 @media (max-width: 700px) {
