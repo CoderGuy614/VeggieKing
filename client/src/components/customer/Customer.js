@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import UserForm from "../customer/stepForm/UserForm";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -37,7 +36,6 @@ const Customer = () => {
   const [total, setTotal] = useState(0);
   const [data, setData] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
-  // const [newProfile, setNewProfile] = useState(false);
   const [checkout, setCheckout] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
 
@@ -50,6 +48,7 @@ const Customer = () => {
   };
 
   const handleOrderSuccess = () => {
+    setAlert("Thank you for your order!", "success");
     setOrderSuccess(true);
   };
 
@@ -63,9 +62,7 @@ const Customer = () => {
           setCheckout(true);
         }
       } catch (err) {
-        // Profile not found
         console.log(err.response.data.msg);
-        // setNewProfile(true);
         setCheckout(true);
       }
     } else {
@@ -99,19 +96,16 @@ const Customer = () => {
               <Confirm
                 data={data}
                 profile={userProfile}
-                // newProfile={newProfile}
                 handleOrderSuccess={handleOrderSuccess}
+                setAlert={setAlert}
               />
             )}
-            {/* {isAuthenticated && newProfile && !orderSuccess && (
-              <Confirm
-                data={data}
-                profile={userProfile}
-                handleOrderSuccess={handleOrderSuccess}
-                // newProfile={newProfile}
-              />
-            )} */}
-            <Container>{orderSuccess && <Success />}</Container>
+
+            {isAuthenticated && orderSuccess && (
+              <Container>
+                <Success />
+              </Container>
+            )}
           </Grid>
         </Grid>
       </Container>

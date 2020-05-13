@@ -19,6 +19,7 @@ export class Confirm extends Component {
     data: this.props.data,
     editProfile: false,
     handleOrderSuccess: this.props.handleOrderSuccess,
+    setAlert: this.props.setAlert,
   };
   static contextType = AuthContext;
 
@@ -51,7 +52,9 @@ export class Confirm extends Component {
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
-        errors.forEach((error) => console.log(error.msg));
+        errors.forEach((error) =>
+          this.state.setAlert(`${error.msg}`, "danger")
+        );
       }
     }
   };

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import TextField from "material-ui/TextField";
 import Container from "@material-ui/core/Container";
+
 import RaisedButton from "material-ui/RaisedButton";
 
 export class EditProfile extends Component {

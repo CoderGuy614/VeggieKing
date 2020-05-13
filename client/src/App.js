@@ -26,13 +26,14 @@ class App extends Component {
           <AlertState>
             <BrowserRouter>
               <Navbar />
-              <Alerts />
               <Switch>
                 <Route exact path="/" component={Customer} />
+
                 <PrivateRoute exact path="/admin" component={Admin} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
               </Switch>
+              <Alerts />
             </BrowserRouter>
           </AlertState>
         </AuthState>
