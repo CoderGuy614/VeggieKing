@@ -1,8 +1,10 @@
 const express = require("express");
 const router = require("express").Router();
+const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
 const orders = require("../../models/Order");
 
+//Get All Orders with the User Populated
 router.get("/", (req, res) => {
   orders
     .find({})
@@ -45,4 +47,24 @@ router.post(
     }
   }
 );
+
+//
+router.put("/:orderId", auth, async (req, res) => {
+  try {
+    let order = await orders.findById(req.params.orderId);
+    if (order) {
+      order = await orders.findByIdAndUpdate(
+        { _id: req.params.orderId },
+        { status: req.body.status },
+        { new: true }
+      );
+      return res.json(order);
+    }
+    return res.send("ORDER NOT FOUND");
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;

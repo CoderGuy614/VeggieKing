@@ -49,10 +49,10 @@ export default function Admin(props) {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12} sm={4}>
+      <Grid item sm={12} md={6}>
         <OrderList orders={orders} />
       </Grid>
-      <Grid item xs={12} sm={8}>
+      <Grid item sm={12} md={6}>
         <ProductTable />
       </Grid>
     </Grid>

@@ -11,6 +11,10 @@ module.exports = mongoose.model("orders", {
   data: {
     type: Array,
   },
+  status: {
+    type: String,
+    default: "Open",
+  },
   date: {
     type: Date,
     default: Date.now,

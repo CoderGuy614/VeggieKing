@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Moment from "react-moment";
 import OrderInfoTable from "./OrderInfoTable";
+import ShowTotal from "./ShowTotal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ExpPanel({ order }) {
+  const orderTotal = order.data.reduce((a, b) => a + b.total, 0);
   const classes = useStyles();
 
   return (
@@ -52,7 +54,14 @@ export default function ExpPanel({ order }) {
         </ExpansionPanelSummary>
 
         <ExpansionPanelDetails>
-          <OrderInfoTable order={order} />
+          <Grid container>
+            <Grid item xs={12}>
+              <OrderInfoTable order={order} />
+            </Grid>
+            <Grid item xs={12}>
+              <ShowTotal total={orderTotal} />
+            </Grid>
+          </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>

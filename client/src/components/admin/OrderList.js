@@ -7,7 +7,6 @@ import List from "@material-ui/core/List";
 
 import Typography from "@material-ui/core/Typography";
 import ExpPanel from "./ExpPanel";
-import Moment from "react-moment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
