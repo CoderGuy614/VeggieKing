@@ -2,15 +2,22 @@ const express = require("express");
 const router = require("express").Router();
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
-const orders = require("../../models/Order");
+const Order = require("../../models/Order");
 
 //Get All Orders with the User Populated
-router.get("/", (req, res) => {
-  orders
-    .find({})
-    .lean()
-    .populate("user", ["name", "avatar", "email", "date"])
-    .then((data) => res.send(data));
+router.get("/", async (req, res) => {
+  try {
+    const order = await Order.find().populate({
+      path: "user",
+      select: "name email avatar date isAdmin",
+    });
+    if (order) {
+      return res.json(order);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
 });
 
 router.post(
@@ -36,7 +43,7 @@ router.post(
 
     const { user, data } = req.body;
     try {
-      const newOrder = await orders.create({
+      const newOrder = await Order.create({
         user,
         data,
       });
@@ -51,9 +58,9 @@ router.post(
 //
 router.put("/:orderId", auth, async (req, res) => {
   try {
-    let order = await orders.findById(req.params.orderId);
+    let order = await Order.findById(req.params.orderId);
     if (order) {
-      order = await orders.findByIdAndUpdate(
+      order = await Order.findByIdAndUpdate(
         { _id: req.params.orderId },
         { status: req.body.status },
         { new: true }

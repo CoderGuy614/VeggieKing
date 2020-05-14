@@ -23,9 +23,9 @@ export default function ShowTotal({ total }) {
     <Box>
       <Paper className={classes.paper}>
         <Typography variant="h6">
-          Your Order Total is: USD $ {`${(total / 4000).toFixed(2)}`}
+          Order Total is: USD $ {`${(total / 4000).toFixed(2)}`}
         </Typography>
-        <Typography variant="p">
+        <Typography variant="body1">
           <em>Total in Cambodian Riel: KHR {total} </em>
         </Typography>
       </Paper>

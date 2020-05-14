@@ -13,7 +13,7 @@ module.exports = mongoose.model("orders", {
   },
   status: {
     type: String,
-    default: "Open",
+    default: "new",
   },
   date: {
     type: Date,

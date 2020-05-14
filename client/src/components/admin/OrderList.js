@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     maxWidth: "90%",
     marginTop: 40,
+    padding: "0px",
     marginLeft: 10,
     backgroundColor: theme.palette.background.paper,
   },
@@ -31,10 +32,10 @@ export default function CheckboxList({ orders }) {
   return (
     <Container>
       <Paper className={classes.paper}>
-        <Typography variant="h6">Current Open Orders</Typography>
+        <Typography variant="h6">Current Orders</Typography>
         <List className={classes.root}>
           {orders.map((order) => {
-            return <ExpPanel order={order} />;
+            return <ExpPanel key={order._id} order={order} />;
           })}
         </List>
       </Paper>
