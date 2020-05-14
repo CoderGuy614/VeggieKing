@@ -122,7 +122,6 @@ class OrderForm extends Component {
       actionsCellStyle: {
         color: "#0B72B9",
       },
-      rowStyle: { "&:hover": { backgroundColor: "red" } },
     };
     return (
       <MaterialTable

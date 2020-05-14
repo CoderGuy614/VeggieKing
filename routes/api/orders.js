@@ -7,6 +7,7 @@ router.get("/", (req, res) => {
   orders
     .find({})
     .lean()
+    .populate("user", ["name", "avatar", "email", "date"])
     .then((data) => res.send(data));
 });
 
