@@ -56,14 +56,14 @@ export default function ButtonAppBar() {
 
           {!loading && user && user.isAdmin && (
             <Fragment>
-              <Typography variant="subtitle1">Welcome, {user.name}</Typography>
+              {/* <Typography variant="subtitle1">Admin </Typography>{" "} */}
               <Button href="/admin" color="inherit">
                 {" "}
                 Dashboard{" "}
               </Button>
               <Button href="/" color="inherit">
                 {" "}
-                View Store{" "}
+                Store{" "}
               </Button>
               <Button onClick={logout} color="inherit">
                 Logout

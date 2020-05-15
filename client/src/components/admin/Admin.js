@@ -67,14 +67,13 @@ export default function Admin(props) {
             showClosedOrders={showClosedOrders}
           />
         </Grid>
-      </Grid>
-      <Grid item sm={12} md={6}>
         {showClosedOrders && (
           <ClosedOrderList
             orders={orders.filter((order) => order.status === "closed")}
           />
         )}
       </Grid>
+
       <Grid item sm={12} md={6}>
         <ProductTable />
       </Grid>

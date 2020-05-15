@@ -101,7 +101,7 @@ const Customer = () => {
                   <Typography variant="h6">
                     Your Order Total is: USD $ {`${(total / 4000).toFixed(2)}`}
                   </Typography>
-                  <Typography variant="p">
+                  <Typography variant="body2">
                     <em>Total in Cambodian Riel: KHR {total} </em>
                   </Typography>
                 </Paper>
