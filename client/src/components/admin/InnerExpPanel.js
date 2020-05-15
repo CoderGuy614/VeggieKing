@@ -5,11 +5,12 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "95%",
+    width: "90%",
     marginBottom: "15px",
   },
   heading: {
@@ -52,13 +53,16 @@ export default function InnerExpPanel({ userId }) {
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Typography>
-            Phone : {phone}
-            <br />
-            Location: {location}
-            <br />
-            Delivery Notes: {deliveryNotes}
-          </Typography>
+          <Container>
+            <Typography align="left">
+              <b>Phone :</b> {phone}
+              <br />
+              <b>Location: </b>
+              {location}
+              <br />
+              <b>Delivery Notes:</b> {deliveryNotes}
+            </Typography>
+          </Container>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>

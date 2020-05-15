@@ -3,9 +3,12 @@ import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
 
 import Grid from "@material-ui/core/Grid";
+
 import OrderList from "./OrderList";
 import axios from "axios";
 import ProductTable from "./ProductTable";
+import ClosedOrderButton from "./ClosedOrderButton";
+import ClosedOrderList from "./ClosedOrderList";
 
 export default function Admin(props) {
   const authContext = useContext(AuthContext);
@@ -14,7 +17,10 @@ export default function Admin(props) {
   const { user } = authContext;
 
   const [orders, setOrders] = useState([]);
-
+  const [showClosedOrders, setShowClosedOrders] = useState(false);
+  const toggleShowClosedOrders = () => {
+    setShowClosedOrders(!showClosedOrders);
+  };
   const getOrders = async () => {
     try {
       const res = await axios.get("/api/orders");
@@ -50,7 +56,24 @@ export default function Admin(props) {
   return (
     <Grid container spacing={1}>
       <Grid item sm={12} md={6}>
-        <OrderList orders={orders} />
+        <OrderList
+          orders={orders.filter(
+            (order) => order.status === "new" || order.status == "inProcess"
+          )}
+        />
+        <Grid item xs={12}>
+          <ClosedOrderButton
+            toggleShowClosedOrders={toggleShowClosedOrders}
+            showClosedOrders={showClosedOrders}
+          />
+        </Grid>
+      </Grid>
+      <Grid item sm={12} md={6}>
+        {showClosedOrders && (
+          <ClosedOrderList
+            orders={orders.filter((order) => order.status === "closed")}
+          />
+        )}
       </Grid>
       <Grid item sm={12} md={6}>
         <ProductTable />

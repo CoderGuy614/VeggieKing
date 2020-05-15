@@ -31,7 +31,7 @@ export default function CheckboxList({ orders }) {
   return (
     <Container>
       <Paper className={classes.paper}>
-        <Typography variant="h6">Current Orders</Typography>
+        <Typography variant="h6">Closed Orders</Typography>
         <List className={classes.root}>
           {orders.map((order) => {
             return <ExpPanel key={order._id} order={order} />;
