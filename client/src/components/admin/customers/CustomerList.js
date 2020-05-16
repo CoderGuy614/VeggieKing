@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerList({ users }) {
+export default function CustomerList({ users, messages }) {
   const classes = useStyles();
 
   return (
@@ -34,7 +34,17 @@ export default function CustomerList({ users }) {
         <Typography variant="h6">Customer List</Typography>
         <List className={classes.root}>
           {users.map((user) => {
-            return <CustomerExpPanel key={user._id} user={user} />;
+            return (
+              <CustomerExpPanel
+                key={user.user._id}
+                user={user}
+                messages={messages.filter(
+                  (message) =>
+                    message.to === user.user._id ||
+                    message.from === user.user._id
+                )}
+              />
+            );
           })}
         </List>
       </Paper>

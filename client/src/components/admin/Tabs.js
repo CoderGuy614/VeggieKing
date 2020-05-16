@@ -8,11 +8,11 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 
-import ProductTable from "./ProductTable";
-import OrderList from "./OrderList";
-import ClosedOrderButton from "./ClosedOrderButton";
-import ClosedOrderList from "./ClosedOrderList";
-import CustomerList from "./CustomerList";
+import ProductTable from "./products/ProductTable";
+import OrderList from "./orders/OrderList";
+import ClosedOrderButton from "./orders/ClosedOrderButton";
+import ClosedOrderList from "./orders/ClosedOrderList";
+import CustomerList from "./customers/CustomerList";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 import GroupIcon from "@material-ui/icons/Group";
@@ -60,7 +60,13 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const { orders, users, showClosedOrders, toggleShowClosedOrders } = props;
+  const {
+    orders,
+    users,
+    messages,
+    showClosedOrders,
+    toggleShowClosedOrders,
+  } = props;
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -103,7 +109,7 @@ export default function SimpleTabs(props) {
         <ProductTable />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <CustomerList users={users} />
+        <CustomerList users={users} messages={messages} />
       </TabPanel>
     </div>
   );

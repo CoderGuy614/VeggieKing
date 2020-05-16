@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Moment from "react-moment";
-import OrderInfoTable from "./OrderInfoTable";
-import ShowTotal from "./ShowTotal";
-import StatusButtons from "./StatusButtons";
-import InnerExpPanel from "./InnerExpPanel";
+
 import AccountCircleTwoToneIcon from "@material-ui/icons/AccountCircleTwoTone";
 import TodayIcon from "@material-ui/icons/Today";
+import ChatDisplay from "./ChatDisplay";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,35 +26,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerExpPanel({ user }) {
-  //   const translator = {
-  //     new: "green",
-  //     inProcess: "orange",
-  //     closed: "red",
-  //   };
-  //   const [status, setStatus] = useState(order.status);
-  //   const [iconColor, setIconColor] = useState(translator[order.status]);
-  //   const orderTotal = order.data.reduce((a, b) => a + b.total, 0);
+export default function CustomerExpPanel({ user, messages }) {
   const classes = useStyles();
-
-  //   const handleStatusChange = async (value) => {
-  //     setStatus(value);
-  //     setIconColor(translator[value]);
-  //     try {
-  //       const config = {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       };
-  //       const res = await axios.put(
-  //         `/api/orders/${order._id}`,
-  //         { status: value },
-  //         config
-  //       );
-  //     } catch (err) {
-  //       console.log(err.message);
-  //     }
-  //   };
 
   return (
     <div className={classes.root}>
@@ -86,7 +57,13 @@ export default function CustomerExpPanel({ user }) {
         </ExpansionPanelSummary>
 
         <ExpansionPanelDetails>
-          <Grid container></Grid>
+          <Grid container>
+            <ChatDisplay messages={messages} />
+            <Button fullWidth variant="contained" color="secondary">
+              {" "}
+              Chat Now
+            </Button>
+          </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>

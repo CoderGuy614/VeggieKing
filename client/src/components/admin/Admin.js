@@ -9,10 +9,18 @@ export default function Admin(props) {
   const { user } = authContext;
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [showClosedOrders, setShowClosedOrders] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+
   const toggleShowClosedOrders = () => {
     setShowClosedOrders(!showClosedOrders);
   };
+
+  const toggleShowChat = () => {
+    setShowChat(!showChat);
+  };
+
   const getOrders = async () => {
     try {
       const res = await axios.get("/api/orders");
@@ -35,10 +43,26 @@ export default function Admin(props) {
     }
   };
 
+  const getMessages = async () => {
+    try {
+      const res = await axios.get("/api/messages");
+      if (res) {
+        setMessages(res.data);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   useEffect(() => {
     authContext.loadUser();
     getOrders();
     getUsers();
+    //eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    getMessages();
     //eslint-disable-next-line
   }, []);
 
@@ -56,6 +80,8 @@ export default function Admin(props) {
     <Tabs
       orders={orders}
       users={users}
+      messages={messages}
+      // Move these into the tabs component
       toggleShowClosedOrders={toggleShowClosedOrders}
       showClosedOrders={showClosedOrders}
     />
