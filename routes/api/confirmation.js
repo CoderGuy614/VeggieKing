@@ -1,11 +1,11 @@
 const router = require("express").Router();
-// const express = require('express');
-// const bodyParser = require('body-parser');
 const nodemailer = require("nodemailer");
-// const cors = require('cors');
 
 router.post("/", (req, res) => {
   const data = req.body;
+  const totalPrice = data.data.reduce((a, b) => a + b.total, 0);
+  const totalPriceUSD = totalPrice / 4000;
+
   console.log(data);
   const smtpTransport = nodemailer.createTransport({
     service: "Gmail",
@@ -17,29 +17,46 @@ router.post("/", (req, res) => {
     },
   });
 
-  //   const mailOptionsCustomer = {
-  //     from: "CamboCraftClothing@gmail.com",
-  //     to: data.email,
-  //     subject: "CamboCraft Clothing -- ORDER CONFIRMATION --",
-  //     html:
-  //       `<h2> Hello ${data.name}!</h2>
-  //         <h2>Thank you for your order!  We have received your information and will contact you to arrange a convenient delivery.</h2>
+  const mailOptionsCustomer = {
+    from: "CamboCraftClothing@gmail.com",
+    to: data.user.email,
+    subject: "VeggieKing Delivery -- ORDER CONFIRMATION --",
+    html:
+      `<h2> Hello ${data.user.name}!</h2>
+          <h2>Thank you for your order!  We have received your information and will contact you to arrange a convenient delivery.</h2>
 
-  //         <h3> Your Order Contains ${numOfItems} Items </h3>
+          <h4> ORDER ITEMS: </h4>
+          <ul>` +
+      data.data.map(
+        (item, index) =>
+          `<li>` +
+          (index + 1) +
+          ": " +
+          item.name +
+          ", " +
+          item.qty +
+          ", " +
+          item.pricePer +
+          ", " +
+          item.price +
+          " KHR, total:" +
+          item.total +
+          "KHR " +
+          `</li>` +
+          `</ul>`
+      ) +
+      `<h3>Your Order Total is: ${totalPrice}  KHR / $ ${totalPriceUSD} USD </h3>
 
-  //         <ul>` +
-  //       items.map((i) => `<li>` + i + `</li>` + `</ul>`) +
-  //       `<h3>Your Order Total is: $ ${data.totalPrice}</h3>
+            <h3> Your Contact Information:  </h3>
 
-  //         <h3> Your Contact Information:  </h3>
+            <p> Email: ${data.user.email}</p>
+            <p> Phone: ${data.profile.phone}</p>
+            <p> Location: ${data.profile.location}</p>
+            <p> Delivery Instructions: ${data.profile.deliveryNotes}
+          
 
-  //         <p> Name: ${data.name} </p>
-  //         <p> Email: ${data.email}</p>
-  //         <p> Phone: ${data.phone}</p>
-  //         <p> Location: ${data.location}</p>
-
-  //         <h3> Thank You </h3>`,
-  //   };
+          <h3> Thank You </h3>`,
+  };
 
   const mailOptionsSeller = {
     from: "veggiekingdelivery@gmail.com",
@@ -54,31 +71,34 @@ router.post("/", (req, res) => {
     <h4> ORDER ITEMS: </h4>
     <ul>` +
       data.data.map(
-        (item) =>
+        (item, index) =>
           `<li>` +
+          (index + 1) +
+          ": " +
           item.name +
-          " " +
+          ", " +
           item.qty +
-          " " +
-          item.price +
-          " " +
+          ", " +
           item.pricePer +
-          " " +
+          ", " +
+          item.price +
+          " KHR, total:" +
           item.total +
+          "KHR " +
           `</li>` +
           `</ul>`
       ) +
-      `<h3>Your Order Total is:</h3>`,
+      `<h3>Your Order Total is: ${totalPrice}  KHR / $ ${totalPriceUSD} USD </h3>`,
   };
 
-  //   smtpTransport.sendMail(mailOptionsCustomer, (error, response) => {
-  //     if (error) {
-  //       res.send(error);
-  //     } else {
-  //       res.send("Success");
-  //     }
-  //     smtpTransport.close();
-  //   });
+  smtpTransport.sendMail(mailOptionsCustomer, (error, response) => {
+    if (error) {
+      res.send(error);
+    } else {
+      res.send("Success");
+    }
+    smtpTransport.close();
+  });
 
   smtpTransport.sendMail(mailOptionsSeller, (error, response) => {
     if (error) {
