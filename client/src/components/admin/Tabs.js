@@ -12,6 +12,10 @@ import ProductTable from "./ProductTable";
 import OrderList from "./OrderList";
 import ClosedOrderButton from "./ClosedOrderButton";
 import ClosedOrderList from "./ClosedOrderList";
+import CustomerList from "./CustomerList";
+import ListAltIcon from "@material-ui/icons/ListAlt";
+import FastfoodIcon from "@material-ui/icons/Fastfood";
+import GroupIcon from "@material-ui/icons/Group";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const { orders, showClosedOrders, toggleShowClosedOrders } = props;
+  const { orders, users, showClosedOrders, toggleShowClosedOrders } = props;
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -70,9 +74,9 @@ export default function SimpleTabs(props) {
           aria-label="simple tabs example"
           centered
         >
-          <Tab label="Orders" {...a11yProps(0)} />
-          <Tab label="Products" {...a11yProps(1)} />
-          <Tab label="Customers" {...a11yProps(2)} />
+          <Tab icon={<ListAltIcon />} label="Orders" {...a11yProps(0)} />
+          <Tab icon={<FastfoodIcon />} label="Products" {...a11yProps(1)} />
+          <Tab icon={<GroupIcon />} label="Customers" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -99,7 +103,7 @@ export default function SimpleTabs(props) {
         <ProductTable />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Customers
+        <CustomerList users={users} />
       </TabPanel>
     </div>
   );

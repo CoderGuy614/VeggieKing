@@ -14,7 +14,7 @@ import ShowTotal from "./ShowTotal";
 import StatusButtons from "./StatusButtons";
 import InnerExpPanel from "./InnerExpPanel";
 import AccountCircleTwoToneIcon from "@material-ui/icons/AccountCircleTwoTone";
-import AlarmTwoToneIcon from "@material-ui/icons/AlarmTwoTone";
+import TodayIcon from "@material-ui/icons/Today";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,35 +28,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ExpPanel({ order }) {
-  const translator = {
-    new: "green",
-    inProcess: "orange",
-    closed: "red",
-  };
-  const [status, setStatus] = useState(order.status);
-  const [iconColor, setIconColor] = useState(translator[order.status]);
-  const orderTotal = order.data.reduce((a, b) => a + b.total, 0);
+export default function CustomerExpPanel({ user }) {
+  //   const translator = {
+  //     new: "green",
+  //     inProcess: "orange",
+  //     closed: "red",
+  //   };
+  //   const [status, setStatus] = useState(order.status);
+  //   const [iconColor, setIconColor] = useState(translator[order.status]);
+  //   const orderTotal = order.data.reduce((a, b) => a + b.total, 0);
   const classes = useStyles();
 
-  const handleStatusChange = async (value) => {
-    setStatus(value);
-    setIconColor(translator[value]);
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const res = await axios.put(
-        `/api/orders/${order._id}`,
-        { status: value },
-        config
-      );
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
+  //   const handleStatusChange = async (value) => {
+  //     setStatus(value);
+  //     setIconColor(translator[value]);
+  //     try {
+  //       const config = {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       };
+  //       const res = await axios.put(
+  //         `/api/orders/${order._id}`,
+  //         { status: value },
+  //         config
+  //       );
+  //     } catch (err) {
+  //       console.log(err.message);
+  //     }
+  //   };
 
   return (
     <div className={classes.root}>
@@ -66,20 +66,10 @@ export default function ExpPanel({ order }) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Grid>
-            <Icon
-              style={{
-                color: iconColor,
-                fontSize: "25px",
-                marginRight: "10px",
-              }}
-            >
-              adjust
-            </Icon>
-          </Grid>
+          <Grid></Grid>
           <Grid container>
             <AccountCircleTwoToneIcon style={{ marginRight: "10px" }} />{" "}
-            {order.user.name}
+            {user.user.name}
           </Grid>
 
           <Grid
@@ -89,29 +79,14 @@ export default function ExpPanel({ order }) {
             direction="row"
           >
             <Typography className={classes.heading}>
-              <AlarmTwoToneIcon /> <Moment format="LT">{order.date}</Moment>
+              <TodayIcon />
+              Joined: <Moment format="L">{user.date}</Moment>
             </Typography>
           </Grid>
         </ExpansionPanelSummary>
 
         <ExpansionPanelDetails>
-          <Grid container>
-            <Grid container>
-              <Grid item xs={12}>
-                <InnerExpPanel profile={order.profile} />
-                <StatusButtons
-                  status={status}
-                  handleStatusChange={handleStatusChange}
-                />
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <OrderInfoTable order={order} />
-            </Grid>
-            <Grid item xs={12}>
-              <ShowTotal total={orderTotal} />
-            </Grid>
-          </Grid>
+          <Grid container></Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>

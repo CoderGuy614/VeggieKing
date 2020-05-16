@@ -1,23 +1,14 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
 import AuthContext from "../../context/auth/authContext";
-import AlertContext from "../../context/alert/alertContext";
-
 import Grid from "@material-ui/core/Grid";
-
-import OrderList from "./OrderList";
 import axios from "axios";
-import ProductTable from "./ProductTable";
-import ClosedOrderButton from "./ClosedOrderButton";
-import ClosedOrderList from "./ClosedOrderList";
 import Tabs from "./Tabs";
 
 export default function Admin(props) {
   const authContext = useContext(AuthContext);
-  const alertContext = useContext(AlertContext);
-  const { setAlert } = alertContext;
   const { user } = authContext;
-
   const [orders, setOrders] = useState([]);
+  const [users, setUsers] = useState([]);
   const [showClosedOrders, setShowClosedOrders] = useState(false);
   const toggleShowClosedOrders = () => {
     setShowClosedOrders(!showClosedOrders);
@@ -25,23 +16,29 @@ export default function Admin(props) {
   const getOrders = async () => {
     try {
       const res = await axios.get("/api/orders");
-      setOrders(res.data);
+      if (res) {
+        setOrders(res.data);
+      }
     } catch (err) {
       console.log(err.message);
-      // const errors = err.response.data.errors;
-      // errors.forEach((error) => {
-      //   setAlert(`${error.msg}`, "danger");
-      // });
+    }
+  };
+
+  const getUsers = async () => {
+    try {
+      const res = await axios.get("/api/profile");
+      if (res) {
+        setUsers(res.data);
+      }
+    } catch (err) {
+      console.log(err.message);
     }
   };
 
   useEffect(() => {
     authContext.loadUser();
-    //eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
     getOrders();
+    getUsers();
     //eslint-disable-next-line
   }, []);
 
@@ -58,6 +55,7 @@ export default function Admin(props) {
   return (
     <Tabs
       orders={orders}
+      users={users}
       toggleShowClosedOrders={toggleShowClosedOrders}
       showClosedOrders={showClosedOrders}
     />
