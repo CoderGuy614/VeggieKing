@@ -97,7 +97,7 @@ export default function ExpPanel({ order }) {
           <Grid container>
             <Grid container>
               <Grid item xs={12}>
-                <InnerExpPanel userId={order.user._id} />
+                <InnerExpPanel profile={order.profile} />
                 <StatusButtons
                   status={status}
                   handleStatusChange={handleStatusChange}

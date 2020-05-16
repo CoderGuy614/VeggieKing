@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import theme from "../layout/Theme";
@@ -14,6 +14,7 @@ import AlertContext from "../../context/alert/alertContext";
 import axios from "axios";
 import Confirm from "./checkout/Confirm";
 import Success from "./checkout/Success";
+import MessagePanel from "./MessagePanel";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,8 +55,27 @@ const Customer = () => {
   };
 
   const handleOrderSuccess = () => {
-    setAlert("Thank you for your order!", "success");
+    setAlert("Your order was placed successfully!", "success");
     setOrderSuccess(true);
+  };
+
+  const sendConfirmation = async (orderData) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const res = await axios.post("/api/confirmation", orderData, config);
+      console.log(res);
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) =>
+          this.state.setAlert(`${error.msg}`, "danger")
+        );
+      }
+    }
   };
 
   const handleContinue = async () => {
@@ -83,14 +103,7 @@ const Customer = () => {
         <Container>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Box>
-                <Paper className={classes.paper}>
-                  <Typography variant="h6">
-                    {" "}
-                    Step 1: Please Select Your Items
-                  </Typography>
-                </Paper>
-              </Box>
+              <MessagePanel message="Step 1: Please Select Your Items" />
             </Grid>
             <Grid item xs={12}>
               <OrderForm updateTotal={updateTotal} setData={updateData} />
@@ -113,19 +126,23 @@ const Customer = () => {
                   onClick={handleContinue}
                   color="primary"
                   variant="contained"
-                  size="large"
+                  fullWidth
                 >
                   {" "}
                   Continue{" "}
                 </Button>
               )}
               {isAuthenticated && !orderSuccess && checkout && (
-                <Confirm
-                  data={data}
-                  profile={userProfile}
-                  handleOrderSuccess={handleOrderSuccess}
-                  setAlert={setAlert}
-                />
+                <Fragment>
+                  <MessagePanel message="Step 2: Confirm Your Order Info" />
+                  <Confirm
+                    data={data}
+                    profile={userProfile}
+                    handleOrderSuccess={handleOrderSuccess}
+                    sendConfirmation={sendConfirmation}
+                    setAlert={setAlert}
+                  />
+                </Fragment>
               )}
 
               {isAuthenticated && orderSuccess && (

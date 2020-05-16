@@ -7,10 +7,12 @@ const Order = require("../../models/Order");
 //Get All Orders with the User Populated
 router.get("/", async (req, res) => {
   try {
-    const order = await Order.find().populate({
-      path: "user",
-      select: "name email avatar date isAdmin",
-    });
+    const order = await Order.find()
+      .populate({
+        path: "user",
+        select: "name email avatar date isAdmin",
+      })
+      .populate("profile");
     if (order) {
       return res.json(order);
     }
@@ -20,40 +22,27 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post(
-  "/",
-  // [
-  //   check("name", "Name is required").not().isEmpty(),
-  //   check("email", "Please enter a valid email address").isEmail(),
-  //   check("phone", "Please enter a valid phone number ").not().isEmpty(),
-  //   check(
-  //     "location",
-  //     "Please enter a delivery location, i.e. hotel name and room number"
-  //   )
-  //     .not()
-  //     .isEmpty(),
-  // ],
-  async (req, res) => {
-    const errors = validationResult(req);
+router.post("/", async (req, res) => {
+  const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      console.log(errors);
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { user, data } = req.body;
-    try {
-      const newOrder = await Order.create({
-        user,
-        data,
-      });
-      res.json(newOrder);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
-    }
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return res.status(400).json({ errors: errors.array() });
   }
-);
+
+  const { user, data, profile } = req.body;
+  try {
+    const newOrder = await Order.create({
+      profile,
+      user,
+      data,
+    });
+    res.json(newOrder);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 //
 router.put("/:orderId", auth, async (req, res) => {

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -19,25 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function InnerExpPanel({ userId }) {
-  const [profile, setProfile] = useState({});
+export default function InnerExpPanel({ profile }) {
   const { phone, location, deliveryNotes } = profile;
-  const getProfile = async () => {
-    try {
-      const res = await axios.get(`/api/profile/user/${userId}`);
-      if (res) {
-        setProfile(res.data);
-      }
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-
-  useEffect(() => {
-    getProfile();
-    //eslint-disable-next-line
-  }, []);
-
   const classes = useStyles();
 
   return (

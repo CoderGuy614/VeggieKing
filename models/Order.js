@@ -19,4 +19,8 @@ module.exports = mongoose.model("orders", {
     type: Date,
     default: Date.now,
   },
+  profile: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "profile",
+  },
 });

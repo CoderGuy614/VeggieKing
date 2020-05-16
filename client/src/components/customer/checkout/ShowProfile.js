@@ -35,7 +35,7 @@ export class ShowProfile extends Component {
             color="primary"
           >
             {" "}
-            Continue{" "}
+            Place Order{" "}
           </Button>
 
           <Button
@@ -52,9 +52,4 @@ export class ShowProfile extends Component {
   }
 }
 
-// const styles = {
-//   button: {
-//     margin: 10,
-//   },
-// };
 export default ShowProfile;
