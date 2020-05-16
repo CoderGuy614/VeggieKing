@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { Fragment, useEffect, useState, useContext } from "react";
 import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
 
@@ -9,6 +9,7 @@ import axios from "axios";
 import ProductTable from "./ProductTable";
 import ClosedOrderButton from "./ClosedOrderButton";
 import ClosedOrderList from "./ClosedOrderList";
+import Tabs from "./Tabs";
 
 export default function Admin(props) {
   const authContext = useContext(AuthContext);
@@ -26,10 +27,11 @@ export default function Admin(props) {
       const res = await axios.get("/api/orders");
       setOrders(res.data);
     } catch (err) {
-      const errors = err.response.data.errors;
-      errors.forEach((error) => {
-        setAlert(`${error.msg}`, "danger");
-      });
+      console.log(err.message);
+      // const errors = err.response.data.errors;
+      // errors.forEach((error) => {
+      //   setAlert(`${error.msg}`, "danger");
+      // });
     }
   };
 
@@ -54,29 +56,10 @@ export default function Admin(props) {
   }
 
   return (
-    <Grid container spacing={1}>
-      <Grid item sm={12} md={6}>
-        <OrderList
-          orders={orders.filter(
-            (order) => order.status === "new" || order.status == "inProcess"
-          )}
-        />
-        <Grid item xs={12}>
-          <ClosedOrderButton
-            toggleShowClosedOrders={toggleShowClosedOrders}
-            showClosedOrders={showClosedOrders}
-          />
-        </Grid>
-        {showClosedOrders && (
-          <ClosedOrderList
-            orders={orders.filter((order) => order.status === "closed")}
-          />
-        )}
-      </Grid>
-
-      <Grid item sm={12} md={6}>
-        <ProductTable />
-      </Grid>
-    </Grid>
+    <Tabs
+      orders={orders}
+      toggleShowClosedOrders={toggleShowClosedOrders}
+      showClosedOrders={showClosedOrders}
+    />
   );
 }

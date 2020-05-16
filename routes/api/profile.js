@@ -75,6 +75,25 @@ router.post(
   }
 );
 
+// @route GET api/profile/
+// @desc Get all profiles
+// @access Public
+
+router.get("/", async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate("user", [
+      "name",
+      "avatar",
+      "date",
+      "email",
+    ]);
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route GET api/profile/:_id
 // @desc Get profile by ID
 // @access Public
@@ -91,6 +110,24 @@ router.get("/user/:user_id", async (req, res) => {
     if (err.kind == "ObjectId") {
       return res.status(400).json({ msg: "Profile not found" });
     }
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    DELETE api/profile
+// @desc     Delete profile, user & posts (currently logged in user)
+// @access   Private
+router.delete("/", auth, async (req, res) => {
+  try {
+    // Remove the users orders
+    await Order.deleteMany({ user: req.user.id });
+    // Remove the users profile
+    await Profile.findOneAndRemove({ user: req.user.id });
+    // Remove the user
+    await User.findOneAndRemove({ _id: req.user.id });
+    res.json({ msg: "User deleted" });
+  } catch (err) {
+    console.error(err.message);
     res.status(500).send("Server Error");
   }
 });
