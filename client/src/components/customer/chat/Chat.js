@@ -1,16 +1,19 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import axios from "axios";
+import Container from "@material-ui/core/Container";
+import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import ChatDisplay from "./ChatDisplay";
 import ChatInput from "./ChatInput";
-import AuthContext from "../../../../context/auth/authContext";
 
 const Chat = ({ messages, admins, user, handleNewMessage }) => {
-  const authContext = useContext(AuthContext);
-  const { isAuthenticated } = authContext;
-  const sender = authContext.user._id;
+  const sender = user._id;
 
   const [message, setMessage] = useState("");
+
+  const filteredMessages = messages.filter(
+    (message) => message.from === user._id || message.to === user._id
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,8 +33,9 @@ const Chat = ({ messages, admins, user, handleNewMessage }) => {
       };
       const messageData = {};
       messageData.from = sender;
-      messageData.to = user.user._id;
+      messageData.to = admins[0];
       messageData.textContent = message;
+      console.log("messageData", messageData);
       const res = await axios.post("/api/messages", messageData, config);
       if (res) {
         console.log(res.data);
@@ -44,19 +48,21 @@ const Chat = ({ messages, admins, user, handleNewMessage }) => {
   };
 
   return (
-    <Fragment>
-      <ChatDisplay messages={messages} admins={admins} />
-      <ChatInput message={message} handleChange={handleChange} />
-      <Button
-        onClick={handleSubmit}
-        fullWidth
-        variant="contained"
-        color="secondary"
-      >
-        {" "}
-        Send Message
-      </Button>
-    </Fragment>
+    <Container>
+      <Paper>
+        <ChatDisplay messages={filteredMessages} admins={admins} user={user} />
+        <ChatInput message={message} handleChange={handleChange} />
+        <Button
+          onClick={handleSubmit}
+          fullWidth
+          variant="contained"
+          color="primary"
+        >
+          {" "}
+          Send Message
+        </Button>
+      </Paper>
+    </Container>
   );
 };
 

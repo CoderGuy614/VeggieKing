@@ -15,6 +15,8 @@ import axios from "axios";
 import Confirm from "./checkout/Confirm";
 import Success from "./checkout/Success";
 import MessagePanel from "./MessagePanel";
+import OpenChatButton from "./chat/OpenChatButton";
+import Chat from "./chat/Chat";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,16 +37,30 @@ const Customer = () => {
   const { setAlert } = alertContext;
   const { user, isAuthenticated } = authContext;
 
+  const [total, setTotal] = useState(0);
+  const [data, setData] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [admins, setAdmins] = useState([]);
+  const [userProfile, setUserProfile] = useState(null);
+  const [checkout, setCheckout] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [newMessage, setNewMessage] = useState(false);
+
   useEffect(() => {
     authContext.loadUser();
     //eslint-disable-next-line
   }, []);
 
-  const [total, setTotal] = useState(0);
-  const [data, setData] = useState([]);
-  const [userProfile, setUserProfile] = useState(null);
-  const [checkout, setCheckout] = useState(false);
-  const [orderSuccess, setOrderSuccess] = useState(false);
+  useEffect(() => {
+    getMessages();
+    getAdmins();
+    //eslint-disable-next-line
+  }, [newMessage]);
+
+  const toggleOpen = () => {
+    setChatOpen(!chatOpen);
+  };
 
   const updateTotal = (value) => {
     setTotal(Number(value));
@@ -52,6 +68,10 @@ const Customer = () => {
 
   const updateData = (value) => {
     setData(value);
+  };
+
+  const handleNewMessage = () => {
+    setNewMessage(!newMessage);
   };
 
   const handleOrderSuccess = () => {
@@ -67,7 +87,6 @@ const Customer = () => {
         },
       };
       const res = await axios.post("/api/confirmation", orderData, config);
-      console.log(res);
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
@@ -96,11 +115,45 @@ const Customer = () => {
     }
   };
 
+  const getAdmins = async () => {
+    try {
+      const res = await axios.get("/api/users/admins");
+      if (res) {
+        setAdmins(res.data);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const getMessages = async () => {
+    try {
+      const res = await axios.get("/api/messages");
+      if (res) {
+        setMessages(res.data);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   const classes = useStyles();
   return (
     <div className="classes.root">
       <ThemeProvider theme={theme}>
         <Container>
+          {user && !user.isAdmin && (
+            <OpenChatButton toggleOpen={toggleOpen} buttonText={chatOpen} />
+          )}
+          {isAuthenticated && chatOpen && (
+            <Chat
+              user={user}
+              messages={messages}
+              admins={admins}
+              handleNewMessage={handleNewMessage}
+            />
+          )}
+
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <MessagePanel message="Step 1: Please Select Your Items" />
