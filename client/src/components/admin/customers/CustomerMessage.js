@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import Chat from "../chat/Chat";
 
-import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -20,11 +19,12 @@ const ChatDisplay = ({ messages, admins }) => {
             <ListItemText primary={message.textContent} />
           </ListItem>
         ) : (
-          <div style={{ float: "right" }}>
-            <ListItem>
-              <ListItemText primary={message.textContent} />
-            </ListItem>
-          </div>
+          <ListItem>
+            <ListItemIcon>
+              <i className="fas fa-user"></i>
+            </ListItemIcon>
+            <ListItemText primary={message.textContent} />
+          </ListItem>
         )
       )}
     </List>

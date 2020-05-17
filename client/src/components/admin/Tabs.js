@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -60,15 +60,15 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const {
-    orders,
-    users,
-    messages,
-    showClosedOrders,
-    toggleShowClosedOrders,
-  } = props;
+  const { orders, users } = props;
+  const [showClosedOrders, setShowClosedOrders] = useState(false);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const toggleShowClosedOrders = () => {
+    setShowClosedOrders(!showClosedOrders);
   };
 
   return (
@@ -89,7 +89,7 @@ export default function SimpleTabs(props) {
         <Container>
           <OrderList
             orders={orders.filter(
-              (order) => order.status === "new" || order.status == "inProcess"
+              (order) => order.status === "new" || order.status === "inProcess"
             )}
           />
 
@@ -109,7 +109,7 @@ export default function SimpleTabs(props) {
         <ProductTable />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <CustomerList users={users} messages={messages} />
+        <CustomerList users={users} />
       </TabPanel>
     </div>
   );

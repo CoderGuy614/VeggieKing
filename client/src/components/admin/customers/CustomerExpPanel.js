@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
+
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerExpPanel({ user, messages }) {
+export default function CustomerExpPanel({ user, messages, admins }) {
   const classes = useStyles();
 
   return (
@@ -37,7 +38,6 @@ export default function CustomerExpPanel({ user, messages }) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Grid></Grid>
           <Grid container>
             <AccountCircleTwoToneIcon style={{ marginRight: "10px" }} />{" "}
             {user.user.name}
@@ -58,11 +58,13 @@ export default function CustomerExpPanel({ user, messages }) {
 
         <ExpansionPanelDetails>
           <Grid container>
-            <ChatDisplay messages={messages} />
-            <Button fullWidth variant="contained" color="secondary">
-              {" "}
-              Chat Now
-            </Button>
+            <Grid item xs={12}>
+              <ChatDisplay messages={messages} admins={admins} />
+              <Button fullWidth variant="contained" color="secondary">
+                {" "}
+                Chat Now
+              </Button>
+            </Grid>
           </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>

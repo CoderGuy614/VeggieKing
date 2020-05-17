@@ -1,8 +1,54 @@
 import React, { useState, useContext, useEffect } from "react";
 import AlertContext from "../../context/alert/alertContext";
 import AuthContext from "../../context/auth/authContext";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 
-const Register = (props) => {
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" href="https://material-ui.com/">
+        JTL WebDev
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+export default function Register(props) {
+  const classes = useStyles();
+
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
@@ -47,67 +93,89 @@ const Register = (props) => {
   };
 
   return (
-    <div className="form-container">
-      <h1>
-        Account <span className="text-primary">Register</span>
-      </h1>
-      <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Name</label>
-          <input
-            id="name"
-            type="text"
-            name="name"
-            value={name}
-            onChange={onChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email Address</label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            value={email}
-            onChange={onChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            value={password}
-            onChange={onChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password2">Confirm Password</label>
-          <input
-            id="password2"
-            type="password"
-            name="password2"
-            value={password2}
-            onChange={onChange}
-          />
-        </div>
-        <input
-          type="submit"
-          value="Register"
-          className="btn btn-primary btn-block"
-        />
-        <p className="text-center">
-          {" "}
-          Already have an account? <a href="/login">Login here</a>{" "}
-        </p>
-        <p className="text-center">
-          {" "}
-          <a href="/">Continue as a guest</a>{" "}
-        </p>
-      </form>
-    </div>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        <form onSubmit={onSubmit} className={classes.form} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                onChange={onChange}
+                variant="outlined"
+                required
+                fullWidth
+                id="name"
+                label="Name"
+                name="name"
+                autoComplete="name"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={onChange}
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={onChange}
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={onChange}
+                variant="outlined"
+                required
+                fullWidth
+                name="password2"
+                label="Confirm Password"
+                type="password"
+                id="password2"
+                autoComplete="current-password"
+              />
+            </Grid>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign Up
+          </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link href="login" variant="body2">
+                Already have an account? Sign in
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+      <Box mt={5}>
+        <Copyright />
+      </Box>
+    </Container>
   );
-};
-
-export default Register;
+}

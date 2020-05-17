@@ -94,4 +94,23 @@ router.get("/", async (req, res) => {
   }
 });
 
+// @route GET ADMIN api/users
+// @desc Get all registered users
+// @access Public
+
+router.get("/admins", async (req, res) => {
+  try {
+    let admins = await User.find({ isAdmin: true });
+    if (admins.length === 0 || !admins) {
+      return res.status(400).json({ errors: [{ msg: "No admins Found" }] });
+    } else {
+      adminIds = admins.map((el) => el._id);
+      return res.status(200).json(adminIds);
+    }
+  } catch (err) {
+    console.error(error.message);
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;

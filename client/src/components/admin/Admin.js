@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
 import AuthContext from "../../context/auth/authContext";
-import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import Tabs from "./Tabs";
 
@@ -9,17 +8,6 @@ export default function Admin(props) {
   const { user } = authContext;
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
-  const [messages, setMessages] = useState([]);
-  const [showClosedOrders, setShowClosedOrders] = useState(false);
-  const [showChat, setShowChat] = useState(false);
-
-  const toggleShowClosedOrders = () => {
-    setShowClosedOrders(!showClosedOrders);
-  };
-
-  const toggleShowChat = () => {
-    setShowChat(!showChat);
-  };
 
   const getOrders = async () => {
     try {
@@ -43,26 +31,11 @@ export default function Admin(props) {
     }
   };
 
-  const getMessages = async () => {
-    try {
-      const res = await axios.get("/api/messages");
-      if (res) {
-        setMessages(res.data);
-      }
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-
   useEffect(() => {
     authContext.loadUser();
     getOrders();
     getUsers();
-    //eslint-disable-next-line
-  }, []);
 
-  useEffect(() => {
-    getMessages();
     //eslint-disable-next-line
   }, []);
 
@@ -76,14 +49,5 @@ export default function Admin(props) {
     );
   }
 
-  return (
-    <Tabs
-      orders={orders}
-      users={users}
-      messages={messages}
-      // Move these into the tabs component
-      toggleShowClosedOrders={toggleShowClosedOrders}
-      showClosedOrders={showClosedOrders}
-    />
-  );
+  return <Tabs orders={orders} users={users} />;
 }
