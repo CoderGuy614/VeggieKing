@@ -50,12 +50,17 @@ export default function CustomerList({ users }) {
   };
   const [admins, setAdmins] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState(false);
 
   useEffect(() => {
     getAdmins();
     getMessages();
     //eslint-disable-next-line
-  }, []);
+  }, [newMessage]);
+
+  const handleNewMessage = () => {
+    setNewMessage(!newMessage);
+  };
 
   const classes = useStyles();
 
@@ -68,6 +73,7 @@ export default function CustomerList({ users }) {
             return (
               <CustomerExpPanel
                 key={user.user._id}
+                handleNewMessage={handleNewMessage}
                 user={user}
                 admins={admins}
                 messages={messages.filter(

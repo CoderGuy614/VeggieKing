@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import Chat from "../chat/Chat";
+import Chat from "../../WebSocketChat/Chat";
 
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
@@ -13,14 +13,14 @@ const ChatDisplay = ({ messages, admins }) => {
     <List>
       {messages.map((message) =>
         admins.includes(message.from) ? (
-          <ListItem>
+          <ListItem key={message._id}>
             <ListItemIcon>
               <i className="fas fa-crown"></i>
             </ListItemIcon>
             <ListItemText primary={message.textContent} />
           </ListItem>
         ) : (
-          <div style={{ float: "right" }}>
+          <div key={message._id} style={{ float: "right" }}>
             <ListItem>
               <ListItemText primary={message.textContent} />
             </ListItem>

@@ -3,7 +3,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -13,7 +13,7 @@ import Moment from "react-moment";
 
 import AccountCircleTwoToneIcon from "@material-ui/icons/AccountCircleTwoTone";
 import TodayIcon from "@material-ui/icons/Today";
-import ChatDisplay from "./ChatDisplay";
+import Chat from "./chat/Chat";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +27,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerExpPanel({ user, messages, admins }) {
+export default function CustomerExpPanel({
+  user,
+  messages,
+  admins,
+  handleNewMessage,
+}) {
   const classes = useStyles();
 
   return (
@@ -59,11 +64,12 @@ export default function CustomerExpPanel({ user, messages, admins }) {
         <ExpansionPanelDetails>
           <Grid container>
             <Grid item xs={12}>
-              <ChatDisplay messages={messages} admins={admins} />
-              <Button fullWidth variant="contained" color="secondary">
-                {" "}
-                Chat Now
-              </Button>
+              <Chat
+                messages={messages}
+                admins={admins}
+                user={user}
+                handleNewMessage={handleNewMessage}
+              />
             </Grid>
           </Grid>
         </ExpansionPanelDetails>
