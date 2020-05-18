@@ -12,10 +12,12 @@ import ProductTable from "./products/ProductTable";
 import OrderList from "./orders/OrderList";
 import ClosedOrderButton from "./orders/ClosedOrderButton";
 import ClosedOrderList from "./orders/ClosedOrderList";
-import CustomerList from "./customers/CustomerList";
+import CustomerProfileList from "./customers/CustomerProfileList";
+import CustomerChatList from "./customers/CustomerChatList";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 import GroupIcon from "@material-ui/icons/Group";
+import ChatIcon from "@material-ui/icons/Chat";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -82,7 +84,8 @@ export default function SimpleTabs(props) {
         >
           <Tab icon={<ListAltIcon />} label="Orders" {...a11yProps(0)} />
           <Tab icon={<FastfoodIcon />} label="Products" {...a11yProps(1)} />
-          <Tab icon={<GroupIcon />} label="Customers" {...a11yProps(2)} />
+          <Tab icon={<ChatIcon />} label="Chats" {...a11yProps(2)} />
+          <Tab icon={<GroupIcon />} label="Customers" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -109,7 +112,10 @@ export default function SimpleTabs(props) {
         <ProductTable />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <CustomerList users={users} />
+        <CustomerChatList users={users} />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <CustomerProfileList users={users} />
       </TabPanel>
     </div>
   );

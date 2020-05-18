@@ -6,7 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
 
 import Typography from "@material-ui/core/Typography";
-import CustomerExpPanel from "./CustomerExpPanel";
+import CustomerProfileExpPanel from "./CustomerProfileExpPanel";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,7 +75,7 @@ export default function CustomerList({ users }) {
         <List className={classes.root}>
           {users.map((user) => {
             return (
-              <CustomerExpPanel
+              <CustomerProfileExpPanel
                 className={classes.expPanel}
                 key={user.user._id}
                 handleNewMessage={handleNewMessage}
