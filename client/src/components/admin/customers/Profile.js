@@ -23,12 +23,12 @@ const Profile = ({ user }) => {
         </Grid>
       </Grid>
       <Grid container>
-        <Grid item xs={12}>
-          <LocationOnIcon />
+        <Grid item xs={12} sm={6}>
+          <LocationOnIcon style={{ marginTop: "10px" }} />
           <Typography variant="body2">{user.location}</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <NoteIcon />
+        <Grid item xs={12} sm={6}>
+          <NoteIcon style={{ marginTop: "10px" }} />
           <Typography variant="body2">{user.deliveryNotes}</Typography>
         </Grid>
       </Grid>

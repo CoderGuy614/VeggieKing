@@ -14,7 +14,7 @@ import AlertContext from "../../context/alert/alertContext";
 import axios from "axios";
 import Confirm from "./checkout/Confirm";
 import Success from "./checkout/Success";
-import MessagePanel from "./MessagePanel";
+import MessagePanel from "../layout/MessagePanel";
 import OpenChatButton from "./chat/OpenChatButton";
 import Chat from "./chat/Chat";
 
@@ -46,20 +46,22 @@ const Customer = () => {
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [newMessage, setNewMessage] = useState(false);
+  const [clear, setClear] = useState(false);
 
-  useEffect(() => {
-    authContext.loadUser();
-    //eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    getMessages();
-    getAdmins();
-    //eslint-disable-next-line
-  }, [newMessage]);
+  useEffect(
+    (initialValue) => {
+      authContext.loadUser();
+      getMessages();
+      getAdmins();
+      //eslint-disable-next-line
+    },
+    [newMessage]
+  );
 
   const toggleOpen = () => {
     setChatOpen(!chatOpen);
+    updateMessagesRead(user, messages);
+    setClear(true);
   };
 
   const updateTotal = (value) => {
@@ -87,6 +89,33 @@ const Customer = () => {
         },
       };
       const res = await axios.post("/api/confirmation", orderData, config);
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) =>
+          this.state.setAlert(`${error.msg}`, "danger")
+        );
+      }
+    }
+  };
+
+  const updateMessagesRead = async (user, messages) => {
+    let messagesRead;
+    if (user && messages) {
+      messagesRead = messages.filter((msg) => msg.to === user._id).length;
+    }
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const res = await axios.put(
+        `/api/users/${user._id}`,
+        { messagesRead },
+        config
+      );
+      console.log(res);
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
@@ -143,7 +172,13 @@ const Customer = () => {
       <ThemeProvider theme={theme}>
         <Container>
           {user && !user.isAdmin && (
-            <OpenChatButton toggleOpen={toggleOpen} buttonText={chatOpen} />
+            <OpenChatButton
+              toggleOpen={toggleOpen}
+              buttonText={chatOpen}
+              user={user}
+              messages={messages}
+              clear={clear}
+            />
           )}
           {isAuthenticated && chatOpen && (
             <Chat

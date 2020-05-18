@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require("../../middleware/auth");
 const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
@@ -109,6 +110,28 @@ router.get("/admins", async (req, res) => {
     }
   } catch (err) {
     console.error(error.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route PUT /api/users/:id
+// @ desc Update the messagesRead for the current user
+// @ access Private
+
+router.put("/:id", auth, async (req, res) => {
+  try {
+    let user = await User.findById(req.params.id);
+    if (user) {
+      user = await User.findByIdAndUpdate(
+        { _id: req.params.id },
+        { messagesRead: req.body.messagesRead },
+        { new: true }
+      );
+      return res.json(user);
+    }
+    return res.send("User not found");
+  } catch (err) {
+    console.error(err.message);
     res.status(500).send("Server error");
   }
 });

@@ -38,7 +38,7 @@ export default function CustomerExpPanel({
           id="panel1a-header"
           style={{ padding: "0px" }}
         >
-          <Grid container>
+          <Grid justify="center" container>
             <Grid item xs={12} sm={6}>
               <AccountCircleTwoToneIcon />
               <Typography variant="body2">{user.user.name}</Typography>
