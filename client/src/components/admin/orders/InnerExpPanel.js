@@ -13,7 +13,7 @@ import MessageIcon from "@material-ui/icons/Message";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "90%",
+    width: "100%",
     marginBottom: "15px",
   },
   heading: {

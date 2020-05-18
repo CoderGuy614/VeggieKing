@@ -18,7 +18,7 @@ import Chat from "./chat/Chat";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    padding: "10px 3px",
+    padding: "10px 12px",
     background: "#0B72B9",
   },
   heading: {

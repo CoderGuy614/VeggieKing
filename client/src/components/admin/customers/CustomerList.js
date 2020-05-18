@@ -14,15 +14,19 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "90%",
     marginTop: 40,
     padding: "0px",
-    marginLeft: 10,
+    margin: "auto",
     backgroundColor: theme.palette.background.paper,
   },
   paper: {
     padding: theme.spacing(2),
     marginTop: "10px",
     textAlign: "center",
+    justifyContent: "center",
     color: theme.palette.text.secondary,
     backgroundColor: theme.palette.common.arcOrange,
+  },
+  expPanel: {
+    marginLeft: "20px",
   },
 }));
 
@@ -72,6 +76,7 @@ export default function CustomerList({ users }) {
           {users.map((user) => {
             return (
               <CustomerExpPanel
+                className={classes.expPanel}
                 key={user.user._id}
                 handleNewMessage={handleNewMessage}
                 user={user}
