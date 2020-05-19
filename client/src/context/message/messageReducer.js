@@ -1,7 +1,7 @@
 import {
   GET_MESSAGES,
-  GET_USER_MESSAGES,
   SEND_MESSAGE,
+  CLEAR_NOTIFICATIONS,
   MESSAGE_ERROR,
 } from "../types";
 
@@ -13,20 +13,15 @@ export default (state, action) => {
         messages: [...state.messages, action.payload],
         loading: false,
       };
-    case GET_USER_MESSAGES:
-      return {
-        ...state,
-        messages: state.messages.filter(
-          (msg) =>
-            msg.from._id === action.payload.id ||
-            msg.to._id === action.payload.id
-        ),
-        loading: false,
-      };
     case GET_MESSAGES:
       return {
         ...state,
         messages: action.payload,
+        loading: false,
+      };
+    case CLEAR_NOTIFICATIONS:
+      return {
+        ...state,
         loading: false,
       };
     case MESSAGE_ERROR:

@@ -22,6 +22,10 @@ const ProfileSchema = new mongoose.Schema({
   file: {
     type: String,
   },
+  seen: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = Profile = mongoose.model("message", ProfileSchema);

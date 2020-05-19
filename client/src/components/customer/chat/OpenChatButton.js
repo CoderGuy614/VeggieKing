@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import MessageContext from "../../../context/message/messageContext";
 import Badge from "./Badge";
 
 const useStyles = makeStyles((theme) => ({
@@ -9,8 +10,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OpenChatButton = ({ toggleOpen, buttonText, user, messages, clear }) => {
+const OpenChatButton = ({ toggleOpen, buttonText, user }) => {
   const classes = useStyles();
+  const messageContext = useContext(MessageContext);
+  const { messages } = messageContext;
+  let unread;
+  useEffect(() => {
+    calcUnread(messages);
+  }, []);
+
+  const calcUnread = (messages) =>
+    (unread = messages
+      .filter((msg) => msg.to === user._id)
+      .reduce((a, b) => a + !b.seen, 0));
+  console.log("unread", unread);
+  console.log("UserID", user._id);
 
   return (
     <div>
@@ -21,7 +35,7 @@ const OpenChatButton = ({ toggleOpen, buttonText, user, messages, clear }) => {
         fullWidth
         size="large"
         className={classes.button}
-        startIcon={<Badge user={user} messages={messages} clear={clear} />}
+        startIcon={<Badge count={unread} />}
       >
         {buttonText ? "Hide Messages" : "Open Messages"}
       </Button>

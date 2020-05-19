@@ -5,8 +5,8 @@ import messageReducer from "./messageReducer";
 
 import {
   GET_MESSAGES,
-  GET_USER_MESSAGES,
   SEND_MESSAGE,
+  CLEAR_NOTIFICATIONS,
   MESSAGE_ERROR,
 } from "../types";
 
@@ -50,6 +50,20 @@ const MessageState = (props) => {
     }
   };
 
+  const clearNotifications = async (userId) => {
+    console.log(userId);
+    try {
+      const res = await axios.put(`/api/messages/seen/${userId}`);
+      if (res) {
+        dispatch({
+          type: CLEAR_NOTIFICATIONS,
+        });
+      }
+    } catch (err) {
+      dispatch({ type: MESSAGE_ERROR });
+    }
+  };
+
   return (
     <MessageContext.Provider
       value={{
@@ -58,6 +72,7 @@ const MessageState = (props) => {
         error: state.error,
         getMessages,
         sendMessage,
+        clearNotifications,
       }}
     >
       {props.children}

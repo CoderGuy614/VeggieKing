@@ -11,6 +11,7 @@ import Box from "@material-ui/core/Box";
 import OrderForm from "./orderForm/OrderForm";
 import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
+import MessageContext from "../../context/message/messageContext";
 
 import axios from "axios";
 import Confirm from "./checkout/Confirm";
@@ -35,31 +36,29 @@ const useStyles = makeStyles((theme) => ({
 const Customer = () => {
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
+  const messageContext = useContext(MessageContext);
 
   const { setAlert } = alertContext;
   const { user, isAuthenticated } = authContext;
+  const { getMessages } = messageContext;
 
   const [total, setTotal] = useState(0);
   const [data, setData] = useState([]);
-  const [messages, setMessages] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
   const [checkout, setCheckout] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
-  const [newMessage, setNewMessage] = useState(false);
-  const [clear, setClear] = useState(false);
 
   useEffect(() => {
     authContext.loadUser();
+    getMessages();
     getAdmins();
     //eslint-disable-next-line
-  }, [newMessage]);
+  }, []);
 
   const toggleOpen = () => {
     setChatOpen(!chatOpen);
-    updateMessagesRead(user, messages);
-    setClear(true);
   };
 
   const updateTotal = (value) => {
@@ -68,10 +67,6 @@ const Customer = () => {
 
   const updateData = (value) => {
     setData(value);
-  };
-
-  const handleNewMessage = () => {
-    setNewMessage(!newMessage);
   };
 
   const handleOrderSuccess = () => {
@@ -87,33 +82,6 @@ const Customer = () => {
         },
       };
       const res = await axios.post("/api/confirmation", orderData, config);
-    } catch (err) {
-      const errors = err.response.data.errors;
-      if (errors) {
-        errors.forEach((error) =>
-          this.state.setAlert(`${error.msg}`, "danger")
-        );
-      }
-    }
-  };
-
-  const updateMessagesRead = async (user, messages) => {
-    let messagesRead;
-    if (user && messages) {
-      messagesRead = messages.filter((msg) => msg.to === user._id).length;
-    }
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const res = await axios.put(
-        `/api/users/${user._id}`,
-        { messagesRead },
-        config
-      );
-      console.log(res);
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
@@ -153,17 +121,6 @@ const Customer = () => {
     }
   };
 
-  // const getMessages = async () => {
-  //   try {
-  //     const res = await axios.get("/api/messages");
-  //     if (res) {
-  //       setMessages(res.data);
-  //     }
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
-
   const classes = useStyles();
   return (
     <div className="classes.root">
@@ -174,18 +131,9 @@ const Customer = () => {
               toggleOpen={toggleOpen}
               buttonText={chatOpen}
               user={user}
-              messages={messages}
-              clear={clear}
             />
           )}
-          {isAuthenticated && chatOpen && (
-            <Chat
-              user={user}
-              messages={messages}
-              admins={admins}
-              handleNewMessage={handleNewMessage}
-            />
-          )}
+          {isAuthenticated && chatOpen && <Chat user={user} admins={admins} />}
 
           <Grid container spacing={3}>
             <Grid item xs={12}>

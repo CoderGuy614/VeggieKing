@@ -1,5 +1,4 @@
-import React, { Fragment, useState, useEffect, useContext } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useContext } from "react";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -7,14 +6,14 @@ import ChatDisplay from "./ChatDisplay";
 import ChatInput from "./ChatInput";
 import MessageContext from "../../../context/message/messageContext";
 
-const Chat = ({ admins, user, handleNewMessage }) => {
+const Chat = ({ admins, user }) => {
   const messageContext = useContext(MessageContext);
-  const { sendMessage, getMessages, messages } = messageContext;
+  const { sendMessage, messages, clearNotifications } = messageContext;
 
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    getMessages();
+    clearNotifications();
   }, []);
 
   const messageData = {
@@ -36,29 +35,6 @@ const Chat = ({ admins, user, handleNewMessage }) => {
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
-
-  // const sendMessage = async () => {
-  //   try {
-  //     const config = {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     };
-  //     const messageData = {};
-  //     messageData.from = sender;
-  //     messageData.to = admins[0];
-  //     messageData.textContent = message;
-  //     console.log("messageData", messageData);
-  //     const res = await axios.post("/api/messages", messageData, config);
-  //     if (res) {
-  //       console.log(res.data);
-  //       setMessage("");
-  //       handleNewMessage();
-  //     }
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
 
   return (
     <Container>

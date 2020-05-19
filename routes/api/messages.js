@@ -45,4 +45,26 @@ router.post(
   }
 );
 
+// @route PUT /api/messages/seen/userId
+// @ desc Update the seen property for all of the a users messages
+// @ access Private
+
+router.put("/seen/:id", auth, async (req, res) => {
+  try {
+    let messages = await Message.find({ to: req.params.id });
+    if (messages) {
+      updated = await Message.updateMany(
+        { to: req.params.id },
+        { seen: true },
+        { new: true }
+      );
+      return res.json(updated);
+    }
+    return res.send("Messages not found");
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;
