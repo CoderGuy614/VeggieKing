@@ -11,6 +11,7 @@ import Box from "@material-ui/core/Box";
 import OrderForm from "./orderForm/OrderForm";
 import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
+
 import axios from "axios";
 import Confirm from "./checkout/Confirm";
 import Success from "./checkout/Success";
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const Customer = () => {
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
+
   const { setAlert } = alertContext;
   const { user, isAuthenticated } = authContext;
 
@@ -48,15 +50,11 @@ const Customer = () => {
   const [newMessage, setNewMessage] = useState(false);
   const [clear, setClear] = useState(false);
 
-  useEffect(
-    (initialValue) => {
-      authContext.loadUser();
-      getMessages();
-      getAdmins();
-      //eslint-disable-next-line
-    },
-    [newMessage]
-  );
+  useEffect(() => {
+    authContext.loadUser();
+    getAdmins();
+    //eslint-disable-next-line
+  }, [newMessage]);
 
   const toggleOpen = () => {
     setChatOpen(!chatOpen);
@@ -155,16 +153,16 @@ const Customer = () => {
     }
   };
 
-  const getMessages = async () => {
-    try {
-      const res = await axios.get("/api/messages");
-      if (res) {
-        setMessages(res.data);
-      }
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
+  // const getMessages = async () => {
+  //   try {
+  //     const res = await axios.get("/api/messages");
+  //     if (res) {
+  //       setMessages(res.data);
+  //     }
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // };
 
   const classes = useStyles();
   return (

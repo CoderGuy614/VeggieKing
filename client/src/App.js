@@ -5,6 +5,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import theme from "./components/layout/Theme";
 import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alert/AlertState";
+import MessageState from "./context/message/MessageState";
 import Alerts from "./components/layout/Alerts";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import setAuthToken from "./utils/setAuthToken";
@@ -27,16 +28,18 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <AuthState>
           <AlertState>
-            <BrowserRouter>
-              <Navbar />
-              <Switch>
-                <Route exact path="/" component={Customer} />
-                <PrivateRoute exact path="/admin" component={Admin} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login" component={Login} />
-              </Switch>
-              <Alerts />
-            </BrowserRouter>
+            <MessageState>
+              <BrowserRouter>
+                <Navbar />
+                <Switch>
+                  <Route exact path="/" component={Customer} />
+                  <PrivateRoute exact path="/admin" component={Admin} />
+                  <Route exact path="/register" component={Register} />
+                  <Route exact path="/login" component={Login} />
+                </Switch>
+                <Alerts />
+              </BrowserRouter>
+            </MessageState>
           </AlertState>
         </AuthState>
       </ThemeProvider>

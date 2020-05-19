@@ -1,3 +1,8 @@
+export const GET_MESSAGES = "GET_MESSAGES";
+export const GET_USER_MESSAGES = "GET_USER_MESSAGES";
+export const SEND_MESSAGE = "SEND_MESSAGE";
+export const MESSAGE_ERROR = "MESSAGE_ERROR";
+
 export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
