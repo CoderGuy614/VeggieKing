@@ -17,12 +17,14 @@ export default (state, action) => {
       return {
         ...state,
         messages: action.payload,
+        unread: action.payload.filter((msg) => !msg.seen),
         loading: false,
       };
     case CLEAR_NOTIFICATIONS:
       return {
         ...state,
         loading: false,
+        unread: [],
       };
     case MESSAGE_ERROR:
       return {

@@ -15,6 +15,7 @@ const MessageState = (props) => {
     loading: true,
     messages: [],
     error: null,
+    unread: [],
   };
 
   const [state, dispatch] = useReducer(messageReducer, initialState);
@@ -50,10 +51,9 @@ const MessageState = (props) => {
     }
   };
 
-  const clearNotifications = async (userId) => {
-    console.log(userId);
+  const clearNotifications = async () => {
     try {
-      const res = await axios.put(`/api/messages/seen/${userId}`);
+      const res = await axios.put(`/api/messages/seen`);
       if (res) {
         dispatch({
           type: CLEAR_NOTIFICATIONS,
@@ -70,6 +70,7 @@ const MessageState = (props) => {
         messages: state.messages,
         loading: state.loading,
         error: state.error,
+        unread: state.unread,
         getMessages,
         sendMessage,
         clearNotifications,

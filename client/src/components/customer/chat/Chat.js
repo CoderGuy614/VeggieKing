@@ -8,13 +8,13 @@ import MessageContext from "../../../context/message/messageContext";
 
 const Chat = ({ admins, user }) => {
   const messageContext = useContext(MessageContext);
-  const { sendMessage, messages, clearNotifications } = messageContext;
+  const { sendMessage, messages } = messageContext;
 
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    clearNotifications();
-  }, []);
+  // useEffect(() => {
+  //   getMessages();
+  // }, []);
 
   const messageData = {
     to: admins[0],

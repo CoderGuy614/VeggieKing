@@ -40,7 +40,7 @@ const Customer = () => {
 
   const { setAlert } = alertContext;
   const { user, isAuthenticated } = authContext;
-  const { getMessages } = messageContext;
+  const { getMessages, unread, clearNotifications } = messageContext;
 
   const [total, setTotal] = useState(0);
   const [data, setData] = useState([]);
@@ -58,7 +58,8 @@ const Customer = () => {
   }, []);
 
   const toggleOpen = () => {
-    setChatOpen(!chatOpen);
+    clearNotifications();
+    setTimeout(() => setChatOpen(!chatOpen), 500);
   };
 
   const updateTotal = (value) => {
@@ -131,6 +132,7 @@ const Customer = () => {
               toggleOpen={toggleOpen}
               buttonText={chatOpen}
               user={user}
+              unread={unread}
             />
           )}
           {isAuthenticated && chatOpen && <Chat user={user} admins={admins} />}

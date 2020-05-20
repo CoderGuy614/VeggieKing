@@ -49,12 +49,12 @@ router.post(
 // @ desc Update the seen property for all of the a users messages
 // @ access Private
 
-router.put("/seen/:id", auth, async (req, res) => {
+router.put("/seen", auth, async (req, res) => {
   try {
-    let messages = await Message.find({ to: req.params.id });
+    let messages = await Message.find({ to: req.user.id });
     if (messages) {
       updated = await Message.updateMany(
-        { to: req.params.id },
+        { to: req.user.id },
         { seen: true },
         { new: true }
       );
