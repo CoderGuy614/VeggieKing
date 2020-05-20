@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -7,6 +7,7 @@ import List from "@material-ui/core/List";
 
 import Typography from "@material-ui/core/Typography";
 import CustomerChatExpPanel from "./CustomerChatExpPanel";
+import MessageContext from "../../../context/message/messageContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +31,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerList({ users }) {
+export default function CustomerChatList({ users }) {
+  const messageContext = useContext(MessageContext);
+  const { getMessages, messages, unread } = messageContext;
   const getAdmins = async () => {
     try {
       const res = await axios.get("/api/users/admins");
@@ -42,18 +45,7 @@ export default function CustomerList({ users }) {
     }
   };
 
-  const getMessages = async () => {
-    try {
-      const res = await axios.get("/api/messages");
-      if (res) {
-        setMessages(res.data);
-      }
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
   const [admins, setAdmins] = useState([]);
-  const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState(false);
 
   useEffect(() => {
@@ -73,22 +65,25 @@ export default function CustomerList({ users }) {
       <Paper className={classes.paper}>
         <Typography variant="h6">Customer Chats</Typography>
         <List className={classes.root}>
-          {users.map((user) => {
-            return (
-              <CustomerChatExpPanel
-                className={classes.expPanel}
-                key={user.user._id}
-                handleNewMessage={handleNewMessage}
-                user={user}
-                admins={admins}
-                messages={messages.filter(
-                  (message) =>
-                    message.to === user.user._id ||
-                    message.from === user.user._id
-                )}
-              />
-            );
-          })}
+          {users
+            .filter((user) => !user.isAdmin)
+            .map((user) => {
+              return (
+                <CustomerChatExpPanel
+                  className={classes.expPanel}
+                  key={user.user._id}
+                  handleNewMessage={handleNewMessage}
+                  user={user}
+                  admins={admins}
+                  messages={messages.filter(
+                    (message) =>
+                      message.to === user.user._id ||
+                      message.from === user.user._id
+                  )}
+                  unread={unread}
+                />
+              );
+            })}
         </List>
       </Paper>
     </Container>

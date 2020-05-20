@@ -86,6 +86,7 @@ router.get("/", async (req, res) => {
       "avatar",
       "date",
       "email",
+      "isAdmin",
     ]);
     res.json(profiles);
   } catch (err) {

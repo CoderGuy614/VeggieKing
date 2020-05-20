@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -6,8 +7,11 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import AccountCircleTwoToneIcon from "@material-ui/icons/AccountCircleTwoTone";
+
+import Badge from "../../customer/chat/Badge";
 import Chat from "./chat/Chat";
+
+import AuthContext from "../../../context/auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,17 +25,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerExpPanel({
+export default function CustomerChatExpPanel({
   user,
   messages,
   admins,
   handleNewMessage,
+  unread,
 }) {
   const classes = useStyles();
+  const [count, setCount] = useState(0);
+  const authContext = useContext(AuthContext);
+  const currentAdmin = authContext.user;
+
+  useEffect(() => {
+    const unreadMessages = unread.filter((msg) => msg.from === user.user._id);
+    const value = unreadMessages.length;
+    setCount(value);
+  }, [unread]);
+
+  const clearNotifications = async () => {
+    setCount(0);
+    try {
+      const res = await axios.put(`/api/messages/seen/admin/${user.user._id}`);
+      if (res) console.log(res);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel>
+      <ExpansionPanel onChange={clearNotifications}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -40,7 +64,7 @@ export default function CustomerExpPanel({
         >
           <Grid justify="center" container>
             <Grid item xs={12} sm={6}>
-              <AccountCircleTwoToneIcon />
+              <Badge count={count} />
               <Typography variant="body2">{user.user.name}</Typography>
             </Grid>
           </Grid>

@@ -67,4 +67,29 @@ router.put("/seen", auth, async (req, res) => {
   }
 });
 
+// @route PUT /api/messages/seen/admin/userId
+// @ desc Update the seen property of messages to an admin from specified user
+// @ access Private
+
+router.put("/seen/admin/:userId", auth, async (req, res) => {
+  try {
+    let messages = await Message.find({
+      to: req.user.id,
+      from: req.params.userId,
+    });
+    if (messages) {
+      updated = await Message.updateMany(
+        { to: req.user.id, from: req.params.userId },
+        { seen: true },
+        { new: true }
+      );
+      return res.json(updated);
+    }
+    return res.send("Messages not found");
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import MessageContext from "../../../context/message/messageContext";
 import Badge from "./Badge";
 
 const useStyles = makeStyles((theme) => ({
@@ -12,8 +11,6 @@ const useStyles = makeStyles((theme) => ({
 
 const OpenChatButton = ({ toggleOpen, buttonText, user, unread }) => {
   const classes = useStyles();
-  const messageContext = useContext(MessageContext);
-  const { clearNotifications } = messageContext;
   const [count, setCount] = useState(0);
 
   useEffect(() => {

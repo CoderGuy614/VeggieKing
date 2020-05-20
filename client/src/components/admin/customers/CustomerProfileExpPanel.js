@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerExpPanel({
+export default function CustomerProfileExpPanel({
   user,
   messages,
   admins,
