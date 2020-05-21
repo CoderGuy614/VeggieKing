@@ -15,7 +15,7 @@ export class Confirm extends Component {
     phone: "",
     location: "",
     deliveryNotes: "",
-    profile: this.props.profile,
+    // profile: this.props.profile,
     data: this.props.data,
     editProfile: false,
     handleOrderSuccess: this.props.handleOrderSuccess,
@@ -43,7 +43,7 @@ export class Confirm extends Component {
         config
       );
       if (res) {
-        this.setState({ profile: res.data, editProfile: false });
+        this.setState({ editProfile: false });
       }
     } catch (err) {
       const errors = err.response.data.errors;
@@ -64,11 +64,11 @@ export class Confirm extends Component {
         },
       };
       const { user } = this.context;
-      const { data, profile } = this.state;
+      const { data } = this.state;
       const orderData = {};
 
       orderData.user = user;
-      orderData.profile = profile;
+      // orderData.profile = profile;
       orderData.data = data.filter((obj) => obj.qty > 0);
       const res = await axios.post("/api/orders", orderData, config);
       if (res) {
@@ -95,8 +95,8 @@ export class Confirm extends Component {
   };
 
   render() {
-    const { isAuthenticated } = this.context;
-    const { phone, location, deliveryNotes, data, profile } = this.state;
+    const { isAuthenticated, user } = this.context;
+    const { phone, location, deliveryNotes, data } = this.state;
     const values = { phone, location, deliveryNotes };
     return (
       <MuiThemeProvider theme={theme}>
@@ -109,11 +109,12 @@ export class Confirm extends Component {
           </Grid>
           <Grid item xs={12} md={4}>
             <Container style={{ marginTop: "20px" }}>
-              {isAuthenticated && profile && !this.state.editProfile ? (
+              {isAuthenticated && user.profile && !this.state.editProfile ? (
                 <ShowProfile
                   handleSubmitOrder={this.handleSubmitOrder}
                   handleEditProfile={this.handleEditProfile}
-                  finalData={this.state}
+                  // finalData={this.state}
+                  // profile={user.profile}
                 />
               ) : (
                 <EditProfile

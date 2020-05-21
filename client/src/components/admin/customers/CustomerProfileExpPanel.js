@@ -24,12 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerProfileExpPanel({
-  user,
-  messages,
-  admins,
-  handleNewMessage,
-}) {
+export default function CustomerProfileExpPanel({ user }) {
   const classes = useStyles();
 
   return (
@@ -43,7 +38,7 @@ export default function CustomerProfileExpPanel({
           <Grid container>
             <Grid item xs={12}>
               <AccountCircleTwoToneIcon />
-              <Typography variant="body2">{user.user.name}</Typography>
+              <Typography variant="body2">{user.name}</Typography>
             </Grid>
           </Grid>
         </ExpansionPanelSummary>

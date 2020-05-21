@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerList({ users }) {
+export default function CustomerProfileList({ users }) {
   const getAdmins = async () => {
     try {
       const res = await axios.get("/api/users/admins");
@@ -77,14 +77,13 @@ export default function CustomerList({ users }) {
             return (
               <CustomerProfileExpPanel
                 className={classes.expPanel}
-                key={user.user._id}
+                key={user._id}
                 handleNewMessage={handleNewMessage}
                 user={user}
                 admins={admins}
                 messages={messages.filter(
                   (message) =>
-                    message.to === user.user._id ||
-                    message.from === user.user._id
+                    message.to === user._id || message.from === user._id
                 )}
               />
             );

@@ -93,19 +93,9 @@ const Customer = () => {
     }
   };
 
-  const handleContinue = async () => {
+  const handleContinue = () => {
     if (isAuthenticated) {
-      //check for a profile at user_id
-      try {
-        const res = await axios.get(`/api/profile/user/${user._id}`);
-        if (res.data) {
-          setUserProfile(res.data);
-          setCheckout(true);
-        }
-      } catch (err) {
-        console.log(err.response.data.msg);
-        setCheckout(true);
-      }
+      setCheckout(true);
     } else {
       setAlert("Please Login or Register to Proceed", "danger");
     }
@@ -173,7 +163,7 @@ const Customer = () => {
                   <MessagePanel message="Step 2: Confirm Your Order Info" />
                   <Confirm
                     data={data}
-                    profile={userProfile}
+                    // profile={user.profile}
                     handleOrderSuccess={handleOrderSuccess}
                     sendConfirmation={sendConfirmation}
                     setAlert={setAlert}

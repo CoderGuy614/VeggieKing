@@ -8,10 +8,10 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
 export class ShowProfile extends Component {
-  state = this.props.finalData;
+  // state = this.props.finalData;
   static contextType = AuthContext;
   render() {
-    const { profile } = this.state;
+    // const { profile } = this.state;
     const { user } = this.context;
     return (
       <Container>
@@ -20,11 +20,14 @@ export class ShowProfile extends Component {
           <List>
             <ListItem primaryText="Name" secondaryText={user.name} />
             <ListItem primaryText="Email" secondaryText={user.email} />
-            <ListItem primaryText="Location" secondaryText={profile.location} />
-            <ListItem primaryText="Phone" secondaryText={profile.phone} />
+            <ListItem
+              primaryText="Location"
+              secondaryText={user.profile.location}
+            />
+            <ListItem primaryText="Phone" secondaryText={user.profile.phone} />
             <ListItem
               primaryText="Delivery Instructions"
-              secondaryText={profile.deliveryNotes}
+              secondaryText={user.profile.deliveryNotes}
             />
           </List>
 

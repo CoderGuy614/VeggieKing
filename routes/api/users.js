@@ -120,7 +120,7 @@ router.get("/admins", async (req, res) => {
 
 router.put("/:id", auth, async (req, res) => {
   try {
-    let user = await User.findById(req.params.id);
+    let user = await User.findById(req.params.id).populate("profile");
     if (user) {
       user = await User.findByIdAndUpdate(
         { _id: req.params.id },

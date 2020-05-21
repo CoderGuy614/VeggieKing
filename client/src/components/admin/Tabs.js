@@ -59,10 +59,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleTabs(props) {
+export default function SimpleTabs({ orders, users }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const { orders, users } = props;
   const [showClosedOrders, setShowClosedOrders] = useState(false);
 
   const handleChange = (event, newValue) => {

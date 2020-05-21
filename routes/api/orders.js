@@ -7,12 +7,13 @@ const Order = require("../../models/Order");
 //Get All Orders with the User Populated
 router.get("/", async (req, res) => {
   try {
-    const order = await Order.find()
-      .populate({
-        path: "user",
-        select: "name email avatar date isAdmin",
-      })
-      .populate("profile");
+    const order = await Order.find().populate({
+      path: "user",
+      populate: {
+        path: "profile",
+      },
+    });
+
     if (order) {
       return res.json(order);
     }
@@ -33,7 +34,7 @@ router.post("/", async (req, res) => {
   const { user, data, profile } = req.body;
   try {
     const newOrder = await Order.create({
-      profile,
+      // profile,
       user,
       data,
     });

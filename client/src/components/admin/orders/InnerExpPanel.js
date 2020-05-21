@@ -5,7 +5,6 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import RoomIcon from "@material-ui/icons/Room";
 import PhoneIcon from "@material-ui/icons/Phone";
