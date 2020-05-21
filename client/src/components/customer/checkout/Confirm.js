@@ -102,11 +102,13 @@ export class Confirm extends Component {
       <MuiThemeProvider theme={theme}>
         <Grid container spacing={1}>
           <Grid item xs={12} md={8}>
-            <Typography variant="h5">Your Order Details:</Typography>
-            <ConfirmTable data={data} />
+            <Container style={{ marginTop: "20px" }}>
+              <Typography variant="h5">Your Order Details:</Typography>
+              <ConfirmTable data={data} />
+            </Container>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Container>
+            <Container style={{ marginTop: "20px" }}>
               {isAuthenticated && profile && !this.state.editProfile ? (
                 <ShowProfile
                   handleSubmitOrder={this.handleSubmitOrder}

@@ -25,6 +25,7 @@ const MessageState = (props) => {
   const getMessages = async () => {
     try {
       const res = await axios.get("/api/messages");
+
       dispatch({
         type: GET_MESSAGES,
         payload: res.data,
