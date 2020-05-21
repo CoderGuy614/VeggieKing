@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Badge from "./Badge";
@@ -16,6 +16,7 @@ const OpenChatButton = ({ toggleOpen, buttonText, user, unread }) => {
   useEffect(() => {
     const value = unread.filter((msg) => msg.to === user._id).length;
     setCount(value);
+    //eslint-disable-next-line
   }, [unread]);
 
   return (

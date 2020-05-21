@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useContext } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import ChatDisplay from "./ChatDisplay";
@@ -7,7 +7,6 @@ import AuthContext from "../../../../context/auth/authContext";
 
 const Chat = ({ messages, admins, user, handleNewMessage }) => {
   const authContext = useContext(AuthContext);
-  const { isAuthenticated } = authContext;
   const sender = authContext.user._id;
 
   const [message, setMessage] = useState("");

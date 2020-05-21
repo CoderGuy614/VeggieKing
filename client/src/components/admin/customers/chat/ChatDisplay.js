@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Moment from "react-moment";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";

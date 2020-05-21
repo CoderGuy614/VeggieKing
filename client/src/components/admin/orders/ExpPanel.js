@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -48,11 +48,7 @@ export default function ExpPanel({ order }) {
           "Content-Type": "application/json",
         },
       };
-      const res = await axios.put(
-        `/api/orders/${order._id}`,
-        { status: value },
-        config
-      );
+      await axios.put(`/api/orders/${order._id}`, { status: value }, config);
     } catch (err) {
       console.log(err.message);
     }

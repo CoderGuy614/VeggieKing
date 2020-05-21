@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -10,8 +10,6 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import Badge from "../../customer/chat/Badge";
 import Chat from "./chat/Chat";
-
-import AuthContext from "../../../context/auth/authContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,13 +32,12 @@ export default function CustomerChatExpPanel({
 }) {
   const classes = useStyles();
   const [count, setCount] = useState(0);
-  const authContext = useContext(AuthContext);
-  const currentAdmin = authContext.user;
 
   useEffect(() => {
     const unreadMessages = unread.filter((msg) => msg.from === user._id);
     const value = unreadMessages.length;
     setCount(value);
+    //eslint-disable-next-line
   }, [unread]);
 
   const clearNotifications = async () => {

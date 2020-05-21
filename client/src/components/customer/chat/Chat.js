@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -11,10 +11,6 @@ const Chat = ({ admins, user }) => {
   const { sendMessage, messages } = messageContext;
 
   const [message, setMessage] = useState("");
-
-  // useEffect(() => {
-  //   getMessages();
-  // }, []);
 
   const messageData = {
     to: admins[0],

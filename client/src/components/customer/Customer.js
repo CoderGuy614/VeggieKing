@@ -45,7 +45,6 @@ const Customer = () => {
   const [total, setTotal] = useState(0);
   const [data, setData] = useState([]);
   const [admins, setAdmins] = useState([]);
-  const [userProfile, setUserProfile] = useState(null);
   const [checkout, setCheckout] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
@@ -82,7 +81,7 @@ const Customer = () => {
           "Content-Type": "application/json",
         },
       };
-      const res = await axios.post("/api/confirmation", orderData, config);
+      await axios.post("/api/confirmation", orderData, config);
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
