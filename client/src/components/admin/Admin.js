@@ -20,9 +20,20 @@ export default function Admin(props) {
     }
   };
 
+  // const getUsers = async () => {
+  //   try {
+  //     const res = await axios.get("/api/profile");
+  //     if (res) {
+  //       setUsers(res.data);
+  //     }
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // };
+
   const getUsers = async () => {
     try {
-      const res = await axios.get("/api/profile");
+      const res = await axios.get("/api/users");
       if (res) {
         setUsers(res.data);
       }

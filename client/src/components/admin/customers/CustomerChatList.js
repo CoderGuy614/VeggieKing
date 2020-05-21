@@ -71,14 +71,13 @@ export default function CustomerChatList({ users }) {
               return (
                 <CustomerChatExpPanel
                   className={classes.expPanel}
-                  key={user.user._id}
+                  key={user._id}
                   handleNewMessage={handleNewMessage}
                   user={user}
                   admins={admins}
                   messages={messages.filter(
                     (message) =>
-                      message.to === user.user._id ||
-                      message.from === user.user._id
+                      message.to === user._id || message.from === user._id
                   )}
                   unread={unread}
                 />

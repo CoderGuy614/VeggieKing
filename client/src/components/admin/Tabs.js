@@ -112,12 +112,10 @@ export default function SimpleTabs(props) {
         <ProductTable />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <CustomerChatList users={users.filter((user) => !user.user.isAdmin)} />
+        <CustomerChatList users={users.filter((user) => !user.isAdmin)} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <CustomerProfileList
-          users={users.filter((user) => !user.user.isAdmin)}
-        />
+        <CustomerProfileList users={users.filter((user) => !user.isAdmin)} />
       </TabPanel>
     </div>
   );

@@ -38,7 +38,7 @@ export default function CustomerChatExpPanel({
   const currentAdmin = authContext.user;
 
   useEffect(() => {
-    const unreadMessages = unread.filter((msg) => msg.from === user.user._id);
+    const unreadMessages = unread.filter((msg) => msg.from === user._id);
     const value = unreadMessages.length;
     setCount(value);
   }, [unread]);
@@ -46,7 +46,7 @@ export default function CustomerChatExpPanel({
   const clearNotifications = async () => {
     setCount(0);
     try {
-      const res = await axios.put(`/api/messages/seen/admin/${user.user._id}`);
+      const res = await axios.put(`/api/messages/seen/admin/${user._id}`);
       if (res) console.log(res);
     } catch (err) {
       console.log(err.message);
@@ -65,7 +65,7 @@ export default function CustomerChatExpPanel({
           <Grid justify="center" container>
             <Grid item xs={12} sm={6}>
               <Badge count={count} />
-              <Typography variant="body2">{user.user.name}</Typography>
+              <Typography variant="body2">{user.name}</Typography>
             </Grid>
           </Grid>
         </ExpansionPanelSummary>
