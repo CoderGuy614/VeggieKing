@@ -69,27 +69,21 @@ const Customer = () => {
     setData(value);
   };
 
-  const handleOrderSuccess = () => {
-    setAlert("Your order was placed successfully!", "success");
+  const handleOrderSuccess = (orderData) => {
     setOrderSuccess(true);
+    sendConfirmation(orderData);
   };
 
-  const sendConfirmation = async (orderData) => {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      await axios.post("/api/confirmation", orderData, config);
-    } catch (err) {
-      const errors = err.response.data.errors;
-      if (errors) {
-        errors.forEach((error) =>
-          this.state.setAlert(`${error.msg}`, "danger")
-        );
-      }
-    }
+  const sendConfirmation = (orderData) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .post("/api/confirmation", orderData, config)
+      .then((response) => setAlert(`${response.data}`, "success"))
+      .catch((err) => console.log(err));
   };
 
   const handleContinue = () => {
@@ -162,9 +156,7 @@ const Customer = () => {
                   <MessagePanel message="Step 2: Confirm Your Order Info" />
                   <Confirm
                     data={data}
-                    // profile={user.profile}
                     handleOrderSuccess={handleOrderSuccess}
-                    sendConfirmation={sendConfirmation}
                     setAlert={setAlert}
                   />
                 </Fragment>

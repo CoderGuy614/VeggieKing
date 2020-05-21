@@ -16,6 +16,7 @@ const Chat = ({ admins, user }) => {
     to: admins[0],
     textContent: message,
     from: user._id,
+    date: Date.now(),
   };
 
   const filteredMessages = messages.filter(

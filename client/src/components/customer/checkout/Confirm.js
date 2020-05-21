@@ -12,14 +12,12 @@ import EditProfile from "./EditProfile";
 
 export class Confirm extends Component {
   state = {
-    phone: "",
-    location: "",
-    deliveryNotes: "",
-    // profile: this.props.profile,
+    phone: this.context.user.profile.phone,
+    location: this.context.user.profile.location,
+    deliveryNotes: this.context.user.profile.deliveryNotes,
     data: this.props.data,
     editProfile: false,
     handleOrderSuccess: this.props.handleOrderSuccess,
-    sendConfirmation: this.props.sendConfirmation,
     setAlert: this.props.setAlert,
   };
   static contextType = AuthContext;
@@ -68,20 +66,13 @@ export class Confirm extends Component {
       const orderData = {};
 
       orderData.user = user;
-      // orderData.profile = profile;
       orderData.data = data.filter((obj) => obj.qty > 0);
       const res = await axios.post("/api/orders", orderData, config);
       if (res) {
-        this.state.sendConfirmation(orderData);
-        this.state.handleOrderSuccess();
+        this.state.handleOrderSuccess(orderData);
       }
     } catch (err) {
-      const errors = err.response.data.errors;
-      if (errors) {
-        errors.forEach((error) =>
-          this.state.setAlert(`${error.msg}`, "danger")
-        );
-      }
+      console.log(err);
     }
   };
 
@@ -111,10 +102,10 @@ export class Confirm extends Component {
             <Container style={{ marginTop: "20px" }}>
               {isAuthenticated && user.profile && !this.state.editProfile ? (
                 <ShowProfile
+                  user={user}
+                  values={values}
                   handleSubmitOrder={this.handleSubmitOrder}
                   handleEditProfile={this.handleEditProfile}
-                  // finalData={this.state}
-                  // profile={user.profile}
                 />
               ) : (
                 <EditProfile
