@@ -1,20 +1,11 @@
 import React from "react";
-// import AuthContext from "../../../context/auth/authContext";
-
 import { List, ListItem } from "material-ui/List";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
-const ShowProfile = ({
-  user,
-  values,
-  handleSubmitOrder,
-  handleEditProfile,
-}) => {
-  // static contextType = AuthContext;
-
+const ShowProfile = ({ user, handleSubmitOrder, handleEditProfile }) => {
   return (
     <Container>
       <Paper>
@@ -22,11 +13,14 @@ const ShowProfile = ({
         <List>
           <ListItem primaryText="Name" secondaryText={user.name} />
           <ListItem primaryText="Email" secondaryText={user.email} />
-          <ListItem primaryText="Location" secondaryText={values.location} />
-          <ListItem primaryText="Phone" secondaryText={values.phone} />
+          <ListItem
+            primaryText="Location"
+            secondaryText={user.profile.location}
+          />
+          <ListItem primaryText="Phone" secondaryText={user.profile.phone} />
           <ListItem
             primaryText="Delivery Instructions"
-            secondaryText={values.deliveryNotes}
+            secondaryText={user.profile.deliveryNotes}
           />
         </List>
 
@@ -44,7 +38,7 @@ const ShowProfile = ({
           style={{ margin: "10px" }}
           color="secondary"
           variant="contained"
-          onClick={handleEditProfile}
+          onClick={() => handleEditProfile(true)}
         >
           Edit Info
         </Button>

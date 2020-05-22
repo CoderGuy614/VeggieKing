@@ -74,7 +74,6 @@ export default function Login(props) {
     }
 
     if (error === "Invalid Credentials") {
-      console.log(error);
       setAlert(error, "danger");
       clearErrors();
     }

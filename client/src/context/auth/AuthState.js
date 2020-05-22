@@ -6,6 +6,8 @@ import setAuthToken from "../../utils/setAuthToken";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  PROFILE_SUCCESS,
+  PROFILE_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -76,10 +78,8 @@ const AuthState = (props) => {
         "Content-Type": "application/json",
       },
     };
-
     try {
       const res = await axios.post("/api/auth", formData, config);
-
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data,
@@ -90,6 +90,28 @@ const AuthState = (props) => {
       dispatch({
         type: LOGIN_FAIL,
         payload: err.response.data.msg,
+      });
+    }
+  };
+
+  //Post or Update Profile
+  const postProfile = async (profile) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const res = await axios.post("/api/profile", profile, config);
+      dispatch({
+        type: PROFILE_SUCCESS,
+        payload: res.data,
+      });
+      loadUser();
+    } catch (err) {
+      dispatch({
+        type: PROFILE_FAIL,
+        payload: err.response.data.errors,
       });
     }
   };
@@ -112,6 +134,7 @@ const AuthState = (props) => {
         loadUser,
         login,
         logout,
+        postProfile,
         clearErrors,
       }}
     >

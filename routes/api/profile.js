@@ -52,9 +52,9 @@ router.post(
     const { location, phone, deliveryNotes } = req.body;
     const profileFields = {};
     profileFields.user = req.user.id;
-    if (location) profileFields.location = location;
-    if (phone) profileFields.phone = phone;
-    if (deliveryNotes) profileFields.deliveryNotes = deliveryNotes;
+    profileFields.location = location;
+    profileFields.phone = phone;
+    profileFields.deliveryNotes = deliveryNotes;
 
     try {
       let profile = await Profile.findOne({ user: req.user.id });

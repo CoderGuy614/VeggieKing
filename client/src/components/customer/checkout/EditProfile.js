@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import TextField from "material-ui/TextField";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -7,14 +7,33 @@ import Button from "@material-ui/core/Button";
 
 import AuthContext from "../../../context/auth/authContext";
 
-const EditProfile = ({
-  values,
-  handleChange,
-  handleSubmitProfile,
-  handleCancelEditProfile,
-}) => {
+const EditProfile = ({ user, handleEditProfile, setAlert }) => {
   const authContext = useContext(AuthContext);
-  const { user } = authContext;
+  const { postProfile } = authContext;
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    if (user.profile) {
+      const { phone, location, deliveryNotes } = user.profile;
+      setProfile({ phone, location, deliveryNotes });
+    } else {
+      setProfile({ phone: "", location: "", deliveryNotes: "" });
+    }
+    //eslint-disable-next-line
+  }, []);
+
+  const handleChange = (input) => (e) => {
+    setProfile({ ...profile, [input]: e.target.value });
+  };
+
+  const handleSubmitProfile = (profile) => {
+    if (profile.phone === "" || profile.location === "") {
+      return setAlert("Please provide a phone number and location", "danger");
+    }
+    postProfile(profile);
+    handleEditProfile(false);
+  };
+
   return (
     <Paper>
       <Container>
@@ -24,7 +43,8 @@ const EditProfile = ({
               onChange={handleChange("location")}
               hintText="Enter Your Location"
               floatingLabelText="location"
-              defaultValue={values.location}
+              defaultValue={user.profile ? user.profile.location : ""}
+              InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -32,7 +52,8 @@ const EditProfile = ({
               onChange={handleChange("phone")}
               hintText="Enter Your Phone Number"
               floatingLabelText="phone"
-              defaultValue={values.phone}
+              defaultValue={user.profile ? user.profile.phone : ""}
+              InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -40,13 +61,14 @@ const EditProfile = ({
               onChange={handleChange("deliveryNotes")}
               hintText="Enter an Optional Delivery Instruction"
               floatingLabelText="Delivery Special Instruction"
-              defaultValue={values.deliveryNotes}
+              defaultValue={user.profile ? user.profile.deliveryNotes : ""}
+              InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={12}>
             <Button
               style={{ margin: "10px" }}
-              onClick={handleSubmitProfile}
+              onClick={() => handleSubmitProfile(profile)}
               variant="contained"
               color="primary"
             >
@@ -54,7 +76,7 @@ const EditProfile = ({
             </Button>
             <Button
               style={{ margin: "10px" }}
-              onClick={handleCancelEditProfile}
+              onClick={() => handleEditProfile(false)}
               variant="contained"
               color="secondary"
             >

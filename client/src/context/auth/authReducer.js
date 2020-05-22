@@ -1,6 +1,8 @@
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  PROFILE_SUCCESS,
+  PROFILE_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -26,6 +28,19 @@ export default (state, action) => {
         ...action.payload,
         isAuthenticated: true,
         loading: false,
+      };
+    case PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        profileUpdate: "SUCCESS",
+      };
+    case PROFILE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        profileUpdate: "FAIL",
+        error: action.payload,
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
