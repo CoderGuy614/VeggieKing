@@ -44,7 +44,6 @@ const EditProfile = ({ user, handleEditProfile, setAlert }) => {
               hintText="Enter Your Location"
               floatingLabelText="location"
               defaultValue={user.profile ? user.profile.location : ""}
-              InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -53,7 +52,6 @@ const EditProfile = ({ user, handleEditProfile, setAlert }) => {
               hintText="Enter Your Phone Number"
               floatingLabelText="phone"
               defaultValue={user.profile ? user.profile.phone : ""}
-              InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -62,7 +60,6 @@ const EditProfile = ({ user, handleEditProfile, setAlert }) => {
               hintText="Enter an Optional Delivery Instruction"
               floatingLabelText="Delivery Special Instruction"
               defaultValue={user.profile ? user.profile.deliveryNotes : ""}
-              InputLabelProps={{ shrink: true }}
             />
           </Grid>
           <Grid item xs={12}>

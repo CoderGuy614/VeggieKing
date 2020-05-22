@@ -23,6 +23,21 @@ router.get("/", async (req, res) => {
   }
 });
 
+//Get All Orders for a specific user
+router.get("/:userId", async (req, res) => {
+  try {
+    const order = await Order.find({ user: req.params.userId });
+    if (order) {
+      return res.json(order);
+    }
+    return res.json({ data: "No Orders Found" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// Create an order
 router.post("/", async (req, res) => {
   const errors = validationResult(req);
 

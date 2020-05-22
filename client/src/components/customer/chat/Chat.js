@@ -33,6 +33,11 @@ const Chat = ({ admins, user }) => {
     setMessage(e.target.value);
   };
 
+  //   const toggleOpen = () => {
+  //     clearNotifications();
+  //     setTimeout(() => setChatOpen(!chatOpen), 500);
+  //   };
+
   return (
     <Container>
       <Paper>
