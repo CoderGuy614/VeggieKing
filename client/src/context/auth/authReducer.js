@@ -3,6 +3,7 @@ import {
   REGISTER_FAIL,
   PROFILE_SUCCESS,
   PROFILE_FAIL,
+  EDIT_USER,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -41,6 +42,12 @@ export default (state, action) => {
         loading: false,
         profileUpdate: "FAIL",
         error: action.payload,
+      };
+    case EDIT_USER:
+      return {
+        ...state,
+        loading: false,
+        userUpdated: "SUCCESS",
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:

@@ -17,6 +17,7 @@ import ChatIcon from "@material-ui/icons/Chat";
 import Chat from "./chat/Chat";
 import ShopTab from "./ShopTab";
 import OrderList from "./orders/OrderList";
+import Profile from "./Profile";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -113,7 +114,7 @@ export default function CustomerTabs({
         <OrderList user={user} orders={orders} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        PROFILE
+        <Profile user={user} />
       </TabPanel>
     </div>
   );

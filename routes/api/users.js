@@ -118,15 +118,36 @@ router.get("/admins", async (req, res) => {
 // @ desc Update the messagesRead for the current user
 // @ access Private
 
+// router.put("/:id", auth, async (req, res) => {
+//   try {
+//     let user = await User.findById(req.params.id).populate("profile");
+//     if (user) {
+//       user = await User.findByIdAndUpdate(
+//         { _id: req.params.id },
+//         { messagesRead: req.body.messagesRead },
+//         { new: true }
+//       );
+//       return res.json(user);
+//     }
+//     return res.send("User not found");
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server error");
+//   }
+// });
+
+// @route PUT /api/users/:id
+// @ desc Update name or email field of the user
+// @ access Private
+
 router.put("/:id", auth, async (req, res) => {
   try {
-    let user = await User.findById(req.params.id).populate("profile");
+    let user = await User.findById(req.params.id);
     if (user) {
-      user = await User.findByIdAndUpdate(
-        { _id: req.params.id },
-        { messagesRead: req.body.messagesRead },
-        { new: true }
-      );
+      console.log(req.body);
+      user = await User.findByIdAndUpdate({ _id: req.params.id }, req.body, {
+        new: true,
+      });
       return res.json(user);
     }
     return res.send("User not found");

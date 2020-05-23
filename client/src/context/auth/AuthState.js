@@ -9,6 +9,7 @@ import {
   PROFILE_SUCCESS,
   PROFILE_FAIL,
   USER_LOADED,
+  EDIT_USER,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -116,6 +117,28 @@ const AuthState = (props) => {
     }
   };
 
+  const editUser = async (typ, val, id) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const res = await axios.put(`/api/users/${id}`, { [typ]: val }, config);
+
+      dispatch({
+        type: EDIT_USER,
+        payload: res.data,
+      });
+      loadUser();
+    } catch (err) {
+      dispatch({
+        type: PROFILE_FAIL,
+        payload: err.response.data.errors,
+      });
+    }
+  };
+
   // Logout
   const logout = () => dispatch({ type: LOGOUT });
 
@@ -135,6 +158,7 @@ const AuthState = (props) => {
         login,
         logout,
         postProfile,
+        editUser,
         clearErrors,
       }}
     >

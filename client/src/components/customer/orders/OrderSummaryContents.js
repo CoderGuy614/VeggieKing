@@ -7,12 +7,18 @@ import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import Moment from "react-moment";
 
 const OrderSummaryContents = ({ order, orderTotal }) => {
+  const translator = {
+    new: "green",
+    inProcess: "orange",
+    closed: "red",
+  };
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={12} sm={4}>
         <Icon
           style={{
-            color: "red",
+            color: translator[order.status],
           }}
         >
           adjust
