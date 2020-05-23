@@ -11,8 +11,13 @@ export const REMOVE_ALERT = "REMOVE_ALERT";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
 export const PROFILE_SUCCESS = "PROFILE_SUCCESS";
-export const PROFILE_FAIL = "PROFILE_FAIL";
+export const POST_PROFILE_FAIL = "PROFILE_FAIL";
+export const EDIT_PROFILE = "EDIT_PROFILE";
+export const EDIT_PROFILE_FAIL = "EDIT_PROFILE_FAIL";
+
 export const EDIT_USER = "EDIT_USER";
+export const EDIT_USER_FAIL = "EDIT_USER_FAIL";
+
 export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";

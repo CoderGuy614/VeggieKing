@@ -5,10 +5,10 @@ import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import ListItemText from "@material-ui/core/ListItemText";
 
-const CurrentField = ({ setEdit, type, defaultValue, user }) => {
+const CurrentField = ({ setEdit, type, defaultValue }) => {
   return (
     <ListItem>
-      <ListItemText primary="Name" secondary={defaultValue} />
+      <ListItemText primary={type} secondary={defaultValue} />
       <ListItemSecondaryAction>
         <IconButton
           style={{ marginTop: "20px" }}

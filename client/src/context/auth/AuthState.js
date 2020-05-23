@@ -7,9 +7,12 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   PROFILE_SUCCESS,
-  PROFILE_FAIL,
+  POST_PROFILE_FAIL,
+  EDIT_USER_FAIL,
   USER_LOADED,
   EDIT_USER,
+  EDIT_PROFILE,
+  EDIT_PROFILE_FAIL,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -95,7 +98,7 @@ const AuthState = (props) => {
     }
   };
 
-  //Post or Update Profile
+  //Post Profile
   const postProfile = async (profile) => {
     const config = {
       headers: {
@@ -111,7 +114,7 @@ const AuthState = (props) => {
       loadUser();
     } catch (err) {
       dispatch({
-        type: PROFILE_FAIL,
+        type: POST_PROFILE_FAIL,
         payload: err.response.data.errors,
       });
     }
@@ -133,7 +136,29 @@ const AuthState = (props) => {
       loadUser();
     } catch (err) {
       dispatch({
-        type: PROFILE_FAIL,
+        type: EDIT_USER_FAIL,
+        payload: err.response.data.errors,
+      });
+    }
+  };
+
+  const editProfile = async (typ, val, id) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const res = await axios.put(`/api/profile/${id}`, { [typ]: val }, config);
+
+      dispatch({
+        type: EDIT_PROFILE,
+        payload: res.data,
+      });
+      loadUser();
+    } catch (err) {
+      dispatch({
+        type: EDIT_PROFILE_FAIL,
         payload: err.response.data.errors,
       });
     }
@@ -158,6 +183,7 @@ const AuthState = (props) => {
         login,
         logout,
         postProfile,
+        editProfile,
         editUser,
         clearErrors,
       }}

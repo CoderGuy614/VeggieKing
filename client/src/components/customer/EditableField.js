@@ -1,20 +1,16 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
 import TextField from "material-ui/TextField";
-import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import SaveIcon from "@material-ui/icons/Save";
 
 import AuthContext from "../../context/auth/authContext";
+import EditProfile from "./checkout/EditProfile";
 
 const EditableField = ({ setEdit, defaultValue, type, user }) => {
   const authContext = useContext(AuthContext);
-  const { editUser } = authContext;
+  const { editUser, editProfile } = authContext;
   const [value, setValue] = useState(defaultValue);
 
   return (
@@ -30,7 +26,14 @@ const EditableField = ({ setEdit, defaultValue, type, user }) => {
           <IconButton
             style={{ marginTop: "20px" }}
             onClick={() => {
-              editUser(type, value, user._id);
+              if (type === "name" || type === "email") {
+                console.log(type);
+                editUser(type, value, user._id);
+              } else {
+                console.log("EDIT PROFILE");
+                editProfile(type, value, user.profile._id);
+              }
+
               setEdit(false);
             }}
             edge="end"

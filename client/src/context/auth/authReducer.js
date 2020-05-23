@@ -2,8 +2,11 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   PROFILE_SUCCESS,
-  PROFILE_FAIL,
+  EDIT_PROFILE,
+  EDIT_PROFILE_FAIL,
+  POST_PROFILE_FAIL,
   EDIT_USER,
+  EDIT_USER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -36,7 +39,8 @@ export default (state, action) => {
         loading: false,
         profileUpdate: "SUCCESS",
       };
-    case PROFILE_FAIL:
+    case EDIT_PROFILE_FAIL:
+    case POST_PROFILE_FAIL:
       return {
         ...state,
         loading: false,
@@ -48,6 +52,12 @@ export default (state, action) => {
         ...state,
         loading: false,
         userUpdated: "SUCCESS",
+      };
+    case EDIT_PROFILE:
+      return {
+        ...state,
+        loading: false,
+        profileUpdated: true,
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:

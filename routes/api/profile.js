@@ -113,4 +113,26 @@ router.delete("/", auth, async (req, res) => {
   }
 });
 
+// Put - Update a profile
+// Private
+router.put("/:profileId", auth, async (req, res) => {
+  try {
+    let profile = await Profile.findById(req.params.profileId);
+    if (profile) {
+      profile = await Profile.findByIdAndUpdate(
+        { _id: req.params.profileId },
+        req.body,
+        {
+          new: true,
+        }
+      );
+      return res.json(profile);
+    }
+    return res.send("Profile not found");
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;
