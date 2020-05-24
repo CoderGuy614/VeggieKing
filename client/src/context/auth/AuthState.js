@@ -17,6 +17,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  DELETE_ACCOUNT,
   CLEAR_ERRORS,
 } from "../types";
 
@@ -164,6 +165,20 @@ const AuthState = (props) => {
     }
   };
 
+  const deleteAccount = async (id) => {
+    try {
+      const res = await axios.delete("/api/profile");
+      dispatch({
+        type: DELETE_ACCOUNT,
+        payload: res.data.msg,
+      });
+    } catch (err) {
+      dispatch({
+        type: AUTH_ERROR,
+      });
+    }
+  };
+
   // Logout
   const logout = () => dispatch({ type: LOGOUT });
 
@@ -186,6 +201,7 @@ const AuthState = (props) => {
         editProfile,
         editUser,
         clearErrors,
+        deleteAccount,
       }}
     >
       {props.children}

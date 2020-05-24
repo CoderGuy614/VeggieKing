@@ -12,6 +12,8 @@ import Guest from "./Guest";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   paper: {
     padding: theme.spacing(2),

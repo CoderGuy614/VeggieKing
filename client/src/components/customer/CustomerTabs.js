@@ -19,6 +19,7 @@ import ShopTab from "./ShopTab";
 import OrderList from "./orders/OrderList";
 import EditUserInfo from "./EditUserInfo";
 import EditProfileInfo from "./EditProfileInfo";
+import DeleteAccount from "./DeleteAccount";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -116,7 +117,8 @@ export default function CustomerTabs({
       </TabPanel>
       <TabPanel value={value} index={3}>
         <EditUserInfo user={user} />
-        <EditProfileInfo user={user} />
+        {user.profile && <EditProfileInfo user={user} />}
+        <DeleteAccount id={user._id} />
       </TabPanel>
     </div>
   );

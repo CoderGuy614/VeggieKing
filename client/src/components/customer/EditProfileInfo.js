@@ -20,14 +20,14 @@ const EditProfileInfo = ({ user }) => {
             {edit === "phone" ? (
               <EditableField
                 type={"phone"}
-                defaultValue={user.profile.phone}
+                defaultValue={user.profile ? user.profile.phone : null}
                 setEdit={setEdit}
                 user={user}
               />
             ) : (
               <CurrentField
                 type={"phone"}
-                defaultValue={user.profile.phone}
+                defaultValue={user.profile ? user.profile.phone : null}
                 setEdit={setEdit}
               />
             )}
@@ -35,14 +35,14 @@ const EditProfileInfo = ({ user }) => {
             {edit === "location" ? (
               <EditableField
                 type={"location"}
-                defaultValue={user.profile.location}
+                defaultValue={user.profile ? user.profile.location : null}
                 setEdit={setEdit}
                 user={user}
               />
             ) : (
               <CurrentField
                 type={"location"}
-                defaultValue={user.profile.location}
+                defaultValue={user.profile ? user.profile.location : null}
                 setEdit={setEdit}
               />
             )}
@@ -50,14 +50,14 @@ const EditProfileInfo = ({ user }) => {
             {edit === "deliveryNotes" ? (
               <EditableField
                 type={"deliveryNotes"}
-                defaultValue={user.profile.deliveryNotes}
+                defaultValue={user.profile ? user.profile.deliveryNotes : null}
                 setEdit={setEdit}
                 user={user}
               />
             ) : (
               <CurrentField
                 type={"deliveryNotes"}
-                defaultValue={user.profile.deliveryNotes}
+                defaultValue={user.profile ? user.profile.deliveryNotes : null}
                 setEdit={setEdit}
               />
             )}

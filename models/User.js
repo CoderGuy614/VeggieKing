@@ -25,10 +25,6 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    messagesRead: {
-      type: Number,
-      default: 0,
-    },
     date: {
       type: Date,
       default: Date.now,
