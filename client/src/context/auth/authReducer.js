@@ -32,7 +32,7 @@ export default (state, action) => {
         ...state,
         ...action.payload,
         isAuthenticated: true,
-        loading: false,
+        // loading: false,
       };
     case PROFILE_SUCCESS:
       return {

@@ -1,6 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -10,17 +8,7 @@ import Button from "@material-ui/core/Button";
 import AuthContext from "../../../context/auth/authContext";
 import AlertContext from "../../../context/alert/alertContext";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "100%",
-    },
-  },
-}));
-
 const EditProfile = ({ user, setEditProfile }) => {
-  const classes = useStyles();
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
   const { postProfile } = authContext;
@@ -51,15 +39,14 @@ const EditProfile = ({ user, setEditProfile }) => {
 
   return (
     <div>
-      <Paper>
-        <Container>
+      <Container>
+        <Paper>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
                 variant="outlined"
-                style={{ margin: 8 }}
                 onChange={handleChange("location")}
                 helperText="Enter Your Location"
                 label="location"
@@ -71,7 +58,6 @@ const EditProfile = ({ user, setEditProfile }) => {
                 required
                 fullWidth
                 variant="outlined"
-                style={{ margin: 8 }}
                 onChange={handleChange("phone")}
                 helperText="Enter Your Phone Number"
                 label="phone"
@@ -82,7 +68,6 @@ const EditProfile = ({ user, setEditProfile }) => {
               <TextField
                 variant="outlined"
                 fullWidth
-                style={{ margin: 8 }}
                 onChange={handleChange("deliveryNotes")}
                 helperText="Enter an Optional Delivery Instruction"
                 label="Delivery Notes"
@@ -101,18 +86,10 @@ const EditProfile = ({ user, setEditProfile }) => {
               >
                 Save Info
               </Button>
-              <Button
-                style={{ margin: "10px" }}
-                onClick={() => setEditProfile(false)}
-                variant="contained"
-                color="secondary"
-              >
-                Cancel
-              </Button>
             </Grid>
           </Grid>
-        </Container>
-      </Paper>
+        </Paper>
+      </Container>
     </div>
   );
 };

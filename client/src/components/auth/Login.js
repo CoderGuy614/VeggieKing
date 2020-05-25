@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Redirect } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
 import Avatar from "@material-ui/core/Avatar";
@@ -66,28 +67,32 @@ export default function Login(props) {
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  const { login, error, clearErrors, isAuthenticated } = authContext;
+  const {
+    login,
+    error,
+    clearErrors,
+    isAuthenticated,
+    user,
+    loading,
+  } = authContext;
 
   useEffect(() => {
-    if (isAuthenticated) {
-      props.history.push("/");
-    }
-
     if (error === "Invalid Credentials") {
       setAlert(error, "danger");
       clearErrors();
     }
     // eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+  }, [loading, error, isAuthenticated, user, props.history]);
 
-  const [user, setUser] = useState({
+  const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
 
-  const { email, password } = user;
+  const { email, password } = credentials;
 
-  const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
+  const onChange = (e) =>
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -100,6 +105,14 @@ export default function Login(props) {
       });
     }
   };
+
+  if (!loading && user && user.isAdmin) {
+    return <Redirect to="/admin" />;
+  }
+
+  if (!loading && isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -148,11 +161,6 @@ export default function Login(props) {
               Sign In
             </Button>
             <Grid container>
-              {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
               <Grid item>
                 <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}

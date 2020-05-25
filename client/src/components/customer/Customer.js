@@ -7,7 +7,7 @@ import MessageContext from "../../context/message/messageContext";
 
 import axios from "axios";
 import CustomerTabs from "./CustomerTabs";
-import Guest from "./Guest";
+import ShopTab from "./ShopTab";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +63,7 @@ const Customer = () => {
           setAlert={setAlert}
         />
       )}
-      {!user && <Guest />}
+      {!user && <ShopTab setAlert={setAlert} />}
     </div>
   );
 };

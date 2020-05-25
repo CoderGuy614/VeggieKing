@@ -13,6 +13,7 @@ import axios from "axios";
 import Confirm from "./checkout/Confirm";
 import Success from "./checkout/Success";
 import MessagePanel from "../layout/MessagePanel";
+import LoginAlert from "./LoginAlert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,11 +28,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ShopTab = ({ user, admins, isAuthenticated, setAlert }) => {
+const ShopTab = ({ isAuthenticated, setAlert }) => {
   const [total, setTotal] = useState(0);
   const [data, setData] = useState([]);
   const [checkout, setCheckout] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const updateTotal = (value) => {
     setTotal(Number(value));
@@ -62,6 +64,7 @@ const ShopTab = ({ user, admins, isAuthenticated, setAlert }) => {
     if (isAuthenticated) {
       setCheckout(true);
     } else {
+      setIsOpen(true);
       setAlert("Please Login or Register to Proceed", "danger");
     }
   };
@@ -69,6 +72,7 @@ const ShopTab = ({ user, admins, isAuthenticated, setAlert }) => {
   const classes = useStyles();
   return (
     <Container>
+      <LoginAlert isOpen={isOpen} setIsOpen={setIsOpen} />
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <MessagePanel message="Step 1: Please Select Your Items" />

@@ -33,7 +33,11 @@ const QtyInput = (props) => {
       <Input
         value={data.rowData.qty}
         type="number"
-        onChange={(e) => data.onChange(e.target.value)}
+        onChange={(e) => {
+          if (e.target.value >= 0) {
+            data.onChange(e.target.value);
+          }
+        }}
         id="standard-adornment-weight"
         endAdornment={
           <InputAdornment position="end">
