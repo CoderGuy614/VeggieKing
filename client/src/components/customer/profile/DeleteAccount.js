@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import AuthContext from "../../context/auth/authContext";
+import AuthContext from "../../../context/auth/authContext";
 
 export default function DeleteAccount({ id }) {
   const authContext = useContext(AuthContext);

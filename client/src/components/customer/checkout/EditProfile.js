@@ -6,10 +6,13 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
 import AuthContext from "../../../context/auth/authContext";
+import AlertContext from "../../../context/alert/alertContext";
 
-const EditProfile = ({ user, handleEditProfile, setAlert }) => {
+const EditProfile = ({ user, setEditProfile }) => {
   const authContext = useContext(AuthContext);
+  const alertContext = useContext(AlertContext);
   const { postProfile } = authContext;
+  const { setAlert } = alertContext;
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
@@ -31,7 +34,7 @@ const EditProfile = ({ user, handleEditProfile, setAlert }) => {
       return setAlert("Please provide a phone number and location", "danger");
     }
     postProfile(profile);
-    handleEditProfile(false);
+    setEditProfile(false);
   };
 
   return (
@@ -73,7 +76,7 @@ const EditProfile = ({ user, handleEditProfile, setAlert }) => {
             </Button>
             <Button
               style={{ margin: "10px" }}
-              onClick={() => handleEditProfile(false)}
+              onClick={() => setEditProfile(false)}
               variant="contained"
               color="secondary"
             >

@@ -31,13 +31,13 @@ class App extends Component {
             <MessageState>
               <BrowserRouter>
                 <Navbar />
+                <Alerts />
                 <Switch>
                   <Route exact path="/" component={Customer} />
                   <PrivateRoute exact path="/admin" component={Admin} />
                   <Route exact path="/register" component={Register} />
                   <Route exact path="/login" component={Login} />
                 </Switch>
-                <Alerts />
               </BrowserRouter>
             </MessageState>
           </AlertState>

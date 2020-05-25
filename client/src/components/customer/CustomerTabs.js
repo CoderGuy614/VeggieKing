@@ -8,6 +8,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
 
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
@@ -17,9 +18,10 @@ import ChatIcon from "@material-ui/icons/Chat";
 import Chat from "./chat/Chat";
 import ShopTab from "./ShopTab";
 import OrderList from "./orders/OrderList";
-import EditUserInfo from "./EditUserInfo";
-import EditProfileInfo from "./EditProfileInfo";
-import DeleteAccount from "./DeleteAccount";
+import EditUserInfo from "./profile/EditUserInfo";
+import EditProfileInfo from "./profile/EditProfileInfo";
+import DeleteAccount from "./profile/DeleteAccount";
+import EditProfile from "./profile/EditProfile";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,6 +72,7 @@ export default function CustomerTabs({
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [orders, setOrders] = useState([]);
+  const [editProfile, setEditProfile] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -118,6 +121,10 @@ export default function CustomerTabs({
       <TabPanel value={value} index={3}>
         <EditUserInfo user={user} />
         {user.profile && <EditProfileInfo user={user} />}
+        {!user.profile && (
+          <EditProfile user={user} setEditProfile={setEditProfile} />
+        )}
+
         <DeleteAccount id={user._id} />
       </TabPanel>
     </div>

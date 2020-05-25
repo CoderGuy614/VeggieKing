@@ -36,10 +36,6 @@ const Confirm = ({ data, handleOrderSuccess, setAlert }) => {
     }
   };
 
-  const handleEditProfile = (bool) => {
-    setEditProfile(bool);
-  };
-
   return (
     <MuiThemeProvider theme={theme}>
       <Grid container spacing={1}>
@@ -55,14 +51,10 @@ const Confirm = ({ data, handleOrderSuccess, setAlert }) => {
               <ShowProfile
                 user={user}
                 handleSubmitOrder={handleSubmitOrder}
-                handleEditProfile={handleEditProfile}
+                setEditProfile={setEditProfile}
               />
             ) : (
-              <EditProfile
-                user={user}
-                handleEditProfile={handleEditProfile}
-                setAlert={setAlert}
-              />
+              <EditProfile user={user} setEditProfile={setEditProfile} />
             )}
           </Container>
         </Grid>

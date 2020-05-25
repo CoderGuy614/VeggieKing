@@ -5,7 +5,7 @@ import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
-const ShowProfile = ({ user, handleSubmitOrder, handleEditProfile }) => {
+const ShowProfile = ({ user, handleSubmitOrder, setEditProfile }) => {
   return (
     <Container>
       <Paper>
@@ -38,7 +38,7 @@ const ShowProfile = ({ user, handleSubmitOrder, handleEditProfile }) => {
           style={{ margin: "10px" }}
           color="secondary"
           variant="contained"
-          onClick={() => handleEditProfile(true)}
+          onClick={() => setEditProfile(true)}
         >
           Edit Info
         </Button>
