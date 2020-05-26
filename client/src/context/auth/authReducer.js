@@ -6,7 +6,6 @@ import {
   EDIT_PROFILE_FAIL,
   POST_PROFILE_FAIL,
   EDIT_USER,
-  EDIT_USER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -31,35 +30,28 @@ export default (state, action) => {
       return {
         ...state,
         ...action.payload,
+        error: null,
         isAuthenticated: true,
-        // loading: false,
       };
     case PROFILE_SUCCESS:
       return {
         ...state,
         loading: false,
-        profileUpdate: "SUCCESS",
       };
     case EDIT_PROFILE_FAIL:
     case POST_PROFILE_FAIL:
       return {
         ...state,
         loading: false,
-        profileUpdate: "FAIL",
         error: action.payload,
       };
+    case EDIT_PROFILE:
     case EDIT_USER:
       return {
         ...state,
         loading: false,
-        userUpdated: "SUCCESS",
       };
-    case EDIT_PROFILE:
-      return {
-        ...state,
-        loading: false,
-        profileUpdated: true,
-      };
+
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:

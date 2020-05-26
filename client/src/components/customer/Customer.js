@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext, Fragment } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import theme from "../layout/Theme";
+import React, { useState, useEffect, useContext } from "react";
+
 import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
 import MessageContext from "../../context/message/messageContext";
@@ -8,21 +7,6 @@ import MessageContext from "../../context/message/messageContext";
 import axios from "axios";
 import CustomerTabs from "./CustomerTabs";
 import ShopTab from "./ShopTab";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  paper: {
-    padding: theme.spacing(2),
-    marginTop: "10px",
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    backgroundColor: theme.palette.common.arcOrange,
-  },
-}));
 
 const Customer = () => {
   const authContext = useContext(AuthContext);
@@ -52,7 +36,6 @@ const Customer = () => {
     }
   };
 
-  const classes = useStyles();
   return (
     <div className="classes.root">
       {user && !user.isAdmin && (

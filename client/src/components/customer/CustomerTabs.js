@@ -7,8 +7,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
 
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
@@ -72,7 +70,6 @@ export default function CustomerTabs({
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [orders, setOrders] = useState([]);
-  const [editProfile, setEditProfile] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -80,7 +77,8 @@ export default function CustomerTabs({
 
   useEffect(() => {
     getOrdersByUser(user._id);
-  }, []);
+    //eslint-disable-next-line
+  }, [user._id]);
 
   const getOrdersByUser = (userId) => {
     axios
@@ -121,9 +119,7 @@ export default function CustomerTabs({
       <TabPanel value={value} index={3}>
         <EditUserInfo user={user} />
         {user.profile && <EditProfileInfo user={user} />}
-        {!user.profile && (
-          <EditProfile user={user} setEditProfile={setEditProfile} />
-        )}
+        {!user.profile && <EditProfile user={user} />}
 
         <DeleteAccount id={user._id} />
       </TabPanel>

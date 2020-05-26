@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -27,12 +26,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ExpPanel({ order }) {
-  const translator = {
-    new: "green",
-    inProcess: "orange",
-    closed: "red",
-  };
-
   const orderTotal = order.data.reduce((a, b) => a + b.total, 0);
   const classes = useStyles();
 

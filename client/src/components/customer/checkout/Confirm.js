@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import theme from "../../layout/Theme";

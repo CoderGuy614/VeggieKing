@@ -26,8 +26,8 @@ class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <AuthState>
-          <AlertState>
+        <AlertState>
+          <AuthState>
             <MessageState>
               <BrowserRouter>
                 <Navbar />
@@ -40,8 +40,8 @@ class App extends Component {
                 </Switch>
               </BrowserRouter>
             </MessageState>
-          </AlertState>
-        </AuthState>
+          </AuthState>
+        </AlertState>
       </ThemeProvider>
     );
   }

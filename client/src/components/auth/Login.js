@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
-import AlertContext from "../../context/alert/alertContext";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -63,26 +62,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login(props) {
   const classes = useStyles();
-  const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
-  const { setAlert } = alertContext;
-  const {
-    login,
-    error,
-    clearErrors,
-    isAuthenticated,
-    user,
-    loading,
-  } = authContext;
-
-  useEffect(() => {
-    if (error === "Invalid Credentials") {
-      setAlert(error, "danger");
-      clearErrors();
-    }
-    // eslint-disable-next-line
-  }, [loading, error, isAuthenticated, user, props.history]);
+  const { login, isAuthenticated, user, loading } = authContext;
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -96,21 +78,17 @@ export default function Login(props) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (email === "" || password === "") {
-      setAlert("Please fill in all fields", "danger");
-    } else {
-      login({
-        email,
-        password,
-      });
-    }
+    login({
+      email,
+      password,
+    });
   };
 
   if (!loading && user && user.isAdmin) {
     return <Redirect to="/admin" />;
   }
 
-  if (!loading && isAuthenticated) {
+  if (!loading && user && !user.isAdmin) {
     return <Redirect to="/" />;
   }
 

@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import AuthContext from "../../../context/auth/authContext";
 import AlertContext from "../../../context/alert/alertContext";
 
-const EditProfile = ({ user, setEditProfile }) => {
+const EditProfile = ({ user }) => {
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
   const { postProfile } = authContext;
@@ -34,7 +34,6 @@ const EditProfile = ({ user, setEditProfile }) => {
       return setAlert("Please provide a phone number and location", "danger");
     }
     postProfile(profile);
-    setEditProfile(false);
   };
 
   return (

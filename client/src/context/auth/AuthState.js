@@ -1,5 +1,6 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext } from "react";
 import axios from "axios";
+import AlertContext from "../../context/alert/alertContext";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
 import setAuthToken from "../../utils/setAuthToken";
@@ -22,12 +23,15 @@ import {
 } from "../types";
 
 const AuthState = (props) => {
+  const alertContext = useContext(AlertContext);
+  const { setAlert } = alertContext;
   const initialState = {
     token: localStorage.getItem("token"),
     isAuthenticated: null,
     loading: true,
     user: null,
     error: null,
+    message: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -37,10 +41,8 @@ const AuthState = (props) => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
-
     try {
       const res = await axios.get("/api/auth");
-
       dispatch({
         type: USER_LOADED,
         payload: res.data,
@@ -49,7 +51,6 @@ const AuthState = (props) => {
       dispatch({ type: AUTH_ERROR });
     }
   };
-
   // Register User
   const register = async (formData) => {
     const config = {
@@ -92,9 +93,12 @@ const AuthState = (props) => {
 
       loadUser();
     } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => setAlert(error.msg, "danger"));
+      }
       dispatch({
         type: LOGIN_FAIL,
-        payload: err.response.data.msg,
       });
     }
   };
