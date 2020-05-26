@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
+import { Redirect } from "react-router-dom";
 import AlertContext from "../../context/alert/alertContext";
 import AuthContext from "../../context/auth/authContext";
 import Avatar from "@material-ui/core/Avatar";
@@ -53,44 +54,39 @@ export default function Register(props) {
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  const { register, error, clearErrors, isAuthenticated } = authContext;
+  const { register, user, loading } = authContext;
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      props.history.push("/");
-    }
-    if (error === "User already exists") {
-      setAlert(error, "danger");
-      clearErrors();
-    }
-    // eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
-
-  const [user, setUser] = useState({
+  const [credentials, setcredentials] = useState({
     name: "",
     email: "",
     password: "",
     password2: "",
   });
 
-  const { name, email, password, password2 } = user;
+  const { name, email, password, password2 } = credentials;
 
-  const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
+  const onChange = (e) =>
+    setcredentials({ ...credentials, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (name === "" || email === "" || password === "") {
-      setAlert("Please enter all fields", "danger");
-    } else if (password !== password2) {
-      setAlert("Passwords do not match", "danger");
-    } else {
-      register({
-        name,
-        email,
-        password,
-      });
+    if (password !== password2) {
+      return setAlert("Passwords do not match", "danger");
     }
+    register({
+      name,
+      email,
+      password,
+    });
   };
+
+  if (!loading && user && user.isAdmin) {
+    return <Redirect to="/admin" />;
+  }
+
+  if (!loading && user && !user.isAdmin) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -160,17 +156,26 @@ export default function Register(props) {
             fullWidth
             variant="contained"
             color="primary"
+            style={{ marginBottom: "0px" }}
             className={classes.submit}
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="login" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
+
+          <Button
+            style={{ margin: "0px" }}
+            fullWidth
+            color="secondary"
+            href="/"
+            className={classes.submit}
+          >
+            Continue as a Guest User
+          </Button>
+          <Box display="flex">
+            <Box m="auto">
+              <Link href="/login">Already have an account? Sign in</Link>
+            </Box>
+          </Box>
         </form>
       </div>
       <Box mt={5}>

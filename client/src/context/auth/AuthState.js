@@ -69,10 +69,12 @@ const AuthState = (props) => {
 
       loadUser();
     } catch (err) {
-      console.log(err.response);
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => setAlert(error.msg, "danger"));
+      }
       dispatch({
         type: REGISTER_FAIL,
-        payload: err.response.data.msg,
       });
     }
   };

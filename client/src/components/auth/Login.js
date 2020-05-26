@@ -138,14 +138,22 @@ export default function Login(props) {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
+            <Button
+              style={{ margin: "0px" }}
+              fullWidth
+              color="secondary"
+              href="/"
+              className={classes.submit}
+            >
+              Continue as a Guest User
+            </Button>
+            <Box display="flex">
+              <Box m="auto">
+                <Link href="/register">
+                  Don't have an account yet? Sign Up Here.
                 </Link>
-              </Grid>
-              <br />
-            </Grid>
+              </Box>
+            </Box>
             <Box mt={5}>
               <Copyright />
             </Box>
