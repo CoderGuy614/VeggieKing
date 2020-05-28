@@ -8,12 +8,9 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   PROFILE_SUCCESS,
-  POST_PROFILE_FAIL,
-  EDIT_USER_FAIL,
   USER_LOADED,
   EDIT_USER,
   EDIT_PROFILE,
-  EDIT_PROFILE_FAIL,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -120,10 +117,7 @@ const AuthState = (props) => {
       });
       loadUser();
     } catch (err) {
-      dispatch({
-        type: POST_PROFILE_FAIL,
-        payload: err.response.data.errors,
-      });
+      console.log(err);
     }
   };
 
@@ -135,17 +129,16 @@ const AuthState = (props) => {
     };
     try {
       const res = await axios.put(`/api/users/${id}`, { [typ]: val }, config);
-
       dispatch({
         type: EDIT_USER,
         payload: res.data,
       });
       loadUser();
     } catch (err) {
-      dispatch({
-        type: EDIT_USER_FAIL,
-        payload: err.response.data.errors,
-      });
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => setAlert(error.msg, "danger"));
+      }
     }
   };
 
@@ -157,17 +150,13 @@ const AuthState = (props) => {
     };
     try {
       const res = await axios.put(`/api/profile/${id}`, { [typ]: val }, config);
-
       dispatch({
         type: EDIT_PROFILE,
         payload: res.data,
       });
       loadUser();
     } catch (err) {
-      dispatch({
-        type: EDIT_PROFILE_FAIL,
-        payload: err.response.data.errors,
-      });
+      console.log(err);
     }
   };
 

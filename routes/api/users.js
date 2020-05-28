@@ -5,7 +5,7 @@ const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-const { check, validationResult } = require("express-validator");
+const { check, validationResult, oneOf } = require("express-validator");
 
 const User = require("../../models/User");
 
@@ -119,20 +119,34 @@ router.get("/admins", async (req, res) => {
 // @ desc Update name or email field of the user
 // @ access Private
 
-router.put("/:id", auth, async (req, res) => {
-  try {
-    let user = await User.findById(req.params.id);
-    if (user) {
-      user = await User.findByIdAndUpdate({ _id: req.params.id }, req.body, {
-        new: true,
-      });
-      return res.json(user);
+router.put(
+  "/:id",
+  [
+    auth,
+    oneOf([
+      check("name", "Name is required").not().isEmpty(),
+      check("email", "Please include a valid email").isEmail(),
+    ]),
+  ],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      let user = await User.findById(req.params.id);
+      if (user) {
+        user = await User.findByIdAndUpdate({ _id: req.params.id }, req.body, {
+          new: true,
+        });
+        return res.json(user);
+      }
+      return res.send("User not found");
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
     }
-    return res.send("User not found");
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
   }
-});
+);
 
 module.exports = router;

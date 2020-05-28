@@ -3,8 +3,6 @@ import {
   REGISTER_FAIL,
   PROFILE_SUCCESS,
   EDIT_PROFILE,
-  EDIT_PROFILE_FAIL,
-  POST_PROFILE_FAIL,
   EDIT_USER,
   USER_LOADED,
   AUTH_ERROR,
@@ -24,6 +22,7 @@ export default (state, action) => {
         loading: false,
         user: action.payload,
       };
+    case PROFILE_SUCCESS:
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem("token", action.payload.token);
@@ -32,18 +31,6 @@ export default (state, action) => {
         ...action.payload,
         error: null,
         isAuthenticated: true,
-      };
-    case PROFILE_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-      };
-    case EDIT_PROFILE_FAIL:
-    case POST_PROFILE_FAIL:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
       };
     case EDIT_PROFILE:
     case EDIT_USER:
