@@ -1,7 +1,7 @@
 const express = require("express");
 const auth = require("../../middleware/auth");
 const router = express.Router();
-const { check, validationResult } = require("express-validator");
+const { check, validationResult, oneOf } = require("express-validator");
 const request = require("request");
 const config = require("config");
 
@@ -115,24 +115,38 @@ router.delete("/", auth, async (req, res) => {
 
 // Put - Update a profile
 // Private
-router.put("/:profileId", auth, async (req, res) => {
-  try {
-    let profile = await Profile.findById(req.params.profileId);
-    if (profile) {
-      profile = await Profile.findByIdAndUpdate(
-        { _id: req.params.profileId },
-        req.body,
-        {
-          new: true,
-        }
-      );
-      return res.json(profile);
+router.put(
+  "/:profileId",
+  [
+    auth,
+    oneOf([
+      check("phone", "Phone number is required").not().isEmpty(),
+      check("location", "location is required").not().isEmpty(),
+    ]),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty() && Object.keys(req.body)[0] !== "deliveryNotes") {
+      return res.status(400).json({ errors: errors.array() });
     }
-    return res.send("Profile not found");
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
+    try {
+      let profile = await Profile.findById(req.params.profileId);
+      if (profile) {
+        profile = await Profile.findByIdAndUpdate(
+          { _id: req.params.profileId },
+          req.body,
+          {
+            new: true,
+          }
+        );
+        return res.json(profile);
+      }
+      return res.send("Profile not found");
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
   }
-});
+);
 
 module.exports = router;

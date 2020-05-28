@@ -6,13 +6,10 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
 import AuthContext from "../../../context/auth/authContext";
-import AlertContext from "../../../context/alert/alertContext";
 
 const EditProfile = ({ user }) => {
   const authContext = useContext(AuthContext);
-  const alertContext = useContext(AlertContext);
   const { postProfile } = authContext;
-  const { setAlert } = alertContext;
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
@@ -30,9 +27,6 @@ const EditProfile = ({ user }) => {
   };
 
   const handleSubmitProfile = (profile) => {
-    if (profile.phone === "" || profile.location === "") {
-      return setAlert("Please provide a phone number and location", "danger");
-    }
     postProfile(profile);
   };
 

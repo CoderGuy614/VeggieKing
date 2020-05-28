@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -25,8 +26,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CheckboxList({ orders }) {
+export default function OrderList({ user }) {
   const classes = useStyles();
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    getOrdersByUser(user._id);
+    //eslint-disable-next-line
+  }, []);
+
+  const getOrdersByUser = (userId) => {
+    axios
+      .get(`/api/orders/${userId}`)
+      .then((response) => setOrders(response.data))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Container>

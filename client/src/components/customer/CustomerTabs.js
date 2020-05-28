@@ -75,18 +75,6 @@ export default function CustomerTabs({
     setValue(newValue);
   };
 
-  useEffect(() => {
-    getOrdersByUser(user._id);
-    //eslint-disable-next-line
-  }, [user._id]);
-
-  const getOrdersByUser = (userId) => {
-    axios
-      .get(`/api/orders/${userId}`)
-      .then((response) => setOrders(response.data))
-      .catch((err) => console.log(err));
-  };
-
   return (
     <div className={classes.root}>
       <AppBar style={{ marginTop: "10px" }} position="static" color="secondary">
@@ -114,7 +102,7 @@ export default function CustomerTabs({
         <Chat user={user} admins={admins} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <OrderList user={user} orders={orders} />
+        <OrderList user={user} />
       </TabPanel>
       <TabPanel value={value} index={3}>
         <EditUserInfo user={user} />

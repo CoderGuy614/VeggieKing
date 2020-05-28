@@ -7,7 +7,6 @@ import setAuthToken from "../../utils/setAuthToken";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  PROFILE_SUCCESS,
   USER_LOADED,
   EDIT_USER,
   EDIT_PROFILE,
@@ -45,6 +44,7 @@ const AuthState = (props) => {
         payload: res.data,
       });
     } catch (err) {
+      console.log("YOU ARE HITTING THIS AUTH ERROR");
       dispatch({ type: AUTH_ERROR });
     }
   };
@@ -112,12 +112,15 @@ const AuthState = (props) => {
     try {
       const res = await axios.post("/api/profile", profile, config);
       dispatch({
-        type: PROFILE_SUCCESS,
+        type: EDIT_PROFILE,
         payload: res.data,
       });
       loadUser();
     } catch (err) {
-      console.log(err);
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => setAlert(error.msg, "danger"));
+      }
     }
   };
 
@@ -156,7 +159,10 @@ const AuthState = (props) => {
       });
       loadUser();
     } catch (err) {
-      console.log(err);
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => setAlert(error.msg, "danger"));
+      }
     }
   };
 

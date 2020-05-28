@@ -1,7 +1,6 @@
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  PROFILE_SUCCESS,
   EDIT_PROFILE,
   EDIT_USER,
   USER_LOADED,
@@ -22,7 +21,6 @@ export default (state, action) => {
         loading: false,
         user: action.payload,
       };
-    case PROFILE_SUCCESS:
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem("token", action.payload.token);
