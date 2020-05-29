@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://jlutz110:Mongo99@veggieking-y8guk.mongodb.net/VeggieKing?retryWrites=true&w=majority",
+  "jwtSecret": "secret"
+}
