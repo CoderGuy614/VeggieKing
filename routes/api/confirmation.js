@@ -17,7 +17,7 @@ router.post("/", (req, res) => {
   });
 
   const mailOptionsCustomer = {
-    from: "CamboCraftClothing@gmail.com",
+    from: "veggiekingdelivery@gmail.com",
     to: data.user.email,
     subject: "VeggieKing Delivery -- ORDER CONFIRMATION --",
     html:

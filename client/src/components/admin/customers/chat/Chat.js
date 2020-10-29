@@ -29,11 +29,10 @@ const Chat = ({ messages, admins, user, handleNewMessage }) => {
       };
       const messageData = {};
       messageData.from = sender;
-      messageData.to = user.user._id;
+      messageData.to = user._id;
       messageData.textContent = message;
       const res = await axios.post("/api/messages", messageData, config);
       if (res) {
-        console.log(res.data);
         setMessage("");
         handleNewMessage();
       }

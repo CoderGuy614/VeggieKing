@@ -27,6 +27,7 @@ const ChatInput = ({ message, handleChange }) => {
             <i className="fas fa-user"></i>
           </InputAdornment>
         ),
+        autoComplete: "off",
       }}
     />
   );
